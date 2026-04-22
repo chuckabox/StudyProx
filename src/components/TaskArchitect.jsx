@@ -60,26 +60,26 @@ const TaskArchitect = () => {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="architect-page">
       <header className="page-header">
-        <div>
-          <h1 className="glow-text">Task Architect</h1>
-          <p style={{ color: 'var(--text-dim)' }}>Deconstruct complexity into actionable steps.</p>
-        </div>
+        <h2 className="glow-text">Architect</h2>
       </header>
 
       <div className="input-section glass-card">
-        <Sparkles className="sparkle-icon" size={24} color="var(--accent-primary)" />
-        <input 
-          type="text" 
-          value={taskInput}
-          onChange={(e) => setTaskInput(e.target.value)}
-          placeholder="I need to write a 2000-word essay on Neoclassical Architecture..." 
-        />
+        <div className="input-row">
+          <Sparkles className="sparkle-icon" size={20} color="var(--accent-primary)" />
+          <input 
+            type="text" 
+            value={taskInput}
+            onChange={(e) => setTaskInput(e.target.value)}
+            placeholder="Deconstruct a complex task..." 
+          />
+        </div>
         <button 
           onClick={handleDeconstruct} 
           disabled={isArchitecting || !taskInput}
-          className="btn-primary"
+          className="btn-primary full-width"
+          style={{ marginTop: '1rem', justifyContent: 'center' }}
         >
-          {isArchitecting ? 'Architecting...' : 'Deconstruct'}
+          {isArchitecting ? 'Thinking...' : 'Deconstruct'}
         </button>
       </div>
 
@@ -88,18 +88,18 @@ const TaskArchitect = () => {
           {tasks.map(task => (
             <motion.div 
               key={task.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="architect-card glass-card"
             >
               <div className="card-header">
                 <div className="header-info">
                   <span className="subject-tag">{task.subject}</span>
-                  <h3>{task.title}</h3>
+                  <h3 style={{ fontSize: '1.1rem' }}>{task.title}</h3>
                 </div>
                 <button className="icon-btn" onClick={() => setTasks(tasks.filter(t => t.id !== task.id))}>
-                  <Trash2 size={18} />
+                  <Trash2 size={16} />
                 </button>
               </div>
 
@@ -110,12 +110,12 @@ const TaskArchitect = () => {
                     className={`step-item ${step.completed ? 'completed' : ''}`}
                     onClick={() => toggleStep(task.id, step.id)}
                   >
-                    {step.completed ? <CheckCircle2 size={20} color="var(--accent-secondary)" /> : <Circle size={20} />}
-                    <span>{step.text}</span>
+                    {step.completed ? <CheckCircle2 size={18} color="var(--accent-secondary)" /> : <Circle size={18} />}
+                    <span style={{ fontSize: '0.9rem' }}>{step.text}</span>
                   </div>
                 ))}
                 <button className="add-step-btn">
-                  <Plus size={16} /> Add sub-task
+                  <Plus size={14} /> Sub-task
                 </button>
               </div>
             </motion.div>
@@ -124,63 +124,45 @@ const TaskArchitect = () => {
       </div>
 
       <style>{`
-        .architect-page { width: 100%; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; }
-        .input-section { display: flex; align-items: center; gap: 1rem; padding: 1.5rem; }
-        .input-section input { flex: 1; background: none; border: none; color: white; font-size: 1.1rem; outline: none; }
+        .architect-page { width: 100%; display: flex; flex-direction: column; gap: 1.5rem; }
+        .input-section { padding: 1.25rem; }
+        .input-row { display: flex; align-items: center; gap: 0.75rem; }
+        .input-section input { flex: 1; background: none; border: none; color: white; font-size: 1rem; outline: none; }
+        .full-width { width: 100%; }
         .sparkle-icon { animation: pulse 2s infinite; }
 
         @keyframes pulse {
           0% { transform: scale(1); opacity: 0.8; }
-          50% { transform: scale(1.2); opacity: 1; }
+          50% { transform: scale(1.1); opacity: 1; }
           100% { transform: scale(1); opacity: 0.8; }
         }
 
-        .tasks-container { display: flex; flex-direction: column; gap: 1.5rem; }
-        .architect-card { padding: 2rem; }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; }
-        .subject-tag { 
-          font-size: 0.75rem; 
-          text-transform: uppercase; 
-          letter-spacing: 0.1em; 
-          color: var(--accent-primary);
-          background: rgba(99, 102, 241, 0.1);
-          padding: 0.25rem 0.75rem;
-          border-radius: 4px;
-          margin-bottom: 0.5rem;
-          display: inline-block;
-        }
+        .tasks-container { display: flex; flex-direction: column; gap: 1rem; }
+        .architect-card { padding: 1.5rem; border-radius: 28px; }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
 
-        .steps-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .steps-list { display: flex; flex-direction: column; gap: 0.5rem; }
         .step-item {
           display: flex;
           align-items: center;
-          gap: 1rem;
-          padding: 0.75rem 1rem;
-          border-radius: 10px;
-          background: rgba(255, 255, 255, 0.02);
+          gap: 0.75rem;
+          padding: 0.6rem 0.75rem;
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.015);
           cursor: pointer;
-          transition: var(--transition);
         }
 
-        .step-item:hover { background: rgba(255, 255, 255, 0.05); }
-        .step-item.completed { opacity: 0.6; }
-        .step-item.completed span { text-decoration: line-through; }
+        .step-item.completed span { text-decoration: line-through; opacity: 0.5; }
 
         .add-step-btn {
           background: none;
           border: 1px dashed var(--border);
           color: var(--text-dim);
-          padding: 0.75rem;
-          border-radius: 10px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.5rem;
+          padding: 0.6rem;
+          border-radius: 12px;
+          font-size: 0.75rem;
           margin-top: 0.5rem;
         }
-
-        .add-step-btn:hover { border-color: var(--accent-primary); color: white; }
       `}</style>
     </motion.div>
   );

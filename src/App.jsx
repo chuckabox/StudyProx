@@ -12,7 +12,8 @@ import {
   Search,
   Bell,
   User,
-  Activity
+  Activity,
+  Plus
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -121,64 +122,45 @@ const Dashboard = () => (
   </motion.div>
 );
 
-const Sidebar = () => {
+
+const BottomNav = () => {
   const location = useLocation();
   const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
-    { icon: Timer, label: 'Focus Timer', path: '/timer' },
-    { icon: CheckSquare, label: 'Task Architect', path: '/tasks' },
-    { icon: Layers, label: 'Flashcard Suite', path: '/flashcards' },
-    { icon: Users, label: 'Social Sync', path: '/social' },
-    { icon: TrendingUp, label: 'Analytics', path: '/analytics' },
+    { icon: LayoutDashboard, label: 'Home', path: '/' },
+    { icon: Timer, label: 'Focus', path: '/timer' },
+    { icon: CheckSquare, label: 'Tasks', path: '/tasks' },
+    { icon: Layers, label: 'Learn', path: '/flashcards' },
+    { icon: Users, label: 'Social', path: '/social' },
   ];
 
   return (
-    <aside className="sidebar glass-card">
-      <div className="brand">
-        <div className="logo-icon">
-          <Zap size={24} fill="var(--accent-primary)" color="var(--accent-primary)" />
-        </div>
-        <span className="logo-text">StudyProx</span>
-      </div>
-      <nav className="nav-menu">
-        {menuItems.map((item) => (
-          <Link 
-            key={item.path} 
-            to={item.path} 
-            className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
-          >
-            <item.icon size={20} />
-            <span>{item.label}</span>
-            {location.pathname === item.path && (
-              <motion.div layoutId="activeNav" className="active-indicator" />
-            )}
-          </Link>
-        ))}
-      </nav>
-      <div className="sidebar-footer">
-        <div className="user-profile">
-          <div className="avatar">P</div>
-          <div className="user-info">
-            <p className="name">Peter</p>
-            <p className="plan">Pro Plan</p>
-          </div>
-          <Settings size={18} className="settings-icon" style={{ marginLeft: 'auto', cursor: 'pointer', color: 'var(--text-dim)' }} />
-        </div>
-      </div>
-    </aside>
+    <nav className="bottom-nav">
+      {menuItems.map((item) => (
+        <Link 
+          key={item.path} 
+          to={item.path} 
+          className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
+        >
+          <item.icon size={24} />
+          <span>{item.label}</span>
+          {location.pathname === item.path && (
+            <motion.div layoutId="navDot" className="active-indicator-dot" />
+          )}
+        </Link>
+      ))}
+    </nav>
   );
 };
 
 const TopBar = () => (
-  <div className="top-bar glass-card">
-    <div className="search-box">
-      <Search size={18} color="var(--text-dim)" />
-      <input type="text" placeholder="Search subjects, notes, or tasks..." />
+  <div className="top-bar">
+    <div className="brand">
+      <Zap size={20} fill="var(--accent-primary)" color="var(--accent-primary)" />
+      <span className="logo-text" style={{ fontSize: '1.25rem' }}>StudyProx</span>
     </div>
     <div className="top-actions">
-      <button className="icon-btn"><Bell size={20} /></button>
-      <button className="icon-btn"><User size={20} /></button>
-      <button className="btn-primary">Start Session</button>
+      <button className="icon-btn" style={{ border: 'none' }}><Bell size={20} /></button>
+      <div className="avatar" style={{ width: '32px', height: '32px', fontSize: '0.8rem' }}>P</div>
     </div>
   </div>
 );
@@ -187,9 +169,8 @@ function App() {
   return (
     <Router>
       <div className="app-layout">
-        <Sidebar />
+        <TopBar />
         <main className="main-content">
-          <TopBar />
           <div className="page-container">
             <AnimatePresence mode="wait">
               <Routes>
@@ -197,11 +178,20 @@ function App() {
                 <Route path="/timer" element={<FocusTimer />} />
                 <Route path="/tasks" element={<TaskArchitect />} />
                 <Route path="/flashcards" element={<Flashcards />} />
-                <Route path="*" element={<div className="glass-card" style={{ textAlign: 'center', padding: '4rem' }}><h2>Building this Hub...</h2><p style={{ color: 'var(--text-dim)' }}>Coming in the next sync.</p></div>} />
+                <Route path="*" element={
+                  <div className="glass-card" style={{ textAlign: 'center', padding: '4rem' }}>
+                    <h2>Syncing Hub...</h2>
+                    <p style={{ color: 'var(--text-dim)' }}>Coming in the next update.</p>
+                  </div>
+                } />
               </Routes>
             </AnimatePresence>
           </div>
         </main>
+        <BottomNav />
+        <div className="fab-container">
+          <button className="btn-fab"><Plus size={24} /></button>
+        </div>
       </div>
     </Router>
   );
