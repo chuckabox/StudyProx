@@ -1,71 +1,87 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { BookOpen, Plus, ChevronRight, Archive } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, Plus, BookOpen, Clock, ChevronRight, Check, X } from 'lucide-react';
+import { cn } from '../../lib/utils';
 
 export function FlashcardSuite() {
-  const [activeDeck, setActiveDeck] = useState(null);
-
-  const decks = [
-    { id: 1, subject: 'MATH2001', cards: 42, due: 12, color: 'bg-primary' },
-    { id: 2, subject: 'PSYC1001', cards: 156, due: 0, color: 'bg-amber-500' },
-    { id: 3, subject: 'DECO2500', cards: 28, due: 5, color: 'bg-emerald-500' },
+  const [activeSubject, setActiveSubject] = useState('All');
+  
+  const subjects = ['All', 'Law::Torts', 'STEM::Bio', 'MATH::Calc', 'HIST::Mid'];
+  const cards = [
+    { id: 1, subject: 'Law::Torts', front: 'Duty of Care', back: 'A legal obligation imposed on an individual...' },
+    { id: 2, subject: 'STEM::Bio', front: 'Mitochondria', back: 'The powerhouse of the cell...' },
+    { id: 3, subject: 'MATH::Calc', front: 'Chain Rule', back: 'The derivative of f(g(x)) is f\'(g(x))g\'(x)...' },
   ];
 
+  const filteredCards = activeSubject === 'All' 
+    ? cards 
+    : cards.filter(c => c.subject === activeSubject);
+
   return (
-    <div className="space-y-8 animate-fade-in">
-      <section className="flex items-center justify-between">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold font-outfit text-slate-800">Filing System</h1>
-          <p className="text-slate-500 text-sm">Subject-specific retention scaffolding.</p>
-        </div>
-        <button className="w-10 h-10 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-primary/10">
-          <Plus size={24} />
-        </button>
+    <div className="space-y-12 animate-fade-in">
+      {/* Header */}
+      <section className="space-y-3">
+        <h1 className="text-4xl font-serif font-extrabold text-ink tracking-tight">Library Drawers</h1>
+        <p className="text-muted text-sm font-medium italic">"Knowledge categorized is knowledge retained."</p>
       </section>
 
-      {/* Decks Grid */}
-      <div className="grid grid-cols-1 gap-4">
-        {decks.map(deck => (
-          <div 
-            key={deck.id}
-            className="card-minimal flex items-center justify-between group cursor-pointer hover:border-primary/20"
+      {/* Subject Filter - Horizontal Drawer Selection */}
+      <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-8 px-8">
+        {subjects.map(subject => (
+          <button
+            key={subject}
+            onClick={() => setActiveSubject(subject)}
+            className={cn(
+              "px-6 py-3 rounded-full text-xs font-bold whitespace-nowrap transition-all active:scale-95",
+              activeSubject === subject 
+                ? "bg-ink text-paper shadow-xl shadow-ink/10" 
+                : "bg-paper border border-ink/5 text-ink/40 hover:text-ink"
+            )}
           >
-            <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 ${deck.color}/10 rounded-2xl flex items-center justify-center border border-${deck.color}/10`}>
-                <Layers className={`${deck.color.replace('bg-', 'text-')} w-6 h-6`} />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{deck.cards} Cards</p>
-                <h3 className="text-lg font-bold text-slate-800">{deck.subject}</h3>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              {deck.due > 0 && (
-                <div className="bg-destructive/5 text-destructive px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border border-destructive/10">
-                  {deck.due} Due
-                </div>
-              )}
-              <ChevronRight className="text-slate-200 group-hover:text-primary transition-colors" />
-            </div>
-          </div>
+            {subject}
+          </button>
         ))}
       </div>
 
-      {/* Quick Practice CTA */}
-      <section className="card-minimal bg-slate-900 text-white border-none p-8 space-y-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-primary">
-            <BookOpen size={16} />
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Daily Ritual</span>
-          </div>
-          <h2 className="text-xl font-bold font-outfit">Ready for a retention sprint?</h2>
-          <p className="text-slate-400 text-sm">12 cards due across all subjects.</p>
-        </div>
-        <button className="w-full btn-primary bg-white text-slate-900 hover:bg-slate-100">
-          Start Session
+      {/* The Filing Drawer */}
+      <div className="space-y-6">
+        <AnimatePresence mode="popLayout">
+          {filteredCards.map((card, i) => (
+            <motion.div 
+              key={card.id}
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ delay: i * 0.05 }}
+              className="card-scholar p-6! flex items-center justify-between group cursor-pointer hover:border-ink/20"
+            >
+              <div className="flex items-center gap-6">
+                <div className="w-12 h-12 bg-ink/5 rounded-full flex items-center justify-center group-hover:bg-ink group-hover:text-paper transition-all">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-muted mb-1">{card.subject}</p>
+                  <h4 className="font-serif font-bold text-xl text-ink italic">{card.front}</h4>
+                </div>
+              </div>
+              <ChevronRight className="text-slate-200 group-hover:text-ink transition-all group-hover:translate-x-1" />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Action Footer */}
+      <div className="pt-8 grid grid-cols-2 gap-4">
+        <button className="btn-ghost p-6! flex flex-col items-center gap-3">
+          <Plus size={20} />
+          <span className="text-[10px] uppercase tracking-widest font-bold">New Index</span>
         </button>
-      </section>
+        <button className="btn-ink p-6! flex flex-col items-center gap-3">
+          <Archive size={20} />
+          <span className="text-[10px] uppercase tracking-widest font-bold text-paper">Export Anki</span>
+        </button>
+      </div>
     </div>
   );
 }

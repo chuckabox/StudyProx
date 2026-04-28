@@ -87,7 +87,23 @@ body {
   }
 }
 
-/* Tactile Details */
+/* CVD Compliant Patterns (§45) */
+.pattern-dots {
+  background-image: radial-gradient(var(--color-ink) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+.pattern-stripes {
+  background-image: repeating-linear-gradient(45deg, var(--color-ink), var(--color-ink) 1px, transparent 1px, transparent 10px);
+}
+
+.pattern-mesh {
+  background-image: 
+    linear-gradient(var(--color-ink) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-ink) 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+
 .paper-overlay {
   position: fixed;
   inset: 0;

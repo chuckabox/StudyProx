@@ -1,112 +1,121 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, RotateCcw, CheckCircle, ChevronRight, X } from 'lucide-react';
+import { Timer, Shield, Lock, Wind, BellOff, PhoneOff, Droplets, Play, Pause, X, RotateCcw } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-export function FocusTimer({ task, onFinish }) {
+export function FocusTimer({ task, onComplete, onExit }) {
   const [timeLeft, setTimeLeft] = useState(25 * 60);
-  const [isActive, setIsActive] = useState(true);
-  const nextSubtask = task?.subtasks?.find(st => !st.completed);
+  const [isPaused, setIsPaused] = useState(false);
+  const [setupComplete, setSetupComplete] = useState(false);
 
   useEffect(() => {
-    let interval = null;
-    if (isActive && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft(t => t - 1);
-      }, 1000);
-    } else if (timeLeft === 0) {
-      setIsActive(false);
-      clearInterval(interval);
-    }
+    if (isPaused || !setupComplete) return;
+    const interval = setInterval(() => {
+      setTimeLeft(t => (t > 0 ? t - 1 : 0));
+    }, 1000);
     return () => clearInterval(interval);
-  }, [isActive, timeLeft]);
+  }, [isPaused, setupComplete]);
 
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  const formatTime = (s) => {
+    const mins = Math.floor(s / 60);
+    const secs = s % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const checklist = [
+    { icon: <PhoneOff size={18} />, label: 'Neural Silence', description: 'Device physically out of sight.' },
+    { icon: <Wind size={18} />, label: 'Air Flow', description: 'Environmental oxygen optimized.' },
+    { icon: <Droplets size={18} />, label: 'Hydration', description: 'Water within reach.' },
+    { icon: <BellOff size={18} />, label: 'Hard-Lock Active', description: 'OS notifications suppressed.' },
+  ];
+
+  if (!setupComplete) {
+    return (
+      <div className="space-y-12 animate-fade-in py-8 max-w-lg mx-auto">
+        <section className="space-y-3">
+          <h1 className="text-4xl font-serif font-extrabold text-ink tracking-tight">Environmental Lock</h1>
+          <p className="text-muted text-sm font-medium italic">"The room must match the mind."</p>
+        </section>
+
+        <div className="space-y-4">
+          {checklist.map((item, i) => (
+            <div key={i} className="card-scholar p-6! flex items-center gap-6">
+              <div className="w-10 h-10 bg-ink/5 rounded-full flex items-center justify-center text-ink">
+                {item.icon}
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-ink">{item.label}</p>
+                <p className="text-xs text-muted italic">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button 
+          onClick={() => setSetupComplete(true)}
+          className="btn-ink w-full py-6 text-xl group"
+        >
+          <Lock className="w-6 h-6" />
+          Authorize Lockdown
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-12">
-      {/* Hide the Magnitude: Only show the immediate next step */}
-      <div className="text-center space-y-4 max-w-sm mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/5 border border-primary/10 rounded-full text-[10px] font-bold text-primary uppercase tracking-[0.2em]">
-          Deep Work Active
-        </div>
-        <AnimatePresence mode="wait">
-          <motion.h2 
-            key={nextSubtask?.id || 'done'}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="text-3xl font-bold font-outfit text-slate-800 leading-tight"
+    <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-16 animate-fade-in text-center">
+      <motion.div 
+        animate={{ scale: isPaused ? 1 : [1, 1.02, 1] }}
+        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+        className="space-y-4"
+      >
+        <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-ink/30">Academic Lockdown Active</p>
+        <h2 className="text-[120px] font-serif font-extrabold text-ink leading-none tabular-nums tracking-tighter">
+          {formatTime(timeLeft)}
+        </h2>
+        <p className="font-serif font-bold text-2xl text-ink italic opacity-60">
+          Focus: {task?.title || 'General Scholarship'}
+        </p>
+      </motion.div>
+
+      <div className="flex flex-col gap-6 w-full max-w-xs mx-auto">
+        <button 
+          onClick={() => setIsPaused(!isPaused)}
+          className={cn(
+            "btn-ink py-5 text-lg",
+            isPaused ? "bg-emerald-600 hover:bg-emerald-700" : "bg-ink"
+          )}
+        >
+          {isPaused ? <Play className="w-5 h-5" /> : <Pause className="w-5 h-5" />}
+          <span>{isPaused ? 'Resume Session' : 'Pause Reflection'}</span>
+        </button>
+
+        {!isPaused && (
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted animate-pulse">
+            Navigation is restricted.
+          </p>
+        )}
+        
+        {isPaused && (
+          <button 
+            onClick={onExit}
+            className="text-[10px] font-bold uppercase tracking-widest text-destructive hover:opacity-80 transition-opacity mt-4"
           >
-            {nextSubtask ? nextSubtask.text : "All goals met!"}
-          </motion.h2>
-        </AnimatePresence>
-        <p className="text-slate-400 text-sm font-medium">Part of: {task?.title}</p>
+            Terminate Session (Integrity Loss)
+          </button>
+        )}
       </div>
 
-      {/* Timer Circle */}
-      <div className="relative flex items-center justify-center">
-        <div className="absolute inset-0 bg-primary/5 rounded-full blur-3xl opacity-50" />
-        <div className="w-64 h-64 rounded-full border-[10px] border-slate-50 flex flex-col items-center justify-center relative bg-white shadow-xl">
-          <svg className="absolute inset-0 w-full h-full -rotate-90">
-            <circle
-              cx="128"
-              cy="128"
-              r="118"
-              stroke="currentColor"
-              strokeWidth="10"
-              fill="transparent"
-              className="text-primary/10"
-            />
-            <motion.circle
-              cx="128"
-              cy="128"
-              r="118"
-              stroke="currentColor"
-              strokeWidth="10"
-              fill="transparent"
-              strokeDasharray="741.4"
-              animate={{ strokeDashoffset: 741.4 * (1 - timeLeft / (25 * 60)) }}
-              className="text-primary"
-            />
-          </svg>
-          <span className="text-5xl font-bold font-outfit text-slate-800 tabular-nums">
-            {formatTime(timeLeft)}
-          </span>
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Minutes Left</span>
+      <div className="pt-12">
+        <div className="w-24 h-1 bg-ink/5 rounded-full overflow-hidden">
+          <motion.div 
+            initial={{ width: '100%' }}
+            animate={{ width: `${(timeLeft / (25 * 60)) * 100}%` }}
+            transition={{ duration: 1, ease: "linear" }}
+            className="h-full bg-ink"
+          />
         </div>
       </div>
-
-      {/* Controls */}
-      <div className="flex items-center gap-6">
-        <button 
-          onClick={() => setTimeLeft(25 * 60)}
-          className="p-4 bg-slate-50 text-slate-400 rounded-full hover:bg-slate-100 transition-all active:scale-90"
-        >
-          <RotateCcw size={20} />
-        </button>
-        <button 
-          onClick={() => setIsActive(!isActive)}
-          className="p-6 bg-primary text-white rounded-full shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
-        >
-          {isActive ? <Pause size={32} fill="currentColor" /> : <Play size={32} fill="currentColor" className="ml-1" />}
-        </button>
-        <button 
-          onClick={onFinish}
-          className="p-4 bg-slate-50 text-slate-400 rounded-full hover:bg-slate-100 transition-all active:scale-90"
-        >
-          <X size={20} />
-        </button>
-      </div>
-
-      {/* Hard Lock: Exit protection */}
-      <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
-        Hard-Lock active • Navigation Disabled
-      </p>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export function SettingsPage() {
         {sections.map((item, i) => (
           <div 
             key={i}
-            className="card-scholar !p-6 flex items-center justify-between group cursor-pointer hover:border-ink/20"
+            className="card-scholar p-6! flex items-center justify-between group cursor-pointer hover:border-ink/20"
           >
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 bg-ink/5 rounded-full flex items-center justify-center text-muted group-hover:text-ink transition-colors">

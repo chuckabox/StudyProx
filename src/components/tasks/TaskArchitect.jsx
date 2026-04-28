@@ -17,7 +17,8 @@ export function TaskArchitect({ onTaskCreated, onCancel }) {
   };
 
   return (
-    <div className="card-scholar min-h-[600px] flex flex-col !p-0">
+    <div className="card-scholar min-h-[600px] flex flex-col p-0!">
+      <div className="paper-overlay" />
       {/* Header */}
       <div className="px-12 py-10 border-b border-ink/5 flex justify-between items-center bg-paper/30 backdrop-blur-sm">
         <div className="flex items-center gap-4">
@@ -99,39 +100,62 @@ export function TaskArchitect({ onTaskCreated, onCancel }) {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -30 }}
-              className="space-y-12"
             >
-              <div className="space-y-2 text-center">
-                <h3 className="text-3xl font-serif font-bold text-ink">Segmented Path</h3>
-                <p className="text-sm text-muted italic">Follow these increments to maintain intellectual momentum.</p>
-              </div>
+              {/* Result Section: Editorial List */}
+              {subtasks.length > 0 && (
+                <div className="space-y-12">
+                  <div className="space-y-3">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Architectural Blueprint</p>
+                    <h2 className="text-3xl font-serif font-bold text-ink italic">{taskTitle}</h2>
+                  </div>
 
-              <div className="space-y-4 max-w-lg mx-auto w-full">
-                {subtasks.map((st, i) => (
-                  <motion.div 
-                    key={st.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="bg-paper border border-ink/5 p-6 rounded-2xl flex items-center gap-6 group hover:border-ink/20 hover:shadow-xl hover:shadow-ink/5 transition-all"
+                  <div className="space-y-6">
+                    {subtasks.map((st, i) => (
+                      <motion.div 
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className={cn(
+                          "relative group",
+                          i === 0 ? "card-scholar border-ink/20! shadow-xl shadow-ink/5" : "pl-12 opacity-40 hover:opacity-100 transition-opacity"
+                        )}
+                      >
+                        {i === 0 && (
+                          <div className="absolute -top-3 -left-3 bg-ink text-paper px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest shadow-lg">
+                            Critical First Step
+                          </div>
+                        )}
+                        
+                        <div className="flex items-start gap-4">
+                          <div className="w-6 h-6 rounded-full border-2 border-ink/10 flex items-center justify-center shrink-0 mt-1">
+                            <span className="text-[10px] font-bold text-ink/30">{i + 1}</span>
+                          </div>
+                          <div>
+                            <p className={cn(
+                              "font-serif font-bold leading-tight",
+                              i === 0 ? "text-2xl text-ink" : "text-xl text-ink"
+                            )}>
+                              {st}
+                            </p>
+                            {i === 0 && (
+                              <p className="text-xs text-muted mt-2 italic">Low friction, high impact. Start here to break the seal.</p>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  <button 
+                    onClick={() => onTaskCreated(taskTitle, subtasks)}
+                    className="btn-ink w-full py-5 text-lg group"
                   >
-                    <div className="font-serif font-extrabold text-2xl text-ink/20 group-hover:text-ink transition-colors tabular-nums">
-                      {String(i + 1).padStart(2, '0')}
-                    </div>
-                    <span className="font-serif font-bold text-xl text-ink italic leading-tight">{st.text}</span>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="pt-8 max-w-lg mx-auto w-full">
-                <button 
-                  onClick={() => onTaskCreated(taskTitle, subtasks)}
-                  className="btn-ink w-full py-5 text-lg"
-                >
-                  <Check size={24} />
-                  Authorize This Sequence
-                </button>
-              </div>
+                    Commit to the Library
+                    <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

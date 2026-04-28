@@ -50,7 +50,7 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
         {activeTask ? (
           <motion.div 
             whileHover={{ y: -4 }}
-            className="card-scholar !p-0"
+            className="card-scholar p-0!"
           >
             {/* Momentum Line */}
             <div className="momentum-line rounded-none h-[3px]">
@@ -161,7 +161,7 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
 
       {/* Stats - Refined Bento */}
       <section className="grid grid-cols-2 gap-8">
-        <motion.div variants={itemVariants} className="card-scholar p-8 flex flex-col justify-between aspect-square !shadow-none hover:bg-ink hover:text-paper group">
+        <motion.div variants={itemVariants} className="card-scholar p-8 flex flex-col justify-between aspect-square shadow-none! hover:bg-ink hover:text-paper group">
           <div className="w-12 h-12 bg-ink/5 rounded-2xl flex items-center justify-center border border-ink/5 mb-4 group-hover:bg-paper/10 group-hover:border-paper/10">
             <Brain className="w-6 h-6 text-ink group-hover:text-paper" />
           </div>
@@ -170,7 +170,7 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
             <div className="text-4xl font-serif font-extrabold">4.2<span className="text-lg opacity-40 ml-1">h</span></div>
           </div>
         </motion.div>
-        <motion.div variants={itemVariants} className="card-scholar p-8 flex flex-col justify-between aspect-square !shadow-none">
+        <motion.div variants={itemVariants} className="card-scholar p-8 flex flex-col justify-between aspect-square shadow-none!">
           <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center border border-amber-100 mb-4">
             <CheckCircle2 className="w-6 h-6 text-amber-600" />
           </div>
@@ -180,6 +180,6 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
           </div>
         </motion.div>
       </section>
-    </div>
+    </motion.div>
   );
 }
