@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Play, Plus, ChevronRight, CheckCircle2, Circle } from 'lucide-react';
+import { Play, Plus, ChevronRight, CheckCircle2, Circle, Brain } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask }) {

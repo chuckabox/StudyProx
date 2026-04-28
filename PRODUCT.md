@@ -1,29 +1,45 @@
-# Product
+# StudyProx: Product Definition & Strategy
 
 ## Register
 
-product
+**StudyProx** | _Bridging the Intent-Action Gap._
 
 ## Users
-Students looking to bridge the gap between their academic intentions and actual execution. They typically open the app in a neutral state, seeking a clear starting point or a structured path to begin their work without cognitive overwhelm.
+
+Our primary users are high school and university students—specifically early-year undergraduates—who possess high academic ambition but suffer from a **"Productivity Deficit"** caused by environmental friction. This includes students facing the **"Paralysis of Ambition"** (92% of our demographic) and neurodivergent learners (ADHD) who require rigid external structures to overcome executive dysfunction.
 
 ## Product Purpose
-To provide a friction-less productivity ecosystem that enforces focus and deconstructs complex tasks into micro-goals. Success looks like a student starting their work 15 minutes faster than they would have otherwise.
+
+StudyProx is a cross-platform ecosystem designed to automate the transition from academic planning to active execution. By recognizing that willpower is a finite resource, the system replaces "manual labor" planning with **Friction-to-Focus Automation**, deconstructing intimidating projects into manageable micro-goals and enforcing environmental control through "Hard-Lock" sessions.
 
 ## Brand Personality
-Focused, clear, and encouraging. It is simple and easy to use, avoiding both the "dry" look of enterprise software and the "cluttered" noise of social platforms. It should feel like a trusted academic partner.
+
+- **The Academic Partner**: Authoritative yet supportive; it provides the discipline the user currently lacks.
+- **Frictionless & Adaptive**: It feels like an invisible layer that adjusts to the user's habits rather than forcing a rigid, manual structure.
+- **Clinical yet Human**: Minimalist and clean (avoiding "dry" enterprise UI) with a focus on psychological safety and reduced anxiety.
 
 ## Anti-references
-- Dry enterprise/government portals.
-- Cluttered social media feeds.
-- Overly complex project management tools with infinite nesting.
+
+- **Manual Planners**: Tools that require "manual labor" to sync calendars or trigger timers.
+- **Dry Portals**: Enterprise/Government-style software that increases cognitive dread.
+- **Fragmented Feeds**: Cluttered social-style apps that offer "Gateway Distractions" during focus sessions.
 
 ## Design Principles
-- **The Next Step First**: Always prioritize the immediate micro-goal over the entire project scope to prevent paralysis.
-- **Cognitive Ease**: Every interaction should reduce the mental effort required to start a task.
-- **Neutral Momentum**: Start with a calm, neutral interface that builds momentum through small wins.
+
+- **Hide the Magnitude**: To prevent "Task Paralysis," the UI actively hides the full project scope, revealing only the current actionable block.
+- **Environmental Mirroring**: The digital state of the device must mirror the user’s internal goals (e.g., if studying, the device _physically_ blocks social leakage).
+- **Automated Scaffolding**: Use generative logic to provide a "Recommended First Step," removing the cognitive effort required to decide where to start.
+- **Social Proof as Leverage**: Turn isolation into motivation through shared accountability metrics and group-specific streaks.
+
+## Core Modules
+
+- **AI Task Architect**: Automates task decomposition into checkable micro-steps.
+- **Subject-Specific Timer**: Enforces focus and suppresses notifications at the OS level.
+- **Filing-System Flashcards**: Integrated retention tool categorized by academic subject.
+- **Social Analytics**: Visualizes progress vs. peers to transform academic consistency into a shared habit.
 
 ## Accessibility & Inclusion
-- High contrast for deep work focus.
-- Pattern-based urgency cues (not just color) to support color-vision deficiency.
-- Large touch targets for mobile-first accessibility.
+
+- **Cognitive Scaffolding**: Simplifies navigation for users under high stress or with executive function challenges.
+- **Multi-Modal Reinforcement**: Uses a combination of haptic, auditory, and visual cues to ensure alerts bridge the gap for neurodivergent users.
+- **CVD-Compliant Urgency**: Employs pattern-based cues (stripes/dots) for "Assessment Clump" heatmaps to ensure inclusivity for all students.
