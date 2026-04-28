@@ -9,113 +9,118 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
     : 0;
 
   return (
-    <div className="space-y-10 animate-fade-in">
-      {/* Welcome Section - Neutral Opening */}
-      <section className="space-y-1 text-center py-4">
-        <h1 className="text-3xl font-bold font-outfit tracking-tight text-slate-800">Study Dashboard</h1>
-        <p className="text-slate-400 text-sm font-medium">Ready for your next deep study session?</p>
+    <div className="space-y-16 animate-fade-in">
+      {/* Welcome Section - Editorial Style */}
+      <section className="space-y-3 text-center py-8">
+        <div className="inline-block px-4 py-1.5 border border-ink/10 rounded-full text-[10px] font-bold uppercase tracking-[0.25em] text-muted mb-2">
+          Academic Session
+        </div>
+        <h1 className="text-5xl font-serif font-extrabold text-ink tracking-tight">Today's Focus</h1>
+        <p className="text-muted text-sm font-medium italic">"The scholar's greatest weapon is a single, clear intention."</p>
       </section>
 
-      {/* Main Action Card - The Momentum Hub */}
+      {/* Main Action Card - The Scholar's Desk */}
       <section>
         {activeTask ? (
-          <div className="card-minimal overflow-hidden !p-0">
-            {/* Momentum Indicator Header */}
-            <div className="momentum-track rounded-none h-2">
+          <div className="card-scholar !p-0">
+            {/* Momentum Line */}
+            <div className="momentum-line rounded-none h-[3px]">
               <motion.div 
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
-                className="h-full bg-primary"
+                className="h-full bg-ink"
               />
             </div>
             
-            <div className="p-8 space-y-8">
-              <div className="flex justify-between items-center">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Current Focus</span>
+            <div className="p-12 space-y-10">
+              <div className="flex justify-between items-start">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-ink animate-pulse" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Primary Objective</span>
                   </div>
-                  <h2 className="text-2xl font-bold text-slate-800 tracking-tight">{activeTask.title}</h2>
+                  <h2 className="text-4xl font-serif font-bold text-ink tracking-tight">{activeTask.title}</h2>
                 </div>
-                <div className="bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-500">
-                  {Math.round(progress)}% Done
+                <div className="bg-paper border border-ink/5 px-4 py-2 rounded-lg text-xs font-bold text-ink/40 shadow-sm">
+                  {Math.round(progress)}% RESOLVED
                 </div>
               </div>
 
               {/* Hide the Magnitude: Prominent Next Step */}
               {nextSubtask ? (
-                <div className="space-y-6">
-                  <div className="bg-slate-50/80 border border-slate-100 rounded-2xl p-6 flex items-center justify-between group hover:bg-slate-50 transition-colors">
-                    <div className="flex items-center gap-5">
+                <div className="space-y-8">
+                  <div className="border-t border-ink/5 pt-8 flex items-center justify-between group">
+                    <div className="flex items-center gap-6">
                       <button 
                         onClick={() => onUpdateSubtask(activeTask.id, nextSubtask.id, true)}
-                        className="w-8 h-8 rounded-full border-2 border-slate-200 bg-white flex items-center justify-center text-transparent hover:border-primary hover:text-primary transition-all group-hover:scale-110"
+                        className="w-10 h-10 rounded-full border border-ink/10 bg-paper flex items-center justify-center text-transparent hover:border-ink hover:text-ink transition-all active:scale-90"
                       >
-                        <Circle className="w-5 h-5" />
+                        <Check className="w-5 h-5" />
                       </button>
                       <div>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.1em] mb-0.5">The Next Step</p>
-                        <p className="font-bold text-lg text-slate-700 leading-tight">{nextSubtask.text}</p>
+                        <p className="text-[10px] text-muted font-bold uppercase tracking-[0.15em] mb-1">Current Increment</p>
+                        <p className="font-serif font-bold text-2xl text-ink leading-tight italic">{nextSubtask.text}</p>
                       </div>
                     </div>
                   </div>
 
                   <button 
                     onClick={onStartFocus}
-                    className="btn-primary w-full py-4 flex items-center justify-center gap-3 group"
+                    className="btn-ink w-full py-5 text-lg group"
                   >
-                    <Zap className="w-5 h-5 fill-current" />
-                    <span>Enter Focus Mode</span>
+                    <Zap className="w-5 h-5" />
+                    <span>Commence Deep Focus</span>
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
               ) : (
-                <div className="text-center py-6 bg-emerald-50/50 border border-emerald-100/50 rounded-2xl">
-                  <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
-                  <p className="font-bold text-lg text-emerald-800">Sprint Accomplished</p>
-                  <p className="text-emerald-600/70 text-sm">You bridged the gap today.</p>
+                <div className="text-center py-10 border-t border-ink/5">
+                  <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-100">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-600" />
+                  </div>
+                  <h3 className="font-serif font-bold text-2xl text-ink">Objective Secured</h3>
+                  <p className="text-muted text-sm italic mt-1">Take a moment of silence. You've earned it.</p>
                 </div>
               )}
             </div>
           </div>
         ) : (
-          <div className="card-minimal border-dashed bg-slate-50/30 py-16 text-center space-y-6">
-            <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto border border-slate-100 shadow-sm rotate-3">
-              <Plus className="w-10 h-10 text-slate-200" />
+          <div className="card-scholar border-dashed bg-transparent py-24 text-center space-y-8">
+            <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto border border-ink/5 shadow-2xl shadow-ink/5 -rotate-6">
+              <Plus className="w-10 h-10 text-ink/20" />
             </div>
-            <div className="space-y-2">
-              <h3 className="text-xl font-bold text-slate-800">Clear your mind.</h3>
-              <p className="text-slate-400 text-sm max-w-[240px] mx-auto leading-relaxed">Let's deconstruct your next big challenge into tiny, actionable wins.</p>
+            <div className="space-y-3">
+              <h3 className="text-3xl font-serif font-bold text-ink">Architect your next win.</h3>
+              <p className="text-muted text-sm max-w-[280px] mx-auto leading-relaxed italic">Deconstruct the overwhelming into the actionable.</p>
             </div>
             <button 
               onClick={onStartNew}
-              className="btn-primary px-8"
+              className="btn-ink px-12"
             >
-              Architect a Sprint
+              Initialize Sprint
             </button>
           </div>
         )}
       </section>
 
-      {/* Stats Bento Grid */}
-      <section className="grid grid-cols-2 gap-5">
-        <div className="card-minimal p-6 flex flex-col justify-between aspect-square">
-          <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center border border-primary/10 mb-4">
-            <Brain className="w-5 h-5 text-primary" />
+      {/* Stats - Refined Bento */}
+      <section className="grid grid-cols-2 gap-8">
+        <div className="card-scholar p-8 flex flex-col justify-between aspect-square !shadow-none hover:bg-ink hover:text-paper group">
+          <div className="w-12 h-12 bg-ink/5 rounded-2xl flex items-center justify-center border border-ink/5 mb-4 group-hover:bg-paper/10 group-hover:border-paper/10">
+            <Brain className="w-6 h-6 text-ink group-hover:text-paper" />
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Deep Study</p>
-            <div className="text-3xl font-bold font-outfit text-slate-800">4.2h</div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-1 group-hover:text-paper/60">Intellectual Effort</p>
+            <div className="text-4xl font-serif font-extrabold">4.2<span className="text-lg opacity-40 ml-1">h</span></div>
           </div>
         </div>
-        <div className="card-minimal p-6 flex flex-col justify-between aspect-square">
-          <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center border border-amber-100 mb-4">
-            <CheckCircle2 className="w-5 h-5 text-amber-500" />
+        <div className="card-scholar p-8 flex flex-col justify-between aspect-square !shadow-none">
+          <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center border border-amber-100 mb-4">
+            <CheckCircle2 className="w-6 h-6 text-amber-600" />
           </div>
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Wins Today</p>
-            <div className="text-3xl font-bold font-outfit text-slate-800">12</div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-1">Micro-Wins</p>
+            <div className="text-4xl font-serif font-extrabold text-ink">12</div>
           </div>
         </div>
       </section>
