@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import { Play, Plus, ChevronRight, CheckCircle2, Circle, Brain } from 'lucide-react';
+import { Play, Plus, ChevronRight, CheckCircle2, Circle, Brain, Zap } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask }) {
+export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onStartFocus }) {
   const nextSubtask = activeTask?.subtasks?.find(st => !st.completed);
   const progress = activeTask 
     ? (activeTask.subtasks.filter(st => st.completed).length / activeTask.subtasks.length) * 100 
@@ -43,27 +43,32 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask }) {
                 </div>
               </div>
 
+              {/* Hide the Magnitude: Prominent Next Step */}
               {nextSubtask ? (
-                <div className="bg-slate-50/80 border border-slate-100 rounded-2xl p-6 flex items-center justify-between group hover:bg-slate-50 transition-colors">
-                  <div className="flex items-center gap-5">
-                    <button 
-                      onClick={() => onUpdateSubtask(activeTask.id, nextSubtask.id, true)}
-                      className="w-8 h-8 rounded-full border-2 border-slate-200 bg-white flex items-center justify-center text-transparent hover:border-primary hover:text-primary transition-all group-hover:scale-110"
-                    >
-                      <Circle className="w-5 h-5" />
-                    </button>
-                    <div>
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.1em] mb-0.5">The Next Step</p>
-                      <p className="font-bold text-lg text-slate-700 leading-tight">{nextSubtask.text}</p>
+                <div className="space-y-6">
+                  <div className="bg-slate-50/80 border border-slate-100 rounded-2xl p-6 flex items-center justify-between group hover:bg-slate-50 transition-colors">
+                    <div className="flex items-center gap-5">
+                      <button 
+                        onClick={() => onUpdateSubtask(activeTask.id, nextSubtask.id, true)}
+                        className="w-8 h-8 rounded-full border-2 border-slate-200 bg-white flex items-center justify-center text-transparent hover:border-primary hover:text-primary transition-all group-hover:scale-110"
+                      >
+                        <Circle className="w-5 h-5" />
+                      </button>
+                      <div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.1em] mb-0.5">The Next Step</p>
+                        <p className="font-bold text-lg text-slate-700 leading-tight">{nextSubtask.text}</p>
+                      </div>
                     </div>
                   </div>
-                  <motion.button 
-                    whileHover={{ scale: 1.05, x: 5 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="btn-primary !p-3 !rounded-full shadow-lg shadow-primary/10"
+
+                  <button 
+                    onClick={onStartFocus}
+                    className="btn-primary w-full py-4 flex items-center justify-center gap-3 group"
                   >
-                    <Play className="w-4 h-4 fill-current ml-0.5" />
-                  </motion.button>
+                    <Zap className="w-5 h-5 fill-current" />
+                    <span>Enter Focus Mode</span>
+                    <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </button>
                 </div>
               ) : (
                 <div className="text-center py-6 bg-emerald-50/50 border border-emerald-100/50 rounded-2xl">
@@ -111,29 +116,6 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask }) {
           <div>
             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Wins Today</p>
             <div className="text-3xl font-bold font-outfit text-slate-800">12</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Deadlines Section */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between px-1">
-          <h3 className="font-bold text-lg font-outfit text-slate-800">Focus Forecast</h3>
-          <button className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 hover:gap-2 transition-all">
-            Full Roadmap <ChevronRight size={14} />
-          </button>
-        </div>
-        
-        <div className="space-y-3">
-          <div className="card-minimal !p-5 border-l-4 border-l-destructive/40 flex items-center justify-between">
-            <div className="space-y-1">
-              <p className="font-bold text-slate-700">MATH2001 Report</p>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-destructive/60 animate-pulse" />
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Due in 48 hours</p>
-              </div>
-            </div>
-            <div className="bg-destructive/5 text-destructive px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border border-destructive/10">Critical</div>
           </div>
         </div>
       </section>
