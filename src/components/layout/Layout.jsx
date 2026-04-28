@@ -1,3 +1,4 @@
+import { cloneElement } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Brain, Clock, BarChart3, Settings } from 'lucide-react';
 
@@ -42,7 +43,7 @@ function NavButton({ icon, label, active }) {
   return (
     <button className={`flex flex-col items-center gap-1 transition-all ${active ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}>
       <div className={`p-2 rounded-xl ${active ? 'bg-primary/10' : ''}`}>
-        {Object.cloneElement(icon, { size: 24 })}
+        {cloneElement(icon, { size: 24 })}
       </div>
       <span className="text-[10px] font-medium uppercase tracking-wider">{label}</span>
     </button>
