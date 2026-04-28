@@ -5,12 +5,13 @@ import { TaskArchitect } from './components/tasks/TaskArchitect';
 import { FocusTimer } from './components/focus/FocusTimer';
 import { FlashcardSuite } from './components/cards/FlashcardSuite';
 import { SocialAnalytics } from './components/analytics/SocialAnalytics';
+import { SettingsPage } from './components/settings/SettingsPage';
 import { useTasks } from './hooks/use-tasks';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
   const { tasks, addTask, updateSubtask } = useTasks();
-  const [view, setView] = useState('dashboard'); // dashboard | architect | focus | cards | stats
+  const [view, setView] = useState('dashboard'); // dashboard | architect | focus | cards | stats | settings
 
   const activeTask = tasks.find(t => !t.completed);
 
@@ -24,6 +25,7 @@ function App() {
       currentView={view} 
       setView={setView} 
       isHardLocked={view === 'focus'}
+      onOpenSettings={() => setView('settings')}
     >
       <AnimatePresence mode="wait">
         {view === 'dashboard' && (
@@ -81,6 +83,17 @@ function App() {
         {view === 'stats' && (
           <motion.div key="stats">
             <SocialAnalytics />
+          </motion.div>
+        )}
+
+        {view === 'settings' && (
+          <motion.div
+            key="settings"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+          >
+            <SettingsPage />
           </motion.div>
         )}
       </AnimatePresence>
