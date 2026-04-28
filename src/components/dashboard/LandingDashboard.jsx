@@ -9,135 +9,134 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask }) {
     : 0;
 
   return (
-    <div className="space-y-8">
-      {/* Welcome Section */}
-      <section className="space-y-2">
-        <h1 className="text-3xl font-bold font-outfit">Hello, Archer</h1>
-        <p className="text-muted-foreground">The intent-action gap is 12% narrower today.</p>
+    <div className="space-y-10 animate-fade-in">
+      {/* Welcome Section - Neutral Opening */}
+      <section className="space-y-1 text-center py-4">
+        <h1 className="text-3xl font-bold font-outfit tracking-tight text-slate-800">Study Dashboard</h1>
+        <p className="text-slate-400 text-sm font-medium">Ready for your next deep study session?</p>
       </section>
 
-      {/* Main Action Card */}
-      <section className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[2rem] blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-        
-        <div className="relative glass-panel rounded-[2rem] p-8 space-y-6">
-          {activeTask ? (
-            <>
-              <div className="flex justify-between items-start">
+      {/* Main Action Card - The Momentum Hub */}
+      <section>
+        {activeTask ? (
+          <div className="card-minimal overflow-hidden !p-0">
+            {/* Momentum Indicator Header */}
+            <div className="momentum-track rounded-none h-2">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                className="h-full bg-primary"
+              />
+            </div>
+            
+            <div className="p-8 space-y-8">
+              <div className="flex justify-between items-center">
                 <div className="space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Current Focus</span>
-                  <h2 className="text-2xl font-bold">{activeTask.title}</h2>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Current Focus</span>
+                  </div>
+                  <h2 className="text-2xl font-bold text-slate-800 tracking-tight">{activeTask.title}</h2>
                 </div>
-                <div className="flex -space-x-2">
-                  {[1, 2, 3].map(i => (
-                    <div key={i} className="w-8 h-8 rounded-full border-2 border-background bg-secondary flex items-center justify-center text-[10px] font-bold">
-                      #{i}
-                    </div>
-                  ))}
+                <div className="bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-500">
+                  {Math.round(progress)}% Done
                 </div>
               </div>
 
               {nextSubtask ? (
-                <div className="bg-white/[0.03] border border-white/[0.05] rounded-2xl p-6 flex items-center justify-between">
-                  <div className="flex items-center gap-4">
+                <div className="bg-slate-50/80 border border-slate-100 rounded-2xl p-6 flex items-center justify-between group hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center gap-5">
                     <button 
                       onClick={() => onUpdateSubtask(activeTask.id, nextSubtask.id, true)}
-                      className="text-muted-foreground hover:text-primary transition-colors"
+                      className="w-8 h-8 rounded-full border-2 border-slate-200 bg-white flex items-center justify-center text-transparent hover:border-primary hover:text-primary transition-all group-hover:scale-110"
                     >
-                      <Circle className="w-6 h-6" />
+                      <Circle className="w-5 h-5" />
                     </button>
                     <div>
-                      <p className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Next Immediate Step</p>
-                      <p className="text-lg font-semibold">{nextSubtask.text}</p>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.1em] mb-0.5">The Next Step</p>
+                      <p className="font-bold text-lg text-slate-700 leading-tight">{nextSubtask.text}</p>
                     </div>
                   </div>
                   <motion.button 
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="w-12 h-12 bg-primary rounded-full flex items-center justify-center shadow-lg shadow-primary/20"
+                    whileHover={{ scale: 1.05, x: 5 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="btn-primary !p-3 !rounded-full shadow-lg shadow-primary/10"
                   >
-                    <Play className="w-5 h-5 fill-current" />
+                    <Play className="w-4 h-4 fill-current ml-0.5" />
                   </motion.button>
                 </div>
               ) : (
-                <div className="text-center py-4">
-                  <CheckCircle2 className="w-12 h-12 text-primary mx-auto mb-2" />
-                  <p className="font-semibold">All micro-goals reached!</p>
+                <div className="text-center py-6 bg-emerald-50/50 border border-emerald-100/50 rounded-2xl">
+                  <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-3" />
+                  <p className="font-bold text-lg text-emerald-800">Sprint Accomplished</p>
+                  <p className="text-emerald-600/70 text-sm">You bridged the gap today.</p>
                 </div>
               )}
-
-              {/* Progress Bar */}
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                  <span>Progress</span>
-                  <span>{Math.round(progress)}%</span>
-                </div>
-                <div className="h-2 bg-white/[0.05] rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progress}%` }}
-                    className="h-full bg-gradient-to-r from-primary to-accent"
-                  />
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-12 space-y-6">
-              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                <Plus className="w-10 h-10 text-primary" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-xl font-bold">No Active Sprint</h3>
-                <p className="text-muted-foreground max-w-[240px] mx-auto">Ready to bridge the gap? Decompose your first complex task.</p>
-              </div>
-              <button 
-                onClick={onStartNew}
-                className="btn-primary w-full max-w-xs"
-              >
-                Create AI Task Sprint
-              </button>
             </div>
-          )}
+          </div>
+        ) : (
+          <div className="card-minimal border-dashed bg-slate-50/30 py-16 text-center space-y-6">
+            <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center mx-auto border border-slate-100 shadow-sm rotate-3">
+              <Plus className="w-10 h-10 text-slate-200" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold text-slate-800">Clear your mind.</h3>
+              <p className="text-slate-400 text-sm max-w-[240px] mx-auto leading-relaxed">Let's deconstruct your next big challenge into tiny, actionable wins.</p>
+            </div>
+            <button 
+              onClick={onStartNew}
+              className="btn-primary px-8"
+            >
+              Architect a Sprint
+            </button>
+          </div>
+        )}
+      </section>
+
+      {/* Stats Bento Grid */}
+      <section className="grid grid-cols-2 gap-5">
+        <div className="card-minimal p-6 flex flex-col justify-between aspect-square">
+          <div className="w-10 h-10 bg-primary/5 rounded-xl flex items-center justify-center border border-primary/10 mb-4">
+            <Brain className="w-5 h-5 text-primary" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Deep Study</p>
+            <div className="text-3xl font-bold font-outfit text-slate-800">4.2h</div>
+          </div>
+        </div>
+        <div className="card-minimal p-6 flex flex-col justify-between aspect-square">
+          <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center border border-amber-100 mb-4">
+            <CheckCircle2 className="w-5 h-5 text-amber-500" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Wins Today</p>
+            <div className="text-3xl font-bold font-outfit text-slate-800">12</div>
+          </div>
         </div>
       </section>
 
-      {/* Secondary Metrics */}
-      <section className="grid grid-cols-2 gap-4">
-        <MetricCard label="Focus Hours" value="4.2" unit="hrs" color="text-primary" />
-        <MetricCard label="Tasks Done" value="12" unit="micro" color="text-accent" />
-      </section>
-
-      {/* Recent Activity / Roadmap */}
+      {/* Deadlines Section */}
       <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-bold text-lg font-outfit">Upcoming Clumps</h3>
-          <button className="text-primary text-sm font-semibold flex items-center gap-1">
-            View Heatmap <ChevronRight size={16} />
+        <div className="flex items-center justify-between px-1">
+          <h3 className="font-bold text-lg font-outfit text-slate-800">Focus Forecast</h3>
+          <button className="text-primary text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 hover:gap-2 transition-all">
+            Full Roadmap <ChevronRight size={14} />
           </button>
         </div>
         
         <div className="space-y-3">
-          <div className="glass-panel p-4 rounded-2xl border-l-4 border-l-destructive/50 flex items-center justify-between texture-urgency-high">
-            <div>
-              <p className="font-bold">MATH2001 Report</p>
-              <p className="text-xs text-muted-foreground font-medium uppercase">Due in 2 days</p>
+          <div className="card-minimal !p-5 border-l-4 border-l-destructive/40 flex items-center justify-between">
+            <div className="space-y-1">
+              <p className="font-bold text-slate-700">MATH2001 Report</p>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-destructive/60 animate-pulse" />
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Due in 48 hours</p>
+              </div>
             </div>
-            <div className="text-destructive font-bold text-sm">Critical</div>
+            <div className="bg-destructive/5 text-destructive px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border border-destructive/10">Critical</div>
           </div>
         </div>
       </section>
-    </div>
-  );
-}
-
-function MetricCard({ label, value, unit, color }) {
-  return (
-    <div className="glass-panel p-6 rounded-3xl space-y-1">
-      <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{label}</p>
-      <div className="flex items-baseline gap-1">
-        <span className={cn("text-3xl font-bold font-outfit", color)}>{value}</span>
-        <span className="text-xs text-muted-foreground font-medium">{unit}</span>
-      </div>
     </div>
   );
 }

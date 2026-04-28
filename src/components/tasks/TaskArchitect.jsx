@@ -17,113 +17,122 @@ export function TaskArchitect({ onTaskCreated, onCancel }) {
   };
 
   return (
-    <div className="glass-panel rounded-[2rem] p-8 min-h-[400px] flex flex-col">
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-accent rounded-md flex items-center justify-center">
+    <div className="card-minimal min-h-[500px] flex flex-col !p-0 overflow-hidden">
+      {/* Header */}
+      <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center shadow-sm">
             <Sparkles className="w-4 h-4 text-white" />
           </div>
-          <h2 className="font-bold text-lg font-outfit">AI Task Architect</h2>
+          <h2 className="font-bold text-lg font-outfit text-slate-800">Architect Sprint</h2>
         </div>
         <button 
           onClick={onCancel}
-          className="p-2 hover:bg-white/[0.05] rounded-full transition-colors"
+          className="p-2 hover:bg-slate-100 rounded-xl transition-all text-slate-300 hover:text-slate-500"
         >
-          <X className="w-5 h-5 text-muted-foreground" />
+          <X className="w-5 h-5" />
         </button>
       </div>
 
-      <AnimatePresence mode="wait">
-        {step === 'input' && (
-          <motion.div
-            key="input"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="space-y-6 flex-1 flex flex-col justify-center"
-          >
-            <div className="space-y-2">
-              <h3 className="text-2xl font-bold">What's the complex goal?</h3>
-              <p className="text-muted-foreground">The AI will bridge the gap by breaking it down into actionable micro-goals.</p>
-            </div>
-            
-            <div className="relative">
-              <input 
-                autoFocus
-                type="text"
-                value={taskTitle}
-                onChange={(e) => setTaskTitle(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleDecompose()}
-                placeholder="e.g. Write MATH2001 Report"
-                className="input-field pr-16"
-              />
-              <button 
-                onClick={handleDecompose}
-                disabled={!taskTitle.trim()}
-                className="absolute right-2 top-2 bottom-2 aspect-square bg-primary rounded-xl flex items-center justify-center text-white disabled:opacity-50 transition-all hover:scale-105 active:scale-95"
-              >
-                <ArrowRight size={20} />
-              </button>
-            </div>
-          </motion.div>
-        )}
-
-        {step === 'decomposing' && (
-          <motion.div
-            key="decomposing"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex-1 flex flex-col items-center justify-center space-y-4"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl animate-pulse-slow" />
-              <Loader2 className="w-12 h-12 text-primary animate-spin relative z-10" />
-            </div>
-            <p className="font-medium text-lg animate-pulse">Deconstructing logic...</p>
-          </motion.div>
-        )}
-
-        {step === 'review' && (
-          <motion.div
-            key="review"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="space-y-6"
-          >
-            <div className="space-y-1">
-              <h3 className="text-xl font-bold">Micro-Goal Sequence</h3>
-              <p className="text-sm text-muted-foreground">The "Single-Path" journey created for you:</p>
-            </div>
-
-            <div className="space-y-3">
-              {subtasks.map((st, i) => (
-                <motion.div 
-                  key={st.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="bg-white/[0.03] border border-white/[0.05] p-4 rounded-xl flex items-center gap-4"
-                >
-                  <div className="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-[10px] font-bold text-muted-foreground">
-                    {i + 1}
-                  </div>
-                  <span className="font-medium">{st.text}</span>
-                </motion.div>
-              ))}
-            </div>
-
-            <button 
-              onClick={() => onTaskCreated(taskTitle, subtasks)}
-              className="btn-primary w-full flex items-center justify-center gap-2"
+      <div className="flex-1 px-8 py-10 flex flex-col">
+        <AnimatePresence mode="wait">
+          {step === 'input' && (
+            <motion.div
+              key="input"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              className="space-y-8 flex-1 flex flex-col justify-center max-w-md mx-auto w-full"
             >
-              <Check size={20} />
-              Enforce This Sprint
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="space-y-2 text-center">
+                <h3 className="text-2xl font-bold text-slate-800 tracking-tight">What's the challenge?</h3>
+                <p className="text-slate-400 text-sm font-medium">Be specific. We'll find the tiny path through.</p>
+              </div>
+              
+              <div className="space-y-4">
+                <input 
+                  autoFocus
+                  type="text"
+                  value={taskTitle}
+                  onChange={(e) => setTaskTitle(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleDecompose()}
+                  placeholder="e.g. Draft MATH2001 Analysis"
+                  className="input-field !text-lg !py-4"
+                />
+                <button 
+                  onClick={handleDecompose}
+                  disabled={!taskTitle.trim()}
+                  className="btn-primary w-full flex items-center justify-center gap-2 group"
+                >
+                  Deconstruct Task
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          {step === 'decomposing' && (
+            <motion.div
+              key="decomposing"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex-1 flex flex-col items-center justify-center space-y-6"
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/5 rounded-full scale-150 animate-pulse" />
+                <Loader2 className="w-12 h-12 text-primary animate-spin relative z-10" />
+              </div>
+              <div className="text-center space-y-1">
+                <p className="font-bold text-slate-800">Finding the sequence...</p>
+                <p className="text-slate-400 text-sm">Mapping the cognitive path.</p>
+              </div>
+            </motion.div>
+          )}
+
+          {step === 'review' && (
+            <motion.div
+              key="review"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              className="space-y-8"
+            >
+              <div className="space-y-1 text-center">
+                <h3 className="text-xl font-bold text-slate-800">Path Discovered</h3>
+                <p className="text-sm text-slate-400">Complete these in order to maintain flow.</p>
+              </div>
+
+              <div className="space-y-3 max-w-md mx-auto w-full">
+                {subtasks.map((st, i) => (
+                  <motion.div 
+                    key={st.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    className="bg-slate-50/50 border border-slate-100 p-4 rounded-2xl flex items-center gap-4 group hover:bg-white hover:border-slate-200 transition-all"
+                  >
+                    <div className="w-6 h-6 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-400 group-hover:border-primary group-hover:text-primary transition-colors">
+                      {i + 1}
+                    </div>
+                    <span className="font-bold text-sm text-slate-600">{st.text}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="pt-4 max-w-md mx-auto w-full">
+                <button 
+                  onClick={() => onTaskCreated(taskTitle, subtasks)}
+                  className="btn-primary w-full flex items-center justify-center gap-2"
+                >
+                  <Check size={20} />
+                  Accept This Path
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

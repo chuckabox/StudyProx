@@ -3,103 +3,90 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
 
 @theme {
-  --color-background: #0a0a0a;
-  --color-foreground: #ededed;
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
   
-  --color-primary: #3b82f6;
+  --color-primary: #2563eb;
   --color-primary-foreground: #ffffff;
   
-  --color-secondary: #1e1e1e;
-  --color-secondary-foreground: #a3a3a3;
+  --color-secondary: #f8fafc;
+  --color-secondary-foreground: #64748b;
   
-  --color-accent: #8b5cf6;
+  --color-accent: #f59e0b;
   --color-accent-foreground: #ffffff;
   
-  --color-muted: #171717;
-  --color-muted-foreground: #737373;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #94a3b8;
   
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
   
-  --color-card: #121212;
-  --color-card-foreground: #ededed;
+  --color-card: #ffffff;
+  --color-card-foreground: #0f172a;
 
-  --radius-lg: 1rem;
-  --radius-md: calc(1rem - 2px);
-  --radius-sm: calc(1rem - 4px);
+  --radius-lg: 0.75rem;
+  --radius-md: 0.5rem;
+  --radius-sm: 0.25rem;
 
-  --animate-fade-in: fadeIn 0.5s ease-out;
-  --animate-slide-up: slideUp 0.4s ease-out;
-  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-fade-in: fadeIn 0.3s ease-out;
+  --animate-slide-up: slideUp 0.3s ease-out;
 
   @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
   }
   @keyframes slideUp {
-    0% { transform: translateY(10px); opacity: 0; }
+    0% { transform: translateY(8px); opacity: 0; }
     100% { transform: translateY(0); opacity: 1; }
   }
 }
 
 @layer base {
   * {
-    @apply border-secondary selection:bg-primary/30 selection:text-primary-foreground;
+    @apply border-slate-200 selection:bg-primary/10 selection:text-primary;
   }
   
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/20;
+    @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Outfit', sans-serif;
+    @apply tracking-tight;
   }
 }
 
 @layer components {
-  .glass-panel {
-    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] shadow-2xl;
+  .card-minimal {
+    @apply bg-white border border-slate-100 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.05)] rounded-2xl p-6 transition-all hover:border-slate-200 hover:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.08)];
   }
 
   .btn-primary {
-    @apply relative overflow-hidden bg-primary text-primary-foreground px-6 py-3 rounded-full font-semibold transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-xl font-bold tracking-tight transition-all hover:bg-primary/90 hover:-translate-y-0.5 active:scale-95 disabled:opacity-30;
   }
 
   .btn-secondary {
-    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.08] shadow-2xl px-6 py-3 rounded-full font-semibold transition-all hover:bg-white/[0.08] active:scale-95;
+    @apply bg-slate-50 text-slate-600 border border-slate-200/60 px-6 py-3 rounded-xl font-bold tracking-tight transition-all hover:bg-slate-100 active:scale-95;
   }
 
   .input-field {
-    @apply w-full bg-white/[0.05] border border-white/[0.1] rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground;
+    @apply w-full bg-slate-50/50 border border-slate-200/80 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-primary/10 focus:bg-white transition-all placeholder:text-slate-400;
+  }
+
+  .momentum-track {
+    @apply h-1 bg-slate-100 rounded-full overflow-hidden;
   }
 }
 
-/* Deep Work Visual Patterns */
+/* Minimal Utilities */
 .pattern-dots {
-  background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-image: radial-gradient(#f1f5f9 1.5px, transparent 1.5px);
   background-size: 24px 24px;
 }
 
-.pattern-grid {
-  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
-.glow-mesh {
-  background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
-}
-
-/* Urgency Textures (Accessibility) */
-.texture-urgency-high {
-  background-image: repeating-linear-gradient(45deg, 
-    transparent, 
-    transparent 10px, 
-    rgba(239, 68, 68, 0.05) 10px, 
-    rgba(239, 68, 68, 0.05) 20px
-  );
+.urgency-indicator {
+  @apply relative pl-4 after:absolute after:left-0 after:top-1 after:bottom-1 after:w-1 after:bg-destructive/60 after:rounded-full;
 }
 
 .screen-shake {

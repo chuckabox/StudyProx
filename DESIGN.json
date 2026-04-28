@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-04-28T14:23:25Z",
+  "title": "Design System: StudyProx",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "Action Blue", "canonical": "#2563eb", "tonalRamp": ["#1e3a8a", "#1d4ed8", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe", "#eff6ff"] },
+      "neutral-bg": { "role": "neutral", "displayName": "Paper White", "canonical": "#ffffff", "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#f1f5f9", "#ffffff"] },
+      "accent": { "role": "tertiary", "displayName": "Focus Amber", "canonical": "#f59e0b", "tonalRamp": ["#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fcd34d", "#fef3c7"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Primary welcome and focus headlines." },
+      "body": { "displayName": "Body", "purpose": "Standard reading and task content." }
+    },
+    "shadows": [
+      { "name": "shadow-sm", "value": "0 1px 2px 0 rgba(0, 0, 0, 0.05)", "purpose": "Subtle depth for cards." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0, 0, 0.2, 1)", "purpose": "Standard entrance easing." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main action button for starting sprints.",
+      "html": "<button class=\"ds-btn-primary\">START SPRINT</button>",
+      "css": ".ds-btn-primary { background: #2563eb; color: #ffffff; padding: 10px 24px; font-weight: 600; border: none; border-radius: 12px; font-family: 'Outfit', sans-serif; cursor: pointer; transition: background 0.2s; } .ds-btn-primary:hover { background: #1d4ed8; }"
+    },
+    {
+      "name": "Minimal Card",
+      "kind": "card",
+      "refersTo": "card-minimal",
+      "description": "A clean container for dashboard modules.",
+      "html": "<div class=\"ds-card-minimal\"><h3>Module Title</h3><p>Content goes here.</p></div>",
+      "css": ".ds-card-minimal { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); } .ds-card-minimal h3 { font-family: 'Outfit', sans-serif; margin: 0 0 8px 0; } .ds-card-minimal p { font-family: 'Inter', sans-serif; margin: 0; color: #64748b; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Calm Navigator",
+    "overview": "StudyProx is built on the philosophy of Restrained Utilitarianism. It rejects overstimulating clichés in favor of absolute clarity and functional whitespace.",
+    "keyCharacteristics": ["High-contrast legibility", "Predictable affordances", "Generous whitespace"],
+    "rules": [
+      { "name": "The Rare Accent Rule", "body": "The primary accent is used on ≤10% of any given screen.", "section": "colors" },
+      { "name": "The Response Shadow Rule", "body": "Surfaces are flat at rest; shadows appear only as a response to state.", "section": "elevation" }
+    ],
+    "dos": ["Do use slate-200 for structural boundaries", "Do prioritize the Next Step"],
+    "donts": ["Don't use dark mode by default", "Don't use dry enterprise tables"]
+  }
+}
