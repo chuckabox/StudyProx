@@ -49,38 +49,41 @@ body {
     letter-spacing: -0.01em;
     font-weight: 600;
   }
+
+  /* Professional Focus States (§1) */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+  }
 }
 
 @layer components {
   .card-scholar {
-    @apply bg-white border border-slate-200/50 rounded-2xl p-10 transition-all duration-700 hover:border-slate-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.03)];
+    @apply bg-white border border-slate-200/50 rounded-2xl p-10 transition-all duration-700 hover:border-slate-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.03)] cursor-default;
     position: relative;
     overflow: hidden;
   }
 
-  .card-scholar::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.02;
-    pointer-events: none;
-  }
-
+  /* Interaction Feedback (§2) */
   .btn-ink {
-    @apply bg-ink text-paper px-10 py-4 rounded-full font-bold tracking-tight transition-all hover:bg-ink/90 hover:-translate-y-0.5 active:scale-95 disabled:opacity-30 flex items-center justify-center gap-3 shadow-lg shadow-ink/5;
+    @apply bg-ink text-paper px-10 py-4 rounded-full font-bold tracking-tight transition-all duration-300 hover:bg-ink/90 hover:-translate-y-0.5 active:scale-95 disabled:opacity-30 flex items-center justify-center gap-3 shadow-lg shadow-ink/5 focus-visible:ring-4 focus-visible:ring-accent/20;
+    min-height: 56px; /* Optimized Touch Target (§2) */
   }
 
   .btn-ghost {
-    @apply bg-transparent text-ink border border-slate-200 px-10 py-4 rounded-full font-bold tracking-tight transition-all hover:bg-slate-50 active:scale-95;
+    @apply bg-transparent text-ink border border-slate-200 px-10 py-4 rounded-full font-bold tracking-tight transition-all hover:bg-slate-50 active:scale-95 focus-visible:bg-slate-50;
+    min-height: 56px;
+  }
+
+  .nav-item {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-full transition-all duration-300 active:scale-90 focus-visible:bg-paper focus-visible:text-ink;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .input-scholar {
-    @apply w-full bg-transparent border-b border-slate-200 px-0 py-6 text-3xl font-serif italic focus:outline-none focus:border-ink transition-all placeholder:text-slate-200;
-  }
-
-  .momentum-line {
-    @apply h-0.5 bg-slate-100 rounded-full overflow-hidden;
+    @apply w-full bg-transparent border-b border-slate-200 px-0 py-6 text-3xl font-serif italic focus:outline-none focus:border-ink transition-all placeholder:text-slate-200 focus:placeholder:text-slate-100;
   }
 }
 
