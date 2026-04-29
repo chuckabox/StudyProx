@@ -3,13 +3,13 @@ import { cn } from '../../lib/utils';
 
 export function SocialAnalytics({ stats }) {
   const friends = [
-    { name: 'Sarah L.', subject: 'LAW', hours: 14.5, rank: 1 },
-    { name: 'Alex M.', subject: 'STEM', hours: 12.2, rank: 2 },
-    { name: 'James K.', subject: 'MATH', hours: 10.8, rank: 3 },
-    { name: 'You', subject: 'LAW', hours: stats?.totalHours || 0, rank: 4 },
-    { name: 'Elena R.', subject: 'HIST', hours: 8.4, rank: 5 },
-    { name: 'Marcus T.', subject: 'ECON', hours: 6.2, rank: 6 },
-  ];
+    { name: 'Sarah L.', subject: 'LAW', hours: 14.5 },
+    { name: 'Alex M.', subject: 'STEM', hours: 12.2 },
+    { name: 'James K.', subject: 'MATH', hours: 10.8 },
+    { name: 'You', subject: 'LAW', hours: stats?.totalHours || 0 },
+    { name: 'Elena R.', subject: 'HIST', hours: 8.4 },
+    { name: 'Marcus T.', subject: 'ECON', hours: 6.2 },
+  ].sort((a, b) => b.hours - a.hours);
 
   const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
@@ -46,7 +46,7 @@ export function SocialAnalytics({ stats }) {
               friend.name === 'You' ? "border-ink bg-slate-50" : "border-slate-100"
             )}>
               <div className="flex items-center gap-3">
-                <span className="text-xs font-bold text-muted w-4">{friend.rank}</span>
+                <span className="text-xs font-bold text-muted w-4">{i + 1}</span>
                 <div>
                   <p className="font-bold text-sm">{friend.name}</p>
                   <p className="text-[10px] text-muted uppercase tracking-widest">{friend.subject}</p>

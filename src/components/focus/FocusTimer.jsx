@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, Lock, Shield, Smartphone } from 'lucide-react';
+import { Play, Pause, Lock, Shield, Smartphone, ArrowLeft } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function FocusTimer({ task, settings, onComplete, onExit }) {
@@ -8,7 +8,12 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
   const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [isPaused, setIsPaused] = useState(false);
 
-  const subjects = ['LAW', 'STEM', 'MATH', 'HIST'];
+  const subjects = [
+    { id: 'LAW', name: 'Law & Ethics' },
+    { id: 'STEM', name: 'Biological Sciences' },
+    { id: 'MATH', name: 'Advanced Calculus' },
+    { id: 'HIST', name: 'Modern World History' },
+  ];
 
   useEffect(() => {
     if (step !== 'timer' || isPaused) return;
@@ -33,32 +38,51 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
 
   if (step === 'subject') {
     return (
-      <div className="space-y-12">
-        <header className="space-y-2">
-          <h2 className="text-3xl font-serif font-bold text-ink">Select Focus Area</h2>
-          <p className="text-muted text-sm italic">Assign this session to a specific subject.</p>
+      <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
+        <header className="space-y-1">
+          <button 
+            onClick={onExit}
+            className="text-[10px] font-bold uppercase tracking-widest text-muted flex items-center gap-1 hover:text-ink transition-colors mb-2"
+          >
+            <ArrowLeft className="w-3 h-3" /> Cancel Session
+          </button>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Focus Environment</p>
+          <h2 className="text-3xl font-serif font-bold text-ink italic">Deep Study Preparation</h2>
         </header>
 
-        <div className="grid grid-cols-2 gap-4">
-          {subjects.map(s => (
-            <button
-              key={s}
-              onClick={() => setSelectedSubject(s)}
-              className={cn(
-                "p-6 rounded-xl border font-bold transition-all",
-                selectedSubject === s 
-                  ? "bg-ink text-paper border-ink shadow-lg" 
-                  : "bg-white border-slate-100 text-ink/40 hover:border-ink/20"
-              )}
-            >
-              {s}
-            </button>
-          ))}
+        <div className="space-y-4">
+          <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Select Subject</h3>
+          <div className="grid grid-cols-1 gap-4">
+            {subjects.map((s, i) => (
+              <button
+                key={s.id}
+                onClick={() => setSelectedSubject(s.id)}
+                className={cn(
+                  "card-scholar p-6 flex items-center justify-between group",
+                  selectedSubject === s.id ? "border-ink bg-slate-50 shadow-md scale-[1.02]" : "hover:border-ink/20",
+                  i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : "stagger-3"
+                )}
+              >
+                <div className="flex items-center gap-4 text-left">
+                  <div className={cn(
+                    "w-10 h-10 rounded-lg flex items-center justify-center transition-colors",
+                    selectedSubject === s.id ? "bg-ink text-paper" : "bg-slate-50 group-hover:bg-ink group-hover:text-paper"
+                  )}>
+                    <Lock className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{s.id}</p>
+                    <h4 className="font-serif font-bold text-lg text-ink">{s.name}</h4>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
 
         <button 
           onClick={() => setStep('blocking')}
-          className="btn-ink w-full py-6 text-xl"
+          className="btn-ink w-full py-6 text-xl shadow-xl shadow-ink/10 stagger-4"
         >
           Initialize Hard-Lock
         </button>
@@ -68,33 +92,54 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
 
   if (step === 'blocking') {
     return (
-      <div className="space-y-12 text-center py-10">
-        <div className="relative inline-block">
-          <div className="w-24 h-24 bg-ink/5 rounded-full flex items-center justify-center">
-            <Smartphone className="w-10 h-10 text-ink" />
-          </div>
-          <div className="absolute -top-2 -right-2 w-10 h-10 bg-ink rounded-full flex items-center justify-center border-4 border-paper shadow-lg">
-            <Lock className="w-4 h-4 text-paper" />
-          </div>
-        </div>
+      <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
+        <header className="space-y-1">
+          <button 
+            onClick={() => setStep('subject')}
+            className="text-[10px] font-bold uppercase tracking-widest text-muted flex items-center gap-1 hover:text-ink transition-colors mb-2"
+          >
+            <ArrowLeft className="w-3 h-3" /> Back to Subjects
+          </button>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">OS Integration</p>
+          <h2 className="text-3xl font-serif font-bold text-ink italic">Suppressing External Feeds</h2>
+        </header>
 
-        <div className="space-y-4">
-          <h3 className="text-2xl font-serif font-bold text-ink">Restricting External Feeds</h3>
-          <p className="text-muted text-sm max-w-[280px] mx-auto italic">
-            The following apps are now suppressed at the OS level:
-          </p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {settings?.restrictedApps?.map(app => (
-              <span key={app} className="px-3 py-1 bg-slate-100 rounded-full text-[10px] font-bold uppercase tracking-widest text-muted">
-                {app}
-              </span>
-            ))}
+        <div className="flex flex-col items-center gap-12 py-10">
+          <div className="relative">
+            <div className="w-32 h-32 bg-ink/5 rounded-full flex items-center justify-center">
+              <Smartphone className="w-12 h-12 text-ink" />
+            </div>
+            <div className="absolute -top-2 -right-2 w-12 h-12 bg-ink rounded-full flex items-center justify-center border-4 border-paper shadow-xl">
+              <Shield className="w-5 h-5 text-paper" />
+            </div>
+          </div>
+
+          <div className="space-y-6 text-center max-w-sm">
+            <div className="space-y-2">
+              <h3 className="text-xl font-serif font-bold text-ink">Hard-Lock Protocols Engaged</h3>
+              <p className="text-muted text-sm italic">
+                The following applications are being restricted to ensure cognitive focus:
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {settings?.restrictedApps?.map((app, i) => (
+                <span 
+                  key={app} 
+                  className={cn(
+                    "px-4 py-2 bg-slate-50 border border-slate-100 rounded-lg text-[10px] font-bold uppercase tracking-widest text-ink/60 shadow-sm",
+                    i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : "stagger-3"
+                  )}
+                >
+                  {app}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
         <button 
           onClick={() => setStep('timer')}
-          className="btn-ink w-full py-6 text-xl"
+          className="btn-ink w-full py-6 text-xl shadow-xl shadow-ink/10 stagger-4"
         >
           Enter Full Focus
         </button>
