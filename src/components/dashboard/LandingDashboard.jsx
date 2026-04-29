@@ -232,7 +232,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                   </button>
                 </div>
 
-                <div className="space-y-3 overflow-y-auto pr-1 flex-1 custom-scrollbar">
+                <div className="space-y-3 overflow-y-auto pr-1 flex-1 custom-scrollbar max-h-[60vh]">
                   {contributors.map((c, i) => (
                     <div 
                       key={c.name} 
@@ -255,13 +255,6 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                     </div>
                   ))}
                 </div>
-
-                <button 
-                  onClick={() => setIsViewingMomentum(false)}
-                  className="btn-ink w-full flex-shrink-0"
-                >
-                  Close
-                </button>
               </div>
             </div>
           )}
@@ -280,7 +273,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                   </button>
                 </div>
 
-                <div className="space-y-3 overflow-y-auto pr-1 flex-1 custom-scrollbar">
+                <div className="space-y-3 overflow-y-auto pr-1 flex-1 custom-scrollbar max-h-[60vh]">
                   {mockCohorts.map((cohort) => (
                     <button
                       key={cohort.name}
@@ -298,13 +291,6 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                     </button>
                   ))}
                 </div>
-
-                <button 
-                  onClick={() => setIsJoiningGroup(false)}
-                  className="btn-ghost w-full flex-shrink-0"
-                >
-                  Cancel
-                </button>
               </div>
             </div>
           )}
