@@ -35,14 +35,14 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
         {/* Main Content */}
         <main className={cn(
           "relative z-10 flex-1 p-8 pb-40 transition-all duration-700 stagger-reveal",
-          isHardLocked && "pt-16 pb-16"
+          isHardLocked && "pt-16 pb-40"
         )}>
           {children}
         </main>
 
         {/* Bottom Navigation: Library Cards (Always showing as requested) */}
-        <div className="sticky bottom-10 left-0 right-0 z-50 flex justify-center px-6 animate-slide-up">
-          <nav className="px-6 py-3 bg-ink text-paper rounded-full flex items-center gap-2 shadow-2xl shadow-ink/20">
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] flex justify-center px-6 animate-slide-up">
+          <nav className="px-6 py-3 bg-ink text-paper rounded-full flex items-center gap-2 shadow-2xl shadow-ink/40 border border-paper/10 backdrop-blur-sm">
             <NavButton 
               icon={<Brain />} 
               label="Focus" 

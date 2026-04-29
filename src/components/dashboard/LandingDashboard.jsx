@@ -15,9 +15,9 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
+  visible: {
+    opacity: 1,
+    y: 0,
     scale: 1,
     transition: { type: "spring", damping: 20, stiffness: 100 }
   }
@@ -25,12 +25,12 @@ const itemVariants = {
 
 export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onStartFocus }) {
   const nextSubtask = activeTask?.subtasks?.find(st => !st.completed);
-  const progress = activeTask 
-    ? (activeTask.subtasks.filter(st => st.completed).length / activeTask.subtasks.length) * 100 
+  const progress = activeTask
+    ? (activeTask.subtasks.filter(st => st.completed).length / activeTask.subtasks.length) * 100
     : 0;
 
   return (
-    <motion.div 
+    <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -38,9 +38,6 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
     >
       {/* Welcome Section - Editorial Style */}
       <motion.section variants={itemVariants} className="space-y-3 text-center py-8">
-        <div className="inline-block px-4 py-1.5 border border-ink/10 rounded-full text-[10px] font-bold uppercase tracking-[0.25em] text-muted mb-2">
-          Academic Session
-        </div>
         <h1 className="text-5xl font-serif font-extrabold text-ink tracking-tight">Today's Focus</h1>
         <p className="text-muted text-sm font-medium italic">"The scholar's greatest weapon is a single, clear intention."</p>
       </motion.section>
@@ -48,28 +45,28 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
       {/* Main Action Card - The Scholar's Desk */}
       <motion.section variants={itemVariants} layout>
         {activeTask ? (
-          <motion.div 
+          <motion.div
             whileHover={{ y: -4 }}
             className="card-scholar p-0!"
           >
             {/* Momentum Line */}
             <div className="momentum-line rounded-none h-[3px]">
-              <motion.div 
+              <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ type: "spring", bounce: 0, duration: 1 }}
                 className="h-full bg-ink"
               />
             </div>
-            
+
             <div className="p-12 space-y-10">
               <div className="flex justify-between items-start">
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
-                    <motion.div 
+                    <motion.div
                       animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
                       transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                      className="w-2.5 h-2.5 rounded-full bg-ink" 
+                      className="w-2.5 h-2.5 rounded-full bg-ink"
                     />
                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Primary Objective</span>
                   </div>
@@ -83,7 +80,7 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
               {/* Hide the Magnitude: Prominent Next Step */}
               <AnimatePresence mode="wait">
                 {nextSubtask ? (
-                  <motion.div 
+                  <motion.div
                     key={nextSubtask.id}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -92,7 +89,7 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
                   >
                     <div className="border-t border-ink/5 pt-8 flex items-center justify-between group">
                       <div className="flex items-center gap-6">
-                        <button 
+                        <button
                           onClick={() => onUpdateSubtask(activeTask.id, nextSubtask.id, true)}
                           className="w-10 h-10 rounded-full border border-ink/10 bg-paper flex items-center justify-center text-transparent hover:border-ink hover:text-ink transition-all active:scale-90"
                         >
@@ -105,11 +102,11 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
                       </div>
                     </div>
 
-                    <button 
+                    <button
                       onClick={onStartFocus}
                       className="btn-ink w-full py-5 text-lg group overflow-hidden relative"
                     >
-                      <motion.div 
+                      <motion.div
                         className="absolute inset-0 bg-paper/10"
                         initial={{ x: '-100%' }}
                         whileHover={{ x: '100%' }}
@@ -121,7 +118,7 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
                     </button>
                   </motion.div>
                 ) : (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center py-10 border-t border-ink/5"
@@ -138,7 +135,7 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
           </motion.div>
         ) : (
           <div className="card-scholar border-dashed bg-transparent py-24 text-center space-y-8">
-            <motion.div 
+            <motion.div
               animate={{ rotate: [0, 5, -5, 0] }}
               transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
               className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto border border-ink/5 shadow-2xl shadow-ink/5"
@@ -149,11 +146,11 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
               <h3 className="text-3xl font-serif font-bold text-ink">Architect your next win.</h3>
               <p className="text-muted text-sm max-w-[280px] mx-auto leading-relaxed italic">Deconstruct the overwhelming into the actionable.</p>
             </div>
-            <button 
+            <button
               onClick={onStartNew}
               className="btn-ink px-12"
             >
-              Initialize Sprint
+              Begin Sprint
             </button>
           </div>
         )}
