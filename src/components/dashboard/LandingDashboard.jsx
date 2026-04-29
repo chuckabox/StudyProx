@@ -18,13 +18,24 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
 
   const [cohortMembers, setCohortMembers] = useState(['SL', 'AM', 'JK', 'ER']);
   const [inCohort, setInCohort] = useState(true);
+  const [activeCohort, setActiveCohort] = useState('Dev Cohort Alpha');
+  const [isJoiningGroup, setIsJoiningGroup] = useState(false);
 
-  const handleAddPeer = () => {
-    const mockInitials = ['DT', 'KB', 'JW', 'RL', 'SP', 'MY'];
-    const random = mockInitials[Math.floor(Math.random() * mockInitials.length)];
-    if (!cohortMembers.includes(random)) {
-      setCohortMembers(prev => [...prev, random]);
-    }
+  const mockCohorts = [
+    { name: 'Dev Cohort Alpha', members: 16, focus: 'General SWE' },
+    { name: 'Frontend Sprints', members: 8, focus: 'React & UI' },
+    { name: 'Algo Grind', members: 24, focus: 'Data Structures' },
+    { name: 'System Design Hub', members: 12, focus: 'Architecture' }
+  ];
+
+  const handleJoinCohort = (name) => {
+    setActiveCohort(name);
+    setInCohort(true);
+    setIsJoiningGroup(false);
+    // Randomize members for new cohort
+    const randomCount = Math.floor(Math.random() * 5) + 3;
+    const initials = ['DT', 'KB', 'JW', 'RL', 'SP', 'MY', 'AZ', 'XF'];
+    setCohortMembers(initials.slice(0, randomCount));
   };
 
   return (
@@ -109,26 +120,15 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
           <section className="space-y-6 stagger-3">
             <header className="flex items-center justify-between">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Your Cohort</p>
-              <div className="flex items-center gap-2">
-                {inCohort && (
-                  <button 
-                    onClick={handleAddPeer}
-                    className="p-2 bg-slate-50 text-ink/40 hover:text-ink rounded-lg transition-all active:scale-90"
-                    title="Add Peer"
-                  >
-                    <UserPlus size={14} />
-                  </button>
+              <button 
+                onClick={() => inCohort ? setInCohort(false) : setIsJoiningGroup(true)}
+                className={cn(
+                  "px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-all active:scale-95",
+                  inCohort ? "bg-red-50 text-red-500 hover:bg-red-100" : "bg-ink text-paper"
                 )}
-                <button 
-                  onClick={() => setInCohort(!inCohort)}
-                  className={cn(
-                    "px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-all active:scale-95",
-                    inCohort ? "bg-red-50 text-red-500 hover:bg-red-100" : "bg-ink text-paper"
-                  )}
-                >
-                  {inCohort ? 'Leave Group' : 'Join Group'}
-                </button>
-              </div>
+              >
+                {inCohort ? 'Leave Group' : 'Join Group'}
+              </button>
             </header>
             
             {inCohort ? (
@@ -139,7 +139,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                   <div className="relative z-10 flex items-center justify-between">
                     <div className="space-y-1">
                       <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-paper/40">Collective Momentum</p>
-                      <h4 className="text-2xl font-serif font-bold italic">Dev Cohort Alpha</h4>
+                      <h4 className="text-2xl font-serif font-bold italic">{activeCohort}</h4>
                     </div>
                     <div className="text-right">
                       <div className="flex items-center gap-2 justify-end">
@@ -166,7 +166,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                     <div className="flex -space-x-3 overflow-hidden">
                       {cohortMembers.map((initials, i) => (
                         <div 
-                          key={i} 
+                          key={initials + i} 
                           className={cn(
                             "w-12 h-12 rounded-full border-4 border-paper bg-slate-100 flex items-center justify-center text-[11px] font-bold text-ink shadow-sm relative group",
                             i === 0 && "ring-2 ring-emerald-400 ring-offset-2"
@@ -193,23 +193,60 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
             ) : (
               <div className="card-scholar p-10 text-center space-y-4 bg-slate-50 border-dashed">
                 <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-muted">
-                  <UserPlus size={20} />
+                  <TrendingUp size={20} />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-serif font-bold text-lg italic text-ink/40">No Group Active</h4>
+                  <h4 className="font-serif font-bold text-lg italic text-ink/40">Solo Focus Active</h4>
                   <p className="text-[11px] text-muted max-w-[180px] mx-auto italic">
                     Join a cohort to leverage social momentum and shared accountability.
                   </p>
                 </div>
-                <button 
-                  onClick={() => setInCohort(true)}
-                  className="btn-ink text-xs px-8 py-2"
-                >
-                  Join Dev Cohort Alpha
-                </button>
               </div>
             )}
           </section>
+
+          {/* Join Group Dialog */}
+          {isJoiningGroup && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+              <div className="w-full max-w-sm card-scholar p-8 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)]">
+                <div className="flex justify-between items-start">
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Discovery</p>
+                    <h3 className="text-2xl font-serif font-bold text-ink italic">Join a Cohort</h3>
+                  </div>
+                  <button onClick={() => setIsJoiningGroup(false)} className="p-2 hover:bg-slate-50 rounded-lg transition-colors">
+                    <Plus className="w-5 h-5 rotate-45" />
+                  </button>
+                </div>
+
+                <div className="space-y-3">
+                  {mockCohorts.map((cohort) => (
+                    <button
+                      key={cohort.name}
+                      onClick={() => handleJoinCohort(cohort.name)}
+                      className="w-full card-scholar p-4 text-left hover:border-ink transition-all group flex items-center justify-between"
+                    >
+                      <div className="space-y-1">
+                        <p className="text-sm font-bold text-ink">{cohort.name}</p>
+                        <p className="text-[10px] text-muted uppercase tracking-widest">{cohort.focus}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-xs font-bold text-ink/60">{cohort.members} members</p>
+                        <p className="text-[8px] text-emerald-600 font-bold uppercase tracking-widest">Active</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                <button 
+                  onClick={() => setIsJoiningGroup(false)}
+                  className="btn-ghost w-full"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
