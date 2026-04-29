@@ -8,11 +8,11 @@ export function FlashcardSuite() {
   const [quizState, setQuizState] = useState({ active: false, index: 0, score: 0 });
 
   const folders = [
-    { id: 'LAW', name: 'Law & Ethics', count: 12, accuracy: 88 },
-    { id: 'STEM', name: 'Biological Sciences', count: 45, accuracy: 64 },
-    { id: 'MATH', name: 'Advanced Calculus', count: 28, accuracy: 92 },
-    { id: 'HIST', name: 'Modern World History', count: 15, accuracy: 78 },
-    { id: 'ECON', name: 'Macroeconomics', count: 22, accuracy: 85 },
+    { id: 'LAW', name: 'Law & Ethics', count: 12, accuracy: 88, due: true, nextReview: 'Today' },
+    { id: 'STEM', name: 'Biological Sciences', count: 45, accuracy: 64, due: false, nextReview: 'Tomorrow' },
+    { id: 'MATH', name: 'Advanced Calculus', count: 28, accuracy: 92, due: false, nextReview: '2 days' },
+    { id: 'HIST', name: 'Modern World History', count: 15, accuracy: 78, due: true, nextReview: 'Today' },
+    { id: 'ECON', name: 'Macroeconomics', count: 22, accuracy: 85, due: false, nextReview: '4 days' },
   ];
 
   const cards = [
@@ -65,9 +65,20 @@ export function FlashcardSuite() {
                   <h4 className="font-serif font-bold text-lg text-ink">{folder.name}</h4>
                 </div>
               </div>
-              <div className="text-right">
-                <p className="text-lg font-bold text-ink">{folder.count}</p>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-600">{folder.accuracy}% Accuracy</p>
+              <div className="text-right flex flex-col items-end gap-2">
+                <div className="flex flex-col items-end">
+                  <p className="text-lg font-bold text-ink">{folder.count}</p>
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-600">{folder.accuracy}% Accuracy</p>
+                </div>
+                {folder.due ? (
+                  <span className="px-2 py-0.5 bg-ink text-paper text-[8px] font-bold uppercase tracking-tighter rounded-full animate-pulse">
+                    Due Today
+                  </span>
+                ) : (
+                  <span className="text-[8px] font-bold uppercase tracking-tighter text-muted">
+                    Review in {folder.nextReview}
+                  </span>
+                )}
               </div>
             </button>
           ))}

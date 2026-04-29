@@ -154,6 +154,12 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
           <Shield size={16} />
           <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Hard-Lock Active</span>
         </div>
+        
+        {/* Persistence Indicator - Addressing Screen Lock Issues */}
+        <div className="flex items-center justify-center gap-1.5 text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+          <div className="w-1 h-1 rounded-full bg-emerald-500" />
+          Persistence Shield Enabled: Audio & Timer Protected
+        </div>
         <h2 className="text-[100px] font-serif font-bold text-ink leading-none tabular-nums tracking-tighter transition-all duration-300">
           {formatTime(timeLeft)}
         </h2>

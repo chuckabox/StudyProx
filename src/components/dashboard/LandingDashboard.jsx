@@ -77,8 +77,32 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
             </button>
           </div>
 
-          {/* Quick Stats Overview */}
-          <section className="grid grid-cols-2 gap-6 stagger-2">
+          {/* Smart Transition - Addressing Friction-to-Focus */}
+          <section className="card-scholar bg-ink text-paper p-8 space-y-6 stagger-2 border-none shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-paper/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-700" />
+            <div className="space-y-1 relative z-10">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-paper/40">Automated Transition</p>
+              <h4 className="text-2xl font-serif font-bold italic">Next Academic Block</h4>
+              <p className="text-sm text-paper/60 italic">Detected: Constitutional Law Seminar (09:00)</p>
+            </div>
+            <div className="flex items-center justify-between relative z-10 pt-4">
+              <div className="flex -space-x-2">
+                <div className="w-8 h-8 rounded-full border-2 border-ink bg-slate-200" />
+                <div className="w-8 h-8 rounded-full border-2 border-ink bg-slate-300" />
+                <div className="w-8 h-8 rounded-full border-2 border-ink bg-slate-400" />
+                <div className="flex items-center justify-center w-8 h-8 rounded-full border-2 border-ink bg-paper text-ink text-[10px] font-bold">+12</div>
+              </div>
+              <button 
+                onClick={onStartNew}
+                className="bg-paper text-ink px-6 py-3 rounded-lg font-bold text-xs hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+              >
+                <Zap size={14} className="fill-current" />
+                Prepare Focus
+              </button>
+            </div>
+          </section>
+
+          <section className="grid grid-cols-2 gap-6 stagger-3">
             <div className="card-scholar p-8 space-y-4 hover:bg-white transition-all">
               <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center">
                 <Clock className="w-5 h-5 text-ink" />
@@ -99,7 +123,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
             </div>
           </section>
 
-          <section className="card-scholar bg-slate-50 border-none p-8 flex items-center justify-between stagger-3 hover:bg-slate-100 transition-all cursor-default">
+          <section className="card-scholar bg-slate-50 border-none p-8 flex items-center justify-between stagger-4 hover:bg-slate-100 transition-all cursor-default">
             <div className="space-y-1">
               <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Weekly Commitment</p>
               <h4 className="font-serif font-bold text-xl text-ink italic">Consistency Peak</h4>
