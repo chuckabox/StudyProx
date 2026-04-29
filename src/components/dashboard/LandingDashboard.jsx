@@ -9,7 +9,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
     : 0;
 
   return (
-    <div className="flex-1 flex flex-col animate-[fade-in_600ms_ease-out]">
+    <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
       {activeTask ? (
         <div className="space-y-10">
           <header className="space-y-1">
@@ -57,35 +57,52 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
           )}
         </div>
       ) : (
-        <div className="flex-1 flex flex-col">
-          {/* Centered What's Next Section */}
-          <div className="flex-1 flex flex-col items-center justify-center py-12 text-center space-y-10 stagger-1">
-            <div className="space-y-3">
-              <h3 className="text-4xl font-serif font-bold text-ink tracking-tight">What's next?</h3>
-              <p className="text-muted text-sm italic max-w-[240px] mx-auto leading-relaxed">
-                Your intellectual capacity is currently unallocated. Deconstruct a goal to begin.
-              </p>
+        <div className="space-y-12">
+          <div className="py-12 text-center space-y-8 stagger-1">
+            <div className="space-y-2">
+              <h3 className="text-3xl font-serif font-bold text-ink">What's next?</h3>
+              <p className="text-muted text-sm italic">Deconstruct your goal into focus blocks.</p>
             </div>
             <button
               onClick={onStartNew}
-              className="btn-ink px-16 h-16 text-lg shadow-2xl shadow-ink/20 hover:-translate-y-1 active:translate-y-0"
+              className="btn-ink mx-auto px-12"
             >
-              <Plus className="w-6 h-6" />
+              <Plus className="w-5 h-5" />
               <span>Begin Task</span>
             </button>
           </div>
 
-          {/* Secondary Stats */}
-          <div className="grid grid-cols-2 gap-4 stagger-2">
-            <div className="p-6 bg-slate-50 rounded-2xl space-y-2">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Daily Total</p>
-              <p className="text-2xl font-serif font-bold text-ink">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
+          {/* Quick Stats Overview */}
+          <section className="grid grid-cols-2 gap-6 stagger-2">
+            <div className="card-scholar p-8 space-y-4 hover:bg-white transition-all">
+              <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center">
+                <Clock className="w-5 h-5 text-ink" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Total Effort</p>
+                <p className="text-3xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
+              </div>
             </div>
-            <div className="p-6 bg-slate-50 rounded-2xl space-y-2">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Current Streak</p>
-              <p className="text-2xl font-serif font-bold text-ink">12D</p>
+            <div className="card-scholar p-8 space-y-4 hover:bg-white transition-all">
+              <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-ink" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Streak</p>
+                <p className="text-3xl font-serif font-bold text-ink italic">12 Days</p>
+              </div>
             </div>
-          </div>
+          </section>
+
+          <section className="card-scholar bg-slate-50 border-none p-8 flex items-center justify-between stagger-3 hover:bg-slate-100 transition-all cursor-default">
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Weekly Commitment</p>
+              <h4 className="font-serif font-bold text-xl text-ink italic">Consistency Peak</h4>
+            </div>
+            <div className="text-right">
+              <p className="text-3xl font-serif font-bold text-ink italic">92%</p>
+            </div>
+          </section>
         </div>
       )}
     </div>
