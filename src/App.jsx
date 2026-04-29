@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { Layout } from './components/layout/Layout';
 import { LandingDashboard } from './components/dashboard/LandingDashboard';
 import { TaskArchitect } from './components/tasks/TaskArchitect';
@@ -10,70 +10,80 @@ import { useStudyCore } from './hooks/use-tasks';
 
 function App() {
   const { tasks, stats, settings, setSettings, addTask, updateSubtask, logStudySession } = useStudyCore();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [view, setView] = useState('dashboard'); // dashboard | architect | focus | cards | stats | settings
 
   const activeTask = tasks.find(t => !t.completed);
 
   const handleTaskCreated = (title, subtasks) => {
     addTask(title, subtasks);
-    navigate('/');
+    setView('dashboard');
   };
 
   return (
-    <Layout isHardLocked={location.pathname === '/focus'}>
-      <Routes>
-        <Route 
-          path="/" 
-          element={
+    <Layout 
+      currentView={view} 
+      setView={setView} 
+      isHardLocked={view === 'focus'}
+      onOpenSettings={() => setView('settings')}
+    >
+      <div className="w-full">
+        {view === 'dashboard' && (
+          <div className="w-full">
             <LandingDashboard 
               activeTask={activeTask} 
               stats={stats}
-              onStartNew={() => navigate('/architect')} 
+              onStartNew={() => setView('architect')} 
               onUpdateSubtask={updateSubtask}
-              onStartFocus={() => navigate('/focus')}
+              onStartFocus={() => setView('focus')}
             />
-          } 
-        />
-        
-        <Route 
-          path="/architect" 
-          element={
+          </div>
+        )}
+
+        {view === 'architect' && (
+          <div className="w-full">
             <TaskArchitect 
               settings={settings}
               onTaskCreated={handleTaskCreated}
-              onCancel={() => navigate('/')}
+              onCancel={() => setView('dashboard')}
             />
-          } 
-        />
+          </div>
+        )}
 
-        <Route 
-          path="/focus" 
-          element={
+        {view === 'focus' && (
+          <div>
             <FocusTimer 
               task={activeTask}
               settings={settings}
               onComplete={(subject, mins) => {
                 logStudySession(subject, mins);
-                navigate('/');
+                setView('dashboard');
               }}
-              onExit={() => navigate('/')}
+              onExit={() => setView('dashboard')}
             />
-          } 
-        />
+          </div>
+        )}
 
-        <Route path="/library" element={<FlashcardSuite />} />
-        <Route path="/stats" element={<SocialAnalytics stats={stats} />} />
-        <Route 
-          path="/settings" 
-          element={
+        {view === 'cards' && (
+          <div>
+            <FlashcardSuite />
+          </div>
+        )}
+
+        {view === 'stats' && (
+          <div>
+            <SocialAnalytics stats={stats} />
+          </div>
+        )}
+
+        {view === 'settings' && (
+          <div>
             <SettingsPage 
               settings={settings} 
               setSettings={setSettings} 
             />
-          } 
-        />
-      </Routes>
+          </div>
+        )}
+      </div>
     </Layout>
   );
 }
