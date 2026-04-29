@@ -9,7 +9,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
     : 0;
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
       {activeTask ? (
         <div className="space-y-10">
           <header className="space-y-1">
@@ -17,14 +17,14 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
             <h2 className="text-3xl font-serif font-bold text-ink">{activeTask.title}</h2>
             <div className="w-full h-1 bg-slate-100 rounded-full mt-4">
               <div 
-                className="h-full bg-ink rounded-full" 
+                className="h-full bg-ink rounded-full transition-all duration-1000 ease-out-expo" 
                 style={{ width: `${progress}%` }}
               />
             </div>
           </header>
 
           {nextSubtask ? (
-            <div className="card-scholar space-y-8">
+            <div className="card-scholar space-y-8 stagger-1">
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-2">Next Step</p>
                 <p className="text-xl font-serif font-bold text-ink italic">{nextSubtask.text}</p>
@@ -33,7 +33,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
               <div className="flex gap-3">
                 <button
                   onClick={() => onUpdateSubtask(activeTask.id, nextSubtask.id, true)}
-                  className="w-12 h-12 rounded-lg border border-slate-100 flex items-center justify-center hover:bg-slate-50"
+                  className="w-12 h-12 rounded-lg border border-slate-100 flex items-center justify-center hover:bg-slate-50 transition-all active:scale-90"
                 >
                   <Check className="w-5 h-5" />
                 </button>
@@ -47,7 +47,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
               </div>
             </div>
           ) : (
-            <div className="card-scholar text-center space-y-4">
+            <div className="card-scholar text-center space-y-4 animate-bounce">
               <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-6 h-6 text-emerald-600" />
               </div>
@@ -58,7 +58,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
         </div>
       ) : (
         <div className="space-y-12">
-          <div className="py-12 text-center space-y-8">
+          <div className="py-12 text-center space-y-8 stagger-1">
             <div className="space-y-2">
               <h3 className="text-3xl font-serif font-bold text-ink">What's next?</h3>
               <p className="text-muted text-sm italic">Deconstruct your goal into focus blocks.</p>
@@ -73,8 +73,8 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
           </div>
 
           {/* Quick Stats Overview */}
-          <section className="grid grid-cols-2 gap-6">
-            <div className="card-scholar p-8 space-y-4">
+          <section className="grid grid-cols-2 gap-6 stagger-2">
+            <div className="card-scholar p-8 space-y-4 hover:bg-white transition-all">
               <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center">
                 <Clock className="w-5 h-5 text-ink" />
               </div>
@@ -83,14 +83,24 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                 <p className="text-3xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
               </div>
             </div>
-            <div className="card-scholar p-8 space-y-4">
+            <div className="card-scholar p-8 space-y-4 hover:bg-white transition-all">
               <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center">
                 <TrendingUp className="w-5 h-5 text-ink" />
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Consistency</p>
-                <p className="text-3xl font-serif font-bold text-ink italic">92%</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Streak</p>
+                <p className="text-3xl font-serif font-bold text-ink italic">12 Days</p>
               </div>
+            </div>
+          </section>
+
+          <section className="card-scholar bg-slate-50 border-none p-8 flex items-center justify-between stagger-3 hover:bg-slate-100 transition-all cursor-default">
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Weekly Commitment</p>
+              <h4 className="font-serif font-bold text-xl text-ink italic">Consistency Peak</h4>
+            </div>
+            <div className="text-right">
+              <p className="text-3xl font-serif font-bold text-ink italic">92%</p>
             </div>
           </section>
         </div>

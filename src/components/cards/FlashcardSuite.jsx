@@ -11,14 +11,24 @@ export function FlashcardSuite() {
     { id: 'LAW', name: 'Law & Ethics', count: 12, accuracy: 88 },
     { id: 'STEM', name: 'Biological Sciences', count: 45, accuracy: 64 },
     { id: 'MATH', name: 'Advanced Calculus', count: 28, accuracy: 92 },
+    { id: 'HIST', name: 'Modern World History', count: 15, accuracy: 78 },
+    { id: 'ECON', name: 'Macroeconomics', count: 22, accuracy: 85 },
   ];
 
   const cards = [
     { id: 1, subject: 'LAW', front: 'Duty of Care', back: 'Legal obligation to avoid harm.' },
     { id: 2, subject: 'LAW', front: 'Negligence', back: 'Failure to exercise reasonable care.' },
-    { id: 3, subject: 'STEM', front: 'Mitochondria', back: 'Powerhouse of the cell.' },
-    { id: 4, subject: 'STEM', front: 'ATP Synthesis', back: 'Process of energy creation.' },
-    { id: 5, subject: 'MATH', front: 'Chain Rule', back: 'Derivative of composite functions.' },
+    { id: 3, subject: 'LAW', front: 'Res Ipsa Loquitur', back: 'The thing speaks for itself.' },
+    { id: 4, subject: 'STEM', front: 'Mitochondria', back: 'Powerhouse of the cell.' },
+    { id: 5, subject: 'STEM', front: 'ATP Synthesis', back: 'Process of energy creation.' },
+    { id: 6, subject: 'STEM', front: 'Golgi Apparatus', back: 'Sorting and packaging of proteins.' },
+    { id: 7, subject: 'MATH', front: 'Chain Rule', back: 'Derivative of composite functions.' },
+    { id: 8, subject: 'MATH', front: 'Partial Derivatives', back: 'Derivative with respect to one variable.' },
+    { id: 9, subject: 'MATH', front: 'Taylor Series', back: 'Infinite sum of terms that approximate a function.' },
+    { id: 10, subject: 'HIST', front: 'Treaty of Versailles', back: 'Peace treaty that ended WWI.' },
+    { id: 11, subject: 'HIST', front: 'Cold War Origins', back: 'Geopolitical tension between US and USSR.' },
+    { id: 12, subject: 'ECON', front: 'Opportunity Cost', back: 'The value of the next best alternative.' },
+    { id: 13, subject: 'ECON', front: 'Fiscal Policy', back: 'Government spending and taxation to influence economy.' },
   ];
 
   const filteredCards = selectedFolder 
@@ -27,25 +37,28 @@ export function FlashcardSuite() {
 
   if (view === 'folders') {
     return (
-      <div className="space-y-12">
+      <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
         <header className="space-y-1">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Study Library</p>
           <h2 className="text-3xl font-serif font-bold text-ink italic">Knowledge Filing System</h2>
         </header>
 
         <div className="grid grid-cols-1 gap-4">
-          {folders.map(folder => (
+          {folders.map((folder, i) => (
             <button
               key={folder.id}
               onClick={() => {
                 setSelectedFolder(folder.id);
                 setView('list');
               }}
-              className="card-scholar p-6 flex items-center justify-between group hover:border-ink/20"
+              className={cn(
+                "card-scholar p-6 flex items-center justify-between group hover:border-ink/20",
+                i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : "stagger-3"
+              )}
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center">
-                  <Folder className="w-5 h-5 text-ink" />
+                <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center transition-colors group-hover:bg-ink group-hover:text-paper">
+                  <Folder className="w-5 h-5" />
                 </div>
                 <div className="text-left">
                   <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{folder.id}</p>

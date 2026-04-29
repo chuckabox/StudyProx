@@ -103,26 +103,26 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
   }
 
   return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-12 text-center">
+    <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-12 text-center animate-[fade-in_600ms_ease-out]">
       <div className="space-y-4">
-        <div className="flex items-center justify-center gap-2 text-emerald-600 mb-4">
+        <div className="flex items-center justify-center gap-2 text-emerald-600 mb-4 animate-pulse">
           <Shield size={16} />
           <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Hard-Lock Active</span>
         </div>
-        <h2 className="text-[100px] font-serif font-bold text-ink leading-none tabular-nums tracking-tighter">
+        <h2 className="text-[100px] font-serif font-bold text-ink leading-none tabular-nums tracking-tighter transition-all duration-300">
           {formatTime(timeLeft)}
         </h2>
-        <p className="font-serif text-2xl text-ink/60 italic">
+        <p className="font-serif text-2xl text-ink/60 italic stagger-1">
           {selectedSubject} | {task?.title || 'Deep Work'}
         </p>
       </div>
 
-      <div className="w-full max-w-xs space-y-6">
+      <div className="w-full max-w-xs space-y-6 stagger-2">
         <button 
           onClick={() => setIsPaused(!isPaused)}
           className={cn(
             "btn-ink w-full py-5 text-lg",
-            isPaused ? "bg-emerald-600" : "bg-ink"
+            isPaused ? "bg-emerald-600 shadow-emerald-200" : "bg-ink shadow-ink/10"
           )}
         >
           {isPaused ? <Play className="w-5 h-5" /> : <Pause className="w-5 h-5" />}
@@ -131,15 +131,15 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
 
         <button 
           onClick={onExit}
-          className="text-xs font-bold uppercase tracking-widest text-slate-300 hover:text-destructive"
+          className="text-xs font-bold uppercase tracking-widest text-slate-300 hover:text-destructive transition-colors duration-200"
         >
           Abort Focus (Integrity Loss)
         </button>
       </div>
 
-      <div className="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+      <div className="w-24 h-1 bg-slate-100 rounded-full overflow-hidden stagger-3">
         <div 
-          className="h-full bg-ink"
+          className="h-full bg-ink transition-all duration-1000 linear"
           style={{ width: `${(timeLeft / (25 * 60)) * 100}%` }}
         />
       </div>

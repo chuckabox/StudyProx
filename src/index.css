@@ -15,6 +15,13 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
+
+  /* Motion Tokens */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-sine: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
 }
 
 /* Base Styles */
@@ -47,25 +54,61 @@ body {
 
 @layer components {
   .card-scholar {
-    @apply bg-white border border-slate-100 rounded-xl p-8;
+    @apply bg-white border border-slate-100 rounded-xl p-8 transition-all duration-300 ease-out-expo;
+    animation: slide-up 600ms var(--ease-out-expo) both;
+  }
+
+  .card-scholar:hover {
+    @apply border-ink/10 shadow-xl shadow-ink/5 -translate-y-1;
   }
 
   .btn-ink {
-    @apply bg-ink text-paper px-8 py-4 rounded-lg font-bold hover:bg-ink/90 disabled:opacity-30 flex items-center justify-center gap-2;
+    @apply bg-ink text-paper px-8 py-4 rounded-lg font-bold transition-all duration-150 active:scale-95 disabled:opacity-30 flex items-center justify-center gap-2;
+  }
+
+  .btn-ink:hover:not(:disabled) {
+    @apply bg-ink/90 -translate-y-0.5 shadow-lg shadow-ink/10;
   }
 
   .btn-ghost {
-    @apply bg-transparent text-ink border border-slate-100 px-8 py-4 rounded-lg font-bold hover:bg-slate-50;
+    @apply bg-transparent text-ink border border-slate-100 px-8 py-4 rounded-lg font-bold transition-all duration-150 active:scale-95 hover:bg-slate-50;
   }
 
   .nav-item {
-    @apply flex items-center gap-2 px-4 py-2 rounded-lg;
+    @apply flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200;
+  }
+
+  .nav-item:active {
+    @apply scale-90;
   }
 
   .input-scholar {
-    @apply w-full bg-transparent border-b border-slate-100 px-0 py-4 text-2xl font-serif focus:outline-none focus:border-ink placeholder:text-slate-200;
+    @apply w-full bg-transparent border-b border-slate-100 px-0 py-4 text-2xl font-serif focus:outline-none focus:border-ink placeholder:text-slate-200 transition-colors duration-300;
   }
 }
+
+/* Keyframes */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Stagger Logic */
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
 
 /* Custom Utilities */
 .text-balance {
