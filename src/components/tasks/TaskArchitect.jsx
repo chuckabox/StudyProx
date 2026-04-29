@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ArrowRight, Loader2, X, Check } from 'lucide-react';
+import { Sparkles, ArrowRight, Loader2, X, Check, ChevronRight } from 'lucide-react';
 import { decomposeTask } from '../../lib/ai-architect';
+import { cn } from '../../lib/utils';
 
 export function TaskArchitect({ onTaskCreated, onCancel }) {
   const [step, setStep] = useState('input'); // input | decomposing | review
@@ -112,7 +113,7 @@ export function TaskArchitect({ onTaskCreated, onCancel }) {
                   <div className="space-y-6">
                     {subtasks.map((st, i) => (
                       <motion.div 
-                        key={i}
+                        key={st.id || i}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
@@ -136,7 +137,7 @@ export function TaskArchitect({ onTaskCreated, onCancel }) {
                               "font-serif font-bold leading-tight",
                               i === 0 ? "text-2xl text-ink" : "text-xl text-ink"
                             )}>
-                              {st}
+                              {st.text}
                             </p>
                             {i === 0 && (
                               <p className="text-xs text-muted mt-2 italic">Low friction, high impact. Start here to break the seal.</p>
