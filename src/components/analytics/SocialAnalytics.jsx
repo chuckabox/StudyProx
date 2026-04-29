@@ -180,12 +180,6 @@ export function SocialAnalytics({ stats }) {
                   {selectedDay.month} {selectedDay.day}, {year}
                 </h3>
               </div>
-              <button 
-                onClick={() => setSelectedDay(null)}
-                className="p-1 hover:bg-slate-100 rounded-md transition-colors"
-              >
-                <X className="w-4 h-4 text-muted" />
-              </button>
             </div>
 
             <div className="space-y-4">
