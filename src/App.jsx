@@ -9,7 +9,7 @@ import { SettingsPage } from './components/settings/SettingsPage';
 import { useStudyCore } from './hooks/use-tasks';
 
 function App() {
-  const { tasks, stats, settings, setSettings, addTask, updateSubtask, logStudySession, clearTasks } = useStudyCore();
+  const { tasks, stats, settings, setSettings, addTask, updateSubtask, logStudySession, clearTasks, abortSession } = useStudyCore();
   const [view, setView] = useState('dashboard'); // dashboard | architect | focus | cards | stats | settings
 
   const activeTask = tasks.find(t => !t.completed);
@@ -59,7 +59,10 @@ function App() {
                 logStudySession(subject, mins);
                 setView('dashboard');
               }}
-              onExit={() => setView('dashboard')}
+              onExit={() => {
+                abortSession();
+                setView('dashboard');
+              }}
             />
           </div>
         )}

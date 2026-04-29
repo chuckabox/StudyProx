@@ -119,8 +119,28 @@ export function SocialAnalytics({ stats }) {
         </div>
       </section>
 
-      {/* Leaderboard */}
-      <section className="space-y-4 stagger-2">
+      {/* Personal Stats Table */}
+      <section className="grid grid-cols-2 gap-4 stagger-2">
+        <div className="card-scholar p-6 space-y-2">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Total Hours</p>
+          <p className="text-2xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
+        </div>
+        <div className={cn(
+          "card-scholar p-6 space-y-2 border-2",
+          stats?.sessionsAborted > 0 ? "border-red-100 bg-red-50/50" : "border-slate-100"
+        )}>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-red-400">Integrity Breaks</p>
+          <p className={cn(
+            "text-2xl font-serif font-bold italic",
+            stats?.sessionsAborted > 0 ? "text-red-600" : "text-ink"
+          )}>
+            {stats?.sessionsAborted || 0}
+          </p>
+        </div>
+      </section>
+
+      {/* Social Leaderboard */}
+      <section className="space-y-4 stagger-3">
         <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Leaderboard</h3>
         <div className="space-y-3">
           {friends.map((friend, i) => (

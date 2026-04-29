@@ -10,6 +10,7 @@ export function useStudyCore() {
     const saved = localStorage.getItem('studyprox-stats');
     return saved ? JSON.parse(saved) : {
       totalHours: 0,
+      sessionsAborted: 0,
       subjectBreakdown: { 'LAW': 0, 'STEM': 0, 'MATH': 0, 'HIST': 0 },
       dailyActivity: [] // { date: '2026-04-29', hours: 0 }
     };
@@ -79,8 +80,16 @@ export function useStudyCore() {
     });
   };
 
+  const abortSession = () => {
+    setStats(prev => ({
+      ...prev,
+      sessionsAborted: prev.sessionsAborted + 1
+    }));
+  };
+
   const clearTasks = () => {
     setTasks([]);
+    abortSession(); // Punish for clearing an active plan
   };
 
   return {
@@ -91,6 +100,7 @@ export function useStudyCore() {
     addTask,
     updateSubtask,
     logStudySession,
-    clearTasks
+    clearTasks,
+    abortSession
   };
 }
