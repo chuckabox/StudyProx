@@ -10,6 +10,17 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
     return () => clearTimeout(timer);
   }, []);
 
+  // Theme 1.4: Prevent scroll during sync
+  useEffect(() => {
+    const scrollArea = document.querySelector('.internal-scroll-area');
+    if (scrollArea) {
+      scrollArea.style.overflowY = isSyncing ? 'hidden' : 'auto';
+    }
+    return () => {
+      if (scrollArea) scrollArea.style.overflowY = 'auto';
+    };
+  }, [isSyncing]);
+
   const quotes = [
     "Cognition peaks during early focus.",
     "Small steps lead to deep mastery.",
@@ -26,7 +37,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
   return (
     <div className={cn(
       "min-h-full flex flex-col space-y-12 animate-[fade-in_600ms_ease-out] relative",
-      isSyncing && "h-[calc(840px-200px)] overflow-hidden" // Locked to device height approx
+      isSyncing && "h-full"
     )}>
       {activeTask ? (
         <div className="space-y-10">

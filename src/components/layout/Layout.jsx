@@ -4,7 +4,7 @@ import { cn } from '../../lib/utils';
 
 export function Layout({ children, currentView, setView, isHardLocked, onOpenSettings }) {
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center sm:py-10 selection:bg-ink/5">
+    <div className="h-screen w-screen bg-slate-100 flex items-center justify-center sm:py-10 selection:bg-ink/5 overflow-hidden">
       {/* Device Frame - Only visible on sm screens and up */}
       <div className={cn(
         "relative flex flex-col transition-all duration-500",
@@ -22,7 +22,7 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
           "sm:rounded-[48px] sm:border sm:border-black/5"
         )}>
           {/* Scrollable Content Area */}
-          <div className="flex-1 overflow-y-auto scroll-smooth no-scrollbar">
+          <div className="flex-1 overflow-y-auto scroll-smooth no-scrollbar internal-scroll-area">
             {/* Top Nav */}
             <header className="sticky top-0 z-50 px-8 pt-10 sm:pt-14 pb-4 flex items-center justify-between bg-paper/80 backdrop-blur-md">
               <div className="flex items-center gap-3 cursor-pointer" onClick={() => setView('dashboard')}>
