@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Sparkles, X, Check, ArrowRight, Pencil, GripVertical } from 'lucide-react';
 import { Reorder } from 'framer-motion';
 import { cn } from '../../lib/utils';
@@ -8,16 +8,28 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
   const [title, setTitle] = useState('');
   const [subtasks, setSubtasks] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  
+  const [history, setHistory] = useState(() => {
+    const saved = localStorage.getItem('studyprox-history');
+    return saved ? JSON.parse(saved) : [
+      'Constitutional Law Analysis',
+      'Organic Chemistry Review',
+      'Macroeconomics Phase 2',
+      'Historical Context Audit'
+    ];
+  });
 
-  const history = [
-    'Constitutional Law Analysis',
-    'Organic Chemistry Review',
-    'Macroeconomics Phase 2',
-    'Historical Context Audit'
-  ];
+  useEffect(() => {
+    localStorage.setItem('studyprox-history', JSON.stringify(history));
+  }, [history]);
 
   const handleDeconstruct = () => {
     if (!title.trim()) return;
+    
+    // Add to history if unique
+    if (!history.includes(title)) {
+      setHistory(prev => [title, ...prev.slice(0, 5)]);
+    }
     
     setStep('deconstructing');
     
@@ -28,24 +40,24 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
       
       if (complexity === 'simple') {
         tasks = [
-          { id: '1', text: `Quick scan: ${title}` },
-          { id: '2', text: 'Execute core focus' },
-          { id: '3', text: 'Final verification' }
+          { id: crypto.randomUUID(), text: `Quick scan: ${title}` },
+          { id: crypto.randomUUID(), text: 'Execute core focus' },
+          { id: crypto.randomUUID(), text: 'Final verification' }
         ];
       } else if (complexity === 'depth') {
         tasks = [
-          { id: '1', text: `Phase 1: Literary Audit for ${title}` },
-          { id: '2', text: 'Phase 2: Dependency Mapping' },
-          { id: '3', text: 'Phase 3: Structural Skeleton' },
-          { id: '4', text: 'Phase 4: Deep Neural Synthesis' },
-          { id: '5', text: 'Phase 5: Critical Polish & Citations' }
+          { id: crypto.randomUUID(), text: `Phase 1: Literary Audit for ${title}` },
+          { id: crypto.randomUUID(), text: 'Phase 2: Dependency Mapping' },
+          { id: crypto.randomUUID(), text: 'Phase 3: Structural Skeleton' },
+          { id: crypto.randomUUID(), text: 'Phase 4: Deep Neural Synthesis' },
+          { id: crypto.randomUUID(), text: 'Phase 5: Critical Polish & Citations' }
         ];
       } else {
         tasks = [
-          { id: '1', text: `Research core tenets of ${title}` },
-          { id: '2', text: 'Construct logical framework' },
-          { id: '3', text: 'Draft focus-heavy sections' },
-          { id: '4', text: 'Perform integrity review' }
+          { id: crypto.randomUUID(), text: `Research core tenets of ${title}` },
+          { id: crypto.randomUUID(), text: 'Construct logical framework' },
+          { id: crypto.randomUUID(), text: 'Draft focus-heavy sections' },
+          { id: crypto.randomUUID(), text: 'Perform integrity review' }
         ];
       }
       
@@ -85,6 +97,7 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
                 </button>
               ))}
             </div>
+            <p className="text-[8px] text-muted italic">Type a new goal and press 'Deconstruct' to save it here.</p>
           </div>
 
           <div className="flex gap-4">
@@ -95,15 +108,15 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
       )}
 
       {step === 'deconstructing' && (
-        <div className="py-20 flex flex-col items-center justify-center space-y-8 animate-[fade-in_400ms_ease-out]">
-          <div className="w-16 h-16 relative">
+        <div className="fixed inset-0 z-[100] bg-paper flex flex-col items-center justify-center space-y-8 animate-[fade-in_400ms_ease-out]">
+          <div className="w-20 h-20 relative">
             <div className="absolute inset-0 border-4 border-slate-100 rounded-full" />
             <div className="absolute inset-0 border-4 border-t-ink rounded-full animate-spin" />
-            <Sparkles className="absolute inset-0 m-auto text-ink animate-pulse" size={24} />
+            <Sparkles className="absolute inset-0 m-auto text-ink animate-pulse" size={32} />
           </div>
           <div className="text-center space-y-2">
-            <h3 className="text-xl font-serif font-bold text-ink italic animate-pulse">Deconstructing Neural Path</h3>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">AI is simplifying "{title}"...</p>
+            <h3 className="text-2xl font-serif font-bold text-ink italic animate-pulse">Neural Deconstruction</h3>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Simplifying "{title}"...</p>
           </div>
         </div>
       )}
