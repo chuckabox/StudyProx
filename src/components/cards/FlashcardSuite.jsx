@@ -66,32 +66,32 @@ export function FlashcardSuite() {
                   i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : "stagger-3"
                 )}
               >
-                <div className="flex items-center gap-5">
+                <div className="flex items-center gap-5 flex-1 min-w-0">
                   <div className={cn(
-                    "w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110",
+                    "w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center transition-all duration-300 group-hover:scale-110",
                     currentStyle
                   )}>
                     <Folder className="w-6 h-6 fill-current opacity-20" />
                     <Folder className="w-6 h-6 absolute" />
                   </div>
-                  <div className="text-left space-y-0.5">
+                  <div className="text-left space-y-0.5 truncate">
                     <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted">{folder.id}</p>
-                    <h4 className="font-serif font-bold text-xl text-ink leading-tight">{folder.name}</h4>
+                    <h4 className="font-serif font-bold text-xl text-ink leading-tight truncate">{folder.name}</h4>
                   </div>
                 </div>
                 
-                <div className="flex flex-col items-end gap-2.5">
+                <div className="flex flex-col items-end gap-2.5 flex-shrink-0 ml-4">
                   <div className="text-right">
                     <p className="text-lg font-bold text-ink leading-none">{folder.count}</p>
                     <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Cards</p>
                   </div>
                   
                   {folder.due ? (
-                    <span className="px-2.5 py-1 bg-ink text-paper text-[8px] font-bold uppercase tracking-widest rounded-md shadow-sm animate-pulse">
+                    <span className="px-2.5 py-1 bg-ink text-paper text-[8px] font-bold uppercase tracking-widest rounded-md shadow-sm animate-pulse whitespace-nowrap">
                       Review Now
                     </span>
                   ) : (
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 rounded-md border border-slate-100">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 rounded-md border border-slate-100 whitespace-nowrap">
                       <div className="w-1 h-1 bg-slate-300 rounded-full" />
                       <span className="text-[8px] font-bold uppercase tracking-widest text-muted/80">
                         {folder.nextReview}
