@@ -107,6 +107,8 @@ export function FlashcardSuite() {
     );
   }
 
+  const [flipped, setFlipped] = useState(false);
+
   if (view === 'quiz') {
     const currentCard = filteredCards[quizState.index];
     
@@ -127,42 +129,67 @@ export function FlashcardSuite() {
           </p>
           <div className="w-full h-1 bg-slate-100 rounded-full max-w-[200px] mx-auto">
             <div 
-              className="h-full bg-ink rounded-full" 
+              className="h-full bg-ink rounded-full transition-all duration-500" 
               style={{ width: `${((quizState.index + 1) / filteredCards.length) * 100}%` }}
             />
           </div>
         </header>
 
-        <div className="card-scholar p-12 aspect-[4/3] flex flex-col items-center justify-center text-center space-y-8 bg-white border-2 border-ink shadow-xl">
-          <h3 className="text-3xl font-serif font-bold text-ink italic">{currentCard.front}</h3>
-          <p className="text-muted text-sm border-t border-slate-100 pt-8 italic">"Recall the synthesis before flipping."</p>
+        <div 
+          onClick={() => setFlipped(!flipped)}
+          className={cn(
+            "card-scholar p-12 aspect-[4/3] flex flex-col items-center justify-center text-center space-y-8 bg-white border-2 border-ink shadow-xl cursor-pointer transition-all duration-500",
+            flipped && "rotate-y-180"
+          )}
+        >
+          <div className={cn("transition-all duration-300", flipped ? "opacity-0 invisible h-0" : "opacity-100 visible")}>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-4">Front</p>
+            <h3 className="text-3xl font-serif font-bold text-ink italic">{currentCard.front}</h3>
+          </div>
+          <div className={cn("transition-all duration-300", !flipped ? "opacity-0 invisible h-0" : "opacity-100 visible")}>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 mb-4">Back</p>
+            <h3 className="text-2xl font-serif font-bold text-ink italic">{currentCard.back}</h3>
+          </div>
         </div>
 
         <div className="flex gap-4">
-          <button 
-            onClick={() => {
-              if (quizState.index < filteredCards.length - 1) {
-                setQuizState(prev => ({ ...prev, index: prev.index + 1 }));
-              } else {
-                setView('folders');
-              }
-            }}
-            className="btn-ghost flex-1"
-          >
-            Incorrect
-          </button>
-          <button 
-            onClick={() => {
-              if (quizState.index < filteredCards.length - 1) {
-                setQuizState(prev => ({ ...prev, index: prev.index + 1, score: prev.score + 1 }));
-              } else {
-                setView('folders');
-              }
-            }}
-            className="btn-ink flex-1"
-          >
-            Correct
-          </button>
+          {!flipped ? (
+            <button 
+              onClick={() => setFlipped(true)}
+              className="btn-ink w-full py-6"
+            >
+              Flip Card
+            </button>
+          ) : (
+            <>
+              <button 
+                onClick={() => {
+                  setFlipped(false);
+                  if (quizState.index < filteredCards.length - 1) {
+                    setQuizState(prev => ({ ...prev, index: prev.index + 1 }));
+                  } else {
+                    setView('folders');
+                  }
+                }}
+                className="btn-ghost flex-1 py-6 border-red-200 text-red-600 hover:bg-red-50"
+              >
+                Incorrect
+              </button>
+              <button 
+                onClick={() => {
+                  setFlipped(false);
+                  if (quizState.index < filteredCards.length - 1) {
+                    setQuizState(prev => ({ ...prev, index: prev.index + 1, score: prev.score + 1 }));
+                  } else {
+                    setView('folders');
+                  }
+                }}
+                className="btn-ink flex-1 py-6 bg-emerald-600 hover:bg-emerald-700"
+              >
+                Correct
+              </button>
+            </>
+          )}
         </div>
       </div>
     );
