@@ -227,9 +227,6 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Momentum</p>
                     <h3 className="text-2xl font-serif font-bold text-ink italic">Top Contributors</h3>
                   </div>
-                  <button onClick={() => setIsViewingMomentum(false)} className="p-2 hover:bg-slate-50 rounded-lg transition-colors">
-                    <Plus className="w-5 h-5 rotate-45" />
-                  </button>
                 </div>
 
                 <div className="space-y-3 overflow-y-auto pr-1 flex-1 custom-scrollbar max-h-[60vh]">
@@ -255,6 +252,13 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                     </div>
                   ))}
                 </div>
+
+                <button 
+                  onClick={() => setIsViewingMomentum(false)}
+                  className="btn-ink w-full flex-shrink-0"
+                >
+                  Close
+                </button>
               </div>
             </div>
           )}
@@ -268,9 +272,6 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Discovery</p>
                     <h3 className="text-2xl font-serif font-bold text-ink italic">Join a Cohort</h3>
                   </div>
-                  <button onClick={() => setIsJoiningGroup(false)} className="p-2 hover:bg-slate-50 rounded-lg transition-colors">
-                    <Plus className="w-5 h-5 rotate-45" />
-                  </button>
                 </div>
 
                 <div className="space-y-3 overflow-y-auto pr-1 flex-1 custom-scrollbar max-h-[60vh]">
@@ -291,6 +292,13 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                     </button>
                   ))}
                 </div>
+
+                <button 
+                  onClick={() => setIsJoiningGroup(false)}
+                  className="btn-ghost w-full flex-shrink-0"
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           )}
