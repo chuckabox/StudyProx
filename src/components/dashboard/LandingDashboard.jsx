@@ -84,7 +84,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
           <div className="card-scholar py-8 text-center space-y-6 stagger-1">
             <div className="space-y-1">
               <h3 className="text-xl font-serif font-bold text-ink italic">Ready for a session?</h3>
-              <p className="text-muted text-[13px] italic">Deconstruct your next goal into focused sprints.</p>
+              <p className="text-muted text-[13px] italic">Break down your next goal into focused sprints.</p>
             </div>
             <button
               onClick={onStartNew}

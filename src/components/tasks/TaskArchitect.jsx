@@ -131,7 +131,7 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
 
           <div className="flex gap-4">
             <button onClick={onCancel} className="btn-ghost flex-1">Cancel</button>
-            <button onClick={handleDeconstruct} className="btn-ink flex-1">Deconstruct</button>
+            <button onClick={handleDeconstruct} className="btn-ink flex-1">Break Down</button>
           </div>
         </div>
       )}
@@ -144,7 +144,7 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
             <Sparkles className="absolute inset-0 m-auto text-ink animate-pulse" size={32} />
           </div>
           <div className="text-center space-y-2">
-            <h3 className="text-2xl font-serif font-bold text-ink italic animate-pulse">Neural Deconstruction</h3>
+            <h3 className="text-2xl font-serif font-bold text-ink italic animate-pulse">Breaking Down</h3>
             <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Simplifying "{title}"...</p>
           </div>
         </div>
