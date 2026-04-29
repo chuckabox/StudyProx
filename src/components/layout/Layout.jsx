@@ -185,7 +185,7 @@ function NavButton({ icon, label, active, onClick }) {
       onClick={onClick}
       className={cn(
         "nav-item flex-1 flex flex-col items-center gap-1 py-2.5 rounded-[14px] transition-all duration-200 cursor-pointer",
-        active ? "bg-paper text-ink shadow-sm scale-[1.02]" : "text-paper/40 hover:text-paper"
+        active ? "bg-paper text-ink shadow-sm scale-[1.01]" : "text-paper/40 hover:text-paper"
       )}
     >
       {cloneElement(icon, { size: 18, strokeWidth: 2.5 })}

@@ -152,11 +152,11 @@ export function SocialAnalytics({ stats }) {
       {/* Social Leaderboard */}
       <section className="space-y-4 stagger-3">
         <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Leaderboard</h3>
-        <div className="space-y-3">
+        <div className="space-y-3 px-1">
           {friends.map((friend, i) => (
             <div key={i} className={cn(
               "p-4 rounded-xl border flex items-center justify-between transition-all hover:border-ink/20 hover:bg-white",
-              friend.name === 'You' ? "border-ink bg-slate-50 scale-[1.02] shadow-md" : "border-slate-100"
+              friend.name === 'You' ? "border-ink bg-slate-50 scale-[1.01] shadow-md" : "border-slate-100"
             )}>
               <div className="flex items-center gap-3">
                 <span className="text-xs font-bold text-muted w-4">{i + 1}</span>

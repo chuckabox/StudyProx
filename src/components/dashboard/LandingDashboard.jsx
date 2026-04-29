@@ -229,13 +229,13 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                   </div>
                 </div>
 
-                <div className="space-y-3 overflow-y-auto pr-1 flex-1 custom-scrollbar max-h-[60vh]">
+                <div className="space-y-3 overflow-y-auto px-1 flex-1 custom-scrollbar max-h-[60vh]">
                   {contributors.map((c, i) => (
                     <div 
                       key={c.name} 
                       className={cn(
                         "p-4 rounded-xl border flex items-center justify-between transition-all",
-                        c.name === 'You' ? "border-ink bg-slate-50 scale-[1.02] shadow-md" : "border-slate-100"
+                        c.name === 'You' ? "border-ink bg-slate-50 scale-[1.01] shadow-md" : "border-slate-100"
                       )}
                     >
                       <div className="flex items-center gap-3">
