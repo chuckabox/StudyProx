@@ -1,8 +1,10 @@
-import { cloneElement } from 'react';
-import { Sparkles, Brain, Clock, BarChart3, Settings, AlertTriangle } from 'lucide-react';
+import { cloneElement, useState } from 'react';
+import { Sparkles, Brain, Clock, BarChart3, Settings, AlertTriangle, HelpCircle } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function Layout({ children, currentView, setView, isHardLocked, onOpenSettings }) {
+  const [showHelp, setShowHelp] = useState(false);
+
   return (
     <div className="h-screen w-screen bg-slate-100 flex items-center justify-center sm:py-10 selection:bg-ink/5 overflow-hidden">
       {/* Device Frame - Only visible on sm screens and up */}
@@ -32,12 +34,20 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
                 <span className="font-serif font-bold text-xl tracking-tight text-ink italic">StudyProx</span>
               </div>
               
-              <button 
-                onClick={onOpenSettings}
-                className="p-2 hover:bg-ink/5 rounded-lg text-muted"
-              >
-                <Settings className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-1">
+                <button 
+                  onClick={() => setShowHelp(true)}
+                  className="p-2 hover:bg-ink/5 rounded-lg text-muted"
+                >
+                  <HelpCircle className="w-5 h-5" />
+                </button>
+                <button 
+                  onClick={onOpenSettings}
+                  className="p-2 hover:bg-ink/5 rounded-lg text-muted"
+                >
+                  <Settings className="w-5 h-5" />
+                </button>
+              </div>
             </header>
 
             {/* Hard-Lock Active Banner */}
@@ -56,6 +66,57 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
               {children}
             </main>
           </div>
+
+          {/* Help Modal */}
+          {showHelp && (
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+              <div 
+                className="w-full max-w-sm card-scholar p-8 space-y-6 shadow-2xl max-h-[80vh] overflow-y-auto"
+                onClick={e => e.stopPropagation()}
+              >
+                <header className="space-y-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted">System Guide</p>
+                  <h3 className="text-2xl font-serif font-bold text-ink italic">StudyProx Features</h3>
+                </header>
+
+                <div className="space-y-6">
+                  <section className="space-y-2 text-left">
+                    <div className="flex items-center gap-2 text-ink">
+                      <Brain size={16} />
+                      <h4 className="font-bold text-sm uppercase tracking-wider">AI Task Architect</h4>
+                    </div>
+                    <p className="text-xs text-muted leading-relaxed">Deconstructs overwhelming assignments into manageable micro-steps using neural synthesis logic.</p>
+                  </section>
+
+                  <section className="space-y-2 text-left">
+                    <div className="flex items-center gap-2 text-ink">
+                      <Clock size={16} />
+                      <h4 className="font-bold text-sm uppercase tracking-wider">Environmental Shield</h4>
+                    </div>
+                    <p className="text-xs text-muted leading-relaxed">Enforces a Hard-Lock on distracting applications during focus sessions, removing willpower from the equation.</p>
+                  </section>
+
+                  <section className="space-y-2 text-left">
+                    <div className="flex items-center gap-2 text-ink">
+                      <Settings size={16} />
+                      <h4 className="font-bold text-sm uppercase tracking-wider">Filing Library</h4>
+                    </div>
+                    <p className="text-xs text-muted leading-relaxed">A structured filing system for flashcards. Filter by subject and test your knowledge with interactive quiz modes.</p>
+                  </section>
+
+                  <section className="space-y-2 text-left">
+                    <div className="flex items-center gap-2 text-ink">
+                      <BarChart3 size={16} />
+                      <h4 className="font-bold text-sm uppercase tracking-wider">Social Momentum</h4>
+                    </div>
+                    <p className="text-xs text-muted leading-relaxed">Leverage social proof by tracking group effort and visualizing your own consistency on the historical calendar.</p>
+                  </section>
+                </div>
+
+                <button onClick={() => setShowHelp(false)} className="btn-ink w-full">Got it</button>
+              </div>
+            </div>
+          )}
 
           {/* Bottom Navigation */}
           <div className="absolute bottom-8 left-0 right-0 z-50 px-6">
