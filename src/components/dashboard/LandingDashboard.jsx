@@ -24,7 +24,10 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
     : 0;
 
   return (
-    <div className="min-h-full flex flex-col space-y-12 animate-[fade-in_600ms_ease-out] relative">
+    <div className={cn(
+      "min-h-full flex flex-col space-y-12 animate-[fade-in_600ms_ease-out] relative",
+      isSyncing && "h-[calc(840px-200px)] overflow-hidden" // Locked to device height approx
+    )}>
       {activeTask ? (
         <div className="space-y-10">
           <header className="space-y-1">
