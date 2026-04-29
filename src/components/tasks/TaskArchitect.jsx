@@ -7,6 +7,13 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
   const [title, setTitle] = useState('');
   const [subtasks, setSubtasks] = useState([]);
 
+  const history = [
+    'Constitutional Law Analysis',
+    'Organic Chemistry Review',
+    'Macroeconomics Phase 2',
+    'Historical Context Audit'
+  ];
+
   const handleDeconstruct = () => {
     if (!title.trim()) return;
     
@@ -56,6 +63,21 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleDeconstruct()}
           />
+
+          <div className="space-y-3">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Quick Start History</p>
+            <div className="flex flex-wrap gap-2">
+              {history.map((h, i) => (
+                <button 
+                  key={i}
+                  onClick={() => setTitle(h)}
+                  className="px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-lg text-[10px] font-bold text-ink/60 hover:border-ink transition-colors"
+                >
+                  {h}
+                </button>
+              ))}
+            </div>
+          </div>
 
           <div className="flex gap-4">
             <button onClick={onCancel} className="btn-ghost flex-1">Cancel</button>

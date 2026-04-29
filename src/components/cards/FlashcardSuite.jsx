@@ -67,8 +67,7 @@ export function FlashcardSuite() {
               </div>
               <div className="text-right flex flex-col items-end gap-2">
                 <div className="flex flex-col items-end">
-                  <p className="text-lg font-bold text-ink">{folder.count}</p>
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-600">{folder.accuracy}% Accuracy</p>
+                  <p className="text-lg font-bold text-ink">{folder.count} Cards</p>
                 </div>
                 {folder.due ? (
                   <span className="px-2 py-0.5 bg-ink text-paper text-[8px] font-bold uppercase tracking-tighter rounded-full animate-pulse">

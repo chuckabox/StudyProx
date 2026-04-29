@@ -66,13 +66,32 @@ export function SocialAnalytics({ stats }) {
               <div 
                 key={day} 
                 className={cn(
-                  "aspect-square rounded-md border border-slate-50",
-                  day % 3 === 0 ? "bg-ink/10" : day % 5 === 0 ? "bg-ink/40" : day === 15 ? "bg-ink" : "bg-slate-50"
+                  "aspect-square rounded-md border border-slate-50 relative group",
+                  day < 15 ? (day % 3 === 0 ? "bg-ink/10" : day % 5 === 0 ? "bg-ink/40" : "bg-slate-50") : "bg-slate-50",
+                  day === 15 && "bg-ink ring-2 ring-ink ring-offset-2 scale-90"
                 )}
-              />
+              >
+                {/* Due Date Indicator for future days */}
+                {day > 15 && (day === 17 || day === 19 || day === 24) && (
+                  <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-blue-500 rounded-full shadow-[0_0_8px_rgba(37,99,235,0.5)]" />
+                )}
+                {day === 15 && (
+                   <div className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full border-2 border-paper" />
+                )}
+              </div>
             ))}
           </div>
         )}
+        <div className="flex items-center gap-4 pt-2">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 bg-ink rounded-full" />
+            <span className="text-[8px] font-bold uppercase tracking-widest text-muted">Study Session</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 bg-blue-500 rounded-full" />
+            <span className="text-[8px] font-bold uppercase tracking-widest text-muted">Upcoming Due</span>
+          </div>
+        </div>
       </section>
 
       {/* Leaderboard */}
