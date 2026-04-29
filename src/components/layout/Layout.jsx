@@ -18,6 +18,9 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
           <div className="w-2 h-2 rounded-full bg-[#1a1a1a] shadow-[inset_0_0_2px_rgba(255,255,255,0.2)]" />
         </div>
 
+        {/* Top Bezel Spacer */}
+        <div className="hidden sm:block h-8" />
+
         {/* Internal Screen Container */}
         <div className={cn(
           "flex-1 bg-paper relative flex flex-col shadow-inner overflow-hidden transform-gpu",

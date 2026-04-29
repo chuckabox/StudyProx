@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Check, Zap, CheckCircle2, TrendingUp, Clock } from 'lucide-react';
+import { Plus, Check, Zap, CheckCircle2, TrendingUp, Clock, UserPlus } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtask, onStartFocus, onCancelTask }) {
@@ -97,64 +97,63 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
 
 
 
-          <section className="grid grid-cols-2 gap-4 stagger-3">
-            <div className="card-scholar p-6 space-y-3 hover:bg-white transition-all">
-              <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center">
-                <Clock className="w-4 h-4 text-ink" />
+          <section className="space-y-6 stagger-3">
+            <header className="flex items-center justify-between">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Your Cohort</p>
+              <button className="p-2 bg-slate-50 text-ink/40 hover:text-ink rounded-lg transition-all active:scale-90">
+                <UserPlus size={14} />
+              </button>
+            </header>
+            
+            <div className="card-scholar bg-ink text-paper border-none p-8 flex flex-col gap-6 group overflow-hidden relative shadow-2xl">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -mr-20 -mt-20 transition-transform group-hover:scale-110 duration-1000" />
+              
+              <div className="relative z-10 flex items-center justify-between">
+                <div className="space-y-1">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-paper/40">Collective Momentum</p>
+                  <h4 className="text-2xl font-serif font-bold italic">Law Cohort B</h4>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-center gap-2 justify-end">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <p className="text-2xl font-serif font-bold italic">142h</p>
+                  </div>
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-paper/40">This Week</p>
+                </div>
               </div>
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Total Effort</p>
-                <p className="text-2xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
-              </div>
-            </div>
-            <div className="card-scholar p-6 space-y-3 hover:bg-white transition-all">
-              <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-4 h-4 text-ink" />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Streak</p>
-                <p className="text-2xl font-serif font-bold text-ink italic">12 Days</p>
-              </div>
-            </div>
-          </section>
 
-          <section className="card-scholar bg-slate-50 border-none p-6 flex items-center justify-between stagger-4 hover:bg-slate-100 transition-all cursor-default">
-            <div className="space-y-1">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Weekly Commitment</p>
-              <h4 className="font-serif font-bold text-lg text-ink italic">Consistency Peak</h4>
-            </div>
-            <div className="text-right">
-              <p className="text-2xl font-serif font-bold text-ink italic">92%</p>
-            </div>
-          </section>
-
-          {/* Social Proof - Theme 1.3 Social Studying */}
-          <section className="space-y-6 stagger-5">
-            <div className="card-scholar bg-ink text-paper border-none p-6 flex items-center justify-between group overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-paper/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-700" />
-              <div className="relative z-10 space-y-1">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-paper/40">Global Momentum</p>
-                <h4 className="text-xl font-serif font-bold italic">Group: Law Cohort B</h4>
-              </div>
-              <div className="relative z-10 text-right">
-                <p className="text-2xl font-serif font-bold italic">142h</p>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-paper/40">Collective Effort</p>
+              <div className="relative z-10 w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-full bg-paper w-3/4 shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000" />
               </div>
             </div>
 
             <div className="space-y-4">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Peer Activity</p>
-              <div className="flex -space-x-3 overflow-hidden">
-                {[1, 2, 3, 4].map(i => (
-                  <div key={i} className="w-10 h-10 rounded-full border-2 border-paper bg-slate-100 flex items-center justify-center text-[10px] font-bold text-ink">
-                    {['SL', 'AM', 'JK', 'ER'][i-1]}
+              <div className="flex items-center justify-between">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Active Peers</p>
+                <p className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">4 Deep Focusing</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-3 overflow-hidden">
+                  {['SL', 'AM', 'JK', 'ER'].map((initials, i) => (
+                    <div 
+                      key={i} 
+                      className={cn(
+                        "w-12 h-12 rounded-full border-4 border-paper bg-slate-100 flex items-center justify-center text-[11px] font-bold text-ink shadow-sm relative group",
+                        i === 0 && "ring-2 ring-emerald-400 ring-offset-2"
+                      )}
+                    >
+                      {initials}
+                      {i === 0 && <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-paper" />}
+                    </div>
+                  ))}
+                  <div className="w-12 h-12 rounded-full border-4 border-paper bg-ink text-paper flex items-center justify-center text-[10px] font-bold">
+                    +12
                   </div>
-                ))}
-                <div className="w-10 h-10 rounded-full border-2 border-paper bg-ink text-paper flex items-center justify-center text-[10px] font-bold">
-                  +12
+                </div>
+                <div className="flex-1">
+                  <p className="text-[11px] text-ink/80 font-medium leading-tight">Sarah L. and 3 others started sessions in the last hour.</p>
                 </div>
               </div>
-              <p className="text-[11px] text-muted italic">Sarah L. and 3 others are currently in Deep Focus sessions.</p>
             </div>
           </section>
         </div>
