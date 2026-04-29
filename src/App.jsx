@@ -6,10 +6,10 @@ import { FocusTimer } from './components/focus/FocusTimer';
 import { FlashcardSuite } from './components/cards/FlashcardSuite';
 import { SocialAnalytics } from './components/analytics/SocialAnalytics';
 import { SettingsPage } from './components/settings/SettingsPage';
-import { useTasks } from './hooks/use-tasks';
+import { useStudyCore } from './hooks/use-tasks';
 
 function App() {
-  const { tasks, addTask, updateSubtask } = useTasks();
+  const { tasks, stats, settings, setSettings, addTask, updateSubtask, logStudySession } = useStudyCore();
   const [view, setView] = useState('dashboard'); // dashboard | architect | focus | cards | stats | settings
 
   const activeTask = tasks.find(t => !t.completed);
@@ -31,6 +31,7 @@ function App() {
           <div className="w-full">
             <LandingDashboard 
               activeTask={activeTask} 
+              stats={stats}
               onStartNew={() => setView('architect')} 
               onUpdateSubtask={updateSubtask}
               onStartFocus={() => setView('focus')}
@@ -41,6 +42,7 @@ function App() {
         {view === 'architect' && (
           <div className="w-full">
             <TaskArchitect 
+              settings={settings}
               onTaskCreated={handleTaskCreated}
               onCancel={() => setView('dashboard')}
             />
@@ -51,7 +53,12 @@ function App() {
           <div>
             <FocusTimer 
               task={activeTask}
-              onFinish={() => setView('dashboard')}
+              settings={settings}
+              onComplete={(subject, mins) => {
+                logStudySession(subject, mins);
+                setView('dashboard');
+              }}
+              onExit={() => setView('dashboard')}
             />
           </div>
         )}
@@ -64,13 +71,16 @@ function App() {
 
         {view === 'stats' && (
           <div>
-            <SocialAnalytics />
+            <SocialAnalytics stats={stats} />
           </div>
         )}
 
         {view === 'settings' && (
           <div>
-            <SettingsPage />
+            <SettingsPage 
+              settings={settings} 
+              setSettings={setSettings} 
+            />
           </div>
         )}
       </div>

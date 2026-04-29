@@ -9,9 +9,28 @@ export function TaskArchitect({ onTaskCreated, onCancel }) {
 
   const handleDeconstruct = async () => {
     if (!title.trim()) return;
-    // Base feature: Instant or near-instant logic
-    const results = await decomposeTask(title);
-    setSubtasks(results);
+    
+    // Simulating AI Deconstruction based on settings.aiComplexity
+    let tasks = [];
+    if (settings.aiComplexity === 'simple') {
+      tasks = [{ text: 'Draft primary content' }, { text: 'Finalize & Review' }];
+    } else if (settings.aiComplexity === 'depth') {
+      tasks = [
+        { text: 'Source primary literature' },
+        { text: 'Map conceptual dependencies' },
+        { text: 'Draft structural skeleton' },
+        { text: 'Neural synthesis of sections' },
+        { text: 'Critical audit & citation' }
+      ];
+    } else {
+      tasks = [
+        { text: 'Initial Research & Scanning' },
+        { text: 'Skeleton Draft Construction' },
+        { text: 'Neural Synthesis & Review' }
+      ];
+    }
+    
+    setSubtasks(tasks);
     setStep('review');
   };
 

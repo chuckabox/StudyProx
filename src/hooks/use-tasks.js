@@ -1,22 +1,40 @@
 import { useState, useEffect } from 'react';
 
-export function useTasks() {
+export function useStudyCore() {
   const [tasks, setTasks] = useState(() => {
     const saved = localStorage.getItem('studyprox-tasks');
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [stats, setStats] = useState(() => {
+    const saved = localStorage.getItem('studyprox-stats');
+    return saved ? JSON.parse(saved) : {
+      totalHours: 0,
+      subjectBreakdown: { 'LAW': 0, 'STEM': 0, 'MATH': 0, 'HIST': 0 },
+      dailyActivity: [] // { date: '2026-04-29', hours: 0 }
+    };
+  });
+
+  const [settings, setSettings] = useState(() => {
+    const saved = localStorage.getItem('studyprox-settings');
+    return saved ? JSON.parse(saved) : {
+      aiComplexity: 'standard', // simple | standard | depth
+      restrictedApps: ['Instagram', 'Discord', 'TikTok']
+    };
+  });
+
   useEffect(() => {
     localStorage.setItem('studyprox-tasks', JSON.stringify(tasks));
-  }, [tasks]);
+    localStorage.setItem('studyprox-stats', JSON.stringify(stats));
+    localStorage.setItem('studyprox-settings', JSON.stringify(settings));
+  }, [tasks, stats, settings]);
 
   const addTask = (title, subtasks = []) => {
     const newTask = {
       id: crypto.randomUUID(),
       title,
-      subtasks,
+      subtasks: subtasks.map(text => ({ id: crypto.randomUUID(), text, completed: false })),
       createdAt: new Date().toISOString(),
-      active: false,
       completed: false
     };
     setTasks(prev => [newTask, ...prev]);
@@ -36,14 +54,38 @@ export function useTasks() {
     }));
   };
 
-  const deleteLevelTask = (id) => {
-    setTasks(prev => prev.filter(t => t.id !== id));
+  const logStudySession = (subject, minutes) => {
+    const hours = minutes / 60;
+    const today = new Date().toISOString().split('T')[0];
+
+    setStats(prev => {
+      const newDaily = [...prev.dailyActivity];
+      const dayIdx = newDaily.findIndex(d => d.date === today);
+      if (dayIdx > -1) {
+        newDaily[dayIdx].hours += hours;
+      } else {
+        newDaily.push({ date: today, hours });
+      }
+
+      return {
+        ...prev,
+        totalHours: prev.totalHours + hours,
+        subjectBreakdown: {
+          ...prev.subjectBreakdown,
+          [subject]: (prev.subjectBreakdown[subject] || 0) + hours
+        },
+        dailyActivity: newDaily
+      };
+    });
   };
 
   return {
     tasks,
+    stats,
+    settings,
+    setSettings,
     addTask,
     updateSubtask,
-    deleteLevelTask
+    logStudySession
   };
 }

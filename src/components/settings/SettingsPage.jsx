@@ -1,12 +1,11 @@
-import { Bell, Shield, User, Globe, Moon, HelpCircle, ChevronRight } from 'lucide-react';
+import { HelpCircle, Smartphone, X } from 'lucide-react';
+import { cn } from '../../lib/utils';
 
-export function SettingsPage() {
-  const sections = [
-    { icon: <User size={20} />, label: 'Profile', value: 'Peter Parker' },
-    { icon: <Bell size={20} />, label: 'Notifications', value: 'High Priority Only' },
-    { icon: <Shield size={20} />, label: 'Hard-Lock Integrity', value: 'Strict' },
-    { icon: <Globe size={20} />, label: 'Data Sync', value: 'Academic Cloud' },
-    { icon: <Moon size={20} />, label: 'Appearance', value: 'Paper & Ink' },
+export function SettingsPage({ settings, setSettings }) {
+  const complexityOptions = [
+    { id: 'simple', label: 'Simple', desc: 'Direct micro-goals' },
+    { id: 'standard', label: 'Standard', desc: 'Balanced structure' },
+    { id: 'depth', label: 'In-Depth', desc: 'Detailed sub-plans' },
   ];
 
   return (
@@ -16,25 +15,54 @@ export function SettingsPage() {
         <p className="text-muted text-sm font-medium italic">Tailoring your intellectual environment.</p>
       </section>
 
-      <div className="space-y-4">
-        {sections.map((item, i) => (
-          <div 
-            key={i}
-            className="card-scholar p-6! flex items-center justify-between group cursor-pointer hover:border-ink/20"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-ink/5 rounded-full flex items-center justify-center text-muted group-hover:text-ink">
-                {item.icon}
-              </div>
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{item.label}</p>
-                <p className="font-serif font-bold text-lg text-ink italic">{item.value}</p>
-              </div>
+      {/* AI Complexity */}
+      <section className="space-y-4">
+        <h3 className="text-xs font-bold uppercase tracking-widest text-muted">AI Deconstruction Complexity</h3>
+        <div className="grid grid-cols-1 gap-3">
+          {complexityOptions.map(opt => (
+            <button
+              key={opt.id}
+              onClick={() => setSettings({ ...settings, aiComplexity: opt.id })}
+              className={cn(
+                "p-4 rounded-xl border text-left transition-all",
+                settings.aiComplexity === opt.id 
+                  ? "border-ink bg-slate-50 shadow-sm" 
+                  : "border-slate-100 hover:border-ink/20"
+              )}
+            >
+              <p className="font-bold text-sm">{opt.label}</p>
+              <p className="text-[10px] text-muted">{opt.desc}</p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* App Blocking */}
+      <section className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Restricted App Suite</h3>
+          <Smartphone size={16} className="text-muted" />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {settings?.restrictedApps?.map(app => (
+            <div key={app} className="px-4 py-2 bg-ink text-paper rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+              {app}
+              <button 
+                onClick={() => setSettings({
+                  ...settings,
+                  restrictedApps: settings.restrictedApps.filter(a => a !== app)
+                })}
+                className="hover:text-red-400"
+              >
+                <X size={12} />
+              </button>
             </div>
-            <ChevronRight className="text-slate-200 group-hover:text-ink" />
-          </div>
-        ))}
-      </div>
+          ))}
+          <button className="px-4 py-2 border border-dashed border-slate-200 rounded-full text-[10px] font-bold uppercase tracking-widest text-muted hover:border-ink">
+            Add App
+          </button>
+        </div>
+      </section>
 
       <section className="pt-8 space-y-4">
         <div className="flex items-center gap-3 text-muted">
@@ -44,7 +72,6 @@ export function SettingsPage() {
         <div className="space-y-2">
           <button className="w-full text-left py-4 px-2 text-sm font-bold text-ink/40 hover:text-ink border-b border-ink/5">Terms of Academic Integrity</button>
           <button className="w-full text-left py-4 px-2 text-sm font-bold text-ink/40 hover:text-ink border-b border-ink/5">Privacy Policy</button>
-          <button className="w-full text-left py-4 px-2 text-destructive font-bold hover:opacity-80">Deactivate Account</button>
         </div>
       </section>
 

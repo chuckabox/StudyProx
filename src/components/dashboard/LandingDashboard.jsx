@@ -1,7 +1,8 @@
-import { Play, Plus, ChevronRight, CheckCircle2, Circle, Brain, Zap, Check } from 'lucide-react';
+import React from 'react';
+import { Plus, Check, Zap, CheckCircle2, TrendingUp, Clock } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onStartFocus }) {
+export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtask, onStartFocus }) {
   const nextSubtask = activeTask?.subtasks?.find(st => !st.completed);
   const progress = activeTask
     ? (activeTask.subtasks.filter(st => st.completed).length / activeTask.subtasks.length) * 100
@@ -56,18 +57,42 @@ export function LandingDashboard({ activeTask, onStartNew, onUpdateSubtask, onSt
           )}
         </div>
       ) : (
-        <div className="py-20 text-center space-y-8">
-          <div className="space-y-2">
-            <h3 className="text-3xl font-serif font-bold text-ink">What's next?</h3>
-            <p className="text-muted text-sm italic">Deconstruct your goal into focus blocks.</p>
+        <div className="space-y-12">
+          <div className="py-12 text-center space-y-8">
+            <div className="space-y-2">
+              <h3 className="text-3xl font-serif font-bold text-ink">What's next?</h3>
+              <p className="text-muted text-sm italic">Deconstruct your goal into focus blocks.</p>
+            </div>
+            <button
+              onClick={onStartNew}
+              className="btn-ink mx-auto px-12"
+            >
+              <Plus className="w-5 h-5" />
+              <span>Begin Task</span>
+            </button>
           </div>
-          <button
-            onClick={onStartNew}
-            className="btn-ink mx-auto px-12"
-          >
-            <Plus className="w-5 h-5" />
-            <span>Begin Task</span>
-          </button>
+
+          {/* Quick Stats Overview */}
+          <section className="grid grid-cols-2 gap-6">
+            <div className="card-scholar p-8 space-y-4">
+              <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center">
+                <Clock className="w-5 h-5 text-ink" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Total Effort</p>
+                <p className="text-3xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
+              </div>
+            </div>
+            <div className="card-scholar p-8 space-y-4">
+              <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-ink" />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Consistency</p>
+                <p className="text-3xl font-serif font-bold text-ink italic">92%</p>
+              </div>
+            </div>
+          </section>
         </div>
       )}
     </div>
