@@ -21,6 +21,7 @@
 :root {
   --background: var(--color-paper);
   --foreground: var(--color-ink);
+  scrollbar-gutter: stable;
 }
 
 body {
