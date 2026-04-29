@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Sparkles, X, Check, ArrowRight, Pencil, GripVertical } from 'lucide-react';
+import { Reorder } from 'framer-motion';
 import { cn } from '../../lib/utils';
 
 export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
   const [step, setStep] = useState('input'); // input | deconstructing | review
   const [title, setTitle] = useState('');
   const [subtasks, setSubtasks] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
 
   const history = [
     'Constitutional Law Analysis',
@@ -22,26 +24,28 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
     setTimeout(() => {
       // Simulating AI Deconstruction based on settings.aiComplexity
       let tasks = [];
-      if (settings.aiComplexity === 'simple') {
+      const complexity = settings.aiComplexity || 'standard';
+      
+      if (complexity === 'simple') {
         tasks = [
-          { text: `Quick scan: ${title}` },
-          { text: 'Execute core focus' },
-          { text: 'Final verification' }
+          { id: '1', text: `Quick scan: ${title}` },
+          { id: '2', text: 'Execute core focus' },
+          { id: '3', text: 'Final verification' }
         ];
-      } else if (settings.aiComplexity === 'depth') {
+      } else if (complexity === 'depth') {
         tasks = [
-          { text: `Phase 1: Literary Audit for ${title}` },
-          { text: 'Phase 2: Dependency Mapping' },
-          { text: 'Phase 3: Structural Skeleton' },
-          { text: 'Phase 4: Deep Neural Synthesis' },
-          { text: 'Phase 5: Critical Polish & Citations' }
+          { id: '1', text: `Phase 1: Literary Audit for ${title}` },
+          { id: '2', text: 'Phase 2: Dependency Mapping' },
+          { id: '3', text: 'Phase 3: Structural Skeleton' },
+          { id: '4', text: 'Phase 4: Deep Neural Synthesis' },
+          { id: '5', text: 'Phase 5: Critical Polish & Citations' }
         ];
       } else {
         tasks = [
-          { text: `Research core tenets of ${title}` },
-          { text: 'Construct logical framework' },
-          { text: 'Draft focus-heavy sections' },
-          { text: 'Perform integrity review' }
+          { id: '1', text: `Research core tenets of ${title}` },
+          { id: '2', text: 'Construct logical framework' },
+          { id: '3', text: 'Draft focus-heavy sections' },
+          { id: '4', text: 'Perform integrity review' }
         ];
       }
       
@@ -49,9 +53,6 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
       setStep('review');
     }, 1500);
   };
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [draggedIdx, setDraggedIdx] = useState(null);
 
   return (
     <div className="max-w-lg mx-auto space-y-12 animate-[fade-in_600ms_ease-out]">
@@ -125,27 +126,20 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
             </button>
           </header>
 
-          <div className="space-y-4">
+          <Reorder.Group 
+            axis="y" 
+            values={subtasks} 
+            onReorder={setSubtasks}
+            className="space-y-4"
+          >
             {subtasks.map((st, i) => (
-              <div 
-                key={i} 
-                draggable={isEditing}
-                onDragStart={() => setDraggedIdx(i)}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  if (draggedIdx === null || draggedIdx === i) return;
-                  const newSubtasks = [...subtasks];
-                  const item = newSubtasks.splice(draggedIdx, 1)[0];
-                  newSubtasks.splice(i, 0, item);
-                  setSubtasks(newSubtasks);
-                  setDraggedIdx(i);
-                }}
-                onDragEnd={() => setDraggedIdx(null)}
+              <Reorder.Item 
+                key={st.id} 
+                value={st}
+                dragListener={isEditing}
                 className={cn(
                   "card-scholar p-6 flex items-center gap-4 transition-all duration-300",
-                  isEditing ? "cursor-grab active:cursor-grabbing border-dashed border-ink/20" : "animate-[slide-up_400ms_var(--ease-out-expo)_both]",
-                  draggedIdx === i && "opacity-20 scale-95",
-                  !isEditing && (i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : i === 2 ? "stagger-3" : i === 3 ? "stagger-4" : "stagger-5")
+                  isEditing ? "cursor-grab active:cursor-grabbing border-dashed border-ink/20" : ""
                 )}
               >
                 <div className={cn(
@@ -168,9 +162,9 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
                 ) : (
                   <p className="font-serif text-lg text-ink italic">{st.text}</p>
                 )}
-              </div>
+              </Reorder.Item>
             ))}
-          </div>
+          </Reorder.Group>
 
           <div className="space-y-4 pt-6">
             <button 
