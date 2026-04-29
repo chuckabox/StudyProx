@@ -150,8 +150,8 @@ export function FlashcardSuite() {
   return (
     <div className="space-y-12">
       <header className="flex justify-between items-end">
-        <div className="space-y-1">
-          <button onClick={() => setView('folders')} className="text-[10px] font-bold uppercase tracking-widest text-muted flex items-center gap-1">
+        <div className="space-y-4">
+          <button onClick={() => setView('folders')} className="text-[10px] font-bold uppercase tracking-widest text-muted flex items-center gap-1 hover:text-ink transition-colors">
             <ChevronRight className="rotate-180 w-3 h-3" /> Back to Folders
           </button>
           <h2 className="text-3xl font-serif font-bold text-ink italic">{selectedFolder} Deck</h2>
