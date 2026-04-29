@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { cn } from '../../lib/utils';
 
 export function SocialAnalytics({ stats }) {
@@ -11,34 +11,73 @@ export function SocialAnalytics({ stats }) {
     { name: 'Marcus T.', subject: 'ECON', hours: 6.2 },
   ].sort((a, b) => b.hours - a.hours);
 
+  const [range, setRange] = useState('weekly'); // weekly | monthly
   const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  const monthDays = Array.from({ length: 30 }, (_, i) => i + 1);
 
   return (
     <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
       <header className="space-y-1">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Study Analytics</p>
-        <h2 className="text-3xl font-serif font-bold text-ink italic">Progress & Peer Comparison</h2>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Insights</p>
+        <h2 className="text-3xl font-serif font-bold text-ink italic">Your Stats</h2>
       </header>
 
       {/* Calendar Activity */}
       <section className="space-y-4 stagger-1">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Weekly Activity</h3>
-        <div className="grid grid-cols-7 gap-2">
-          {days.map((day, i) => (
-            <div key={i} className="space-y-2">
-              <p className="text-[10px] font-bold text-center text-muted">{day}</p>
-              <div className={cn(
-                "aspect-square rounded-md transition-all duration-500",
-                i === 3 ? "bg-ink scale-110 shadow-lg" : "bg-slate-100" // Mocking today
-              )} />
-            </div>
-          ))}
+        <div className="flex items-center justify-between">
+          <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Study Activity</h3>
+          <div className="flex bg-slate-100 rounded-lg p-1">
+            <button 
+              onClick={() => setRange('weekly')}
+              className={cn(
+                "px-3 py-1 text-[8px] font-bold uppercase tracking-widest rounded-md transition-all",
+                range === 'weekly' ? "bg-white text-ink shadow-sm" : "text-muted hover:text-ink"
+              )}
+            >
+              Week
+            </button>
+            <button 
+              onClick={() => setRange('monthly')}
+              className={cn(
+                "px-3 py-1 text-[8px] font-bold uppercase tracking-widest rounded-md transition-all",
+                range === 'monthly' ? "bg-white text-ink shadow-sm" : "text-muted hover:text-ink"
+              )}
+            >
+              Month
+            </button>
+          </div>
         </div>
+
+        {range === 'weekly' ? (
+          <div className="grid grid-cols-7 gap-2">
+            {days.map((day, i) => (
+              <div key={i} className="space-y-2">
+                <p className="text-[10px] font-bold text-center text-muted">{day}</p>
+                <div className={cn(
+                  "aspect-square rounded-md transition-all duration-500",
+                  i === 3 ? "bg-ink scale-110 shadow-lg" : "bg-slate-100"
+                )} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-7 gap-2 animate-[fade-in_400ms_ease-out]">
+            {monthDays.map((day) => (
+              <div 
+                key={day} 
+                className={cn(
+                  "aspect-square rounded-md border border-slate-50",
+                  day % 3 === 0 ? "bg-ink/10" : day % 5 === 0 ? "bg-ink/40" : day === 15 ? "bg-ink" : "bg-slate-50"
+                )}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Leaderboard */}
       <section className="space-y-4 stagger-2">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Friends Leaderboard</h3>
+        <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Leaderboard</h3>
         <div className="space-y-3">
           {friends.map((friend, i) => (
             <div key={i} className={cn(
@@ -60,7 +99,7 @@ export function SocialAnalytics({ stats }) {
 
       {/* Per-Subject Charts */}
       <section className="space-y-6 stagger-3">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Subject Efficiency</h3>
+        <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Subject Stats</h3>
         <div className="space-y-4">
           {Object.entries(stats?.subjectBreakdown || {}).map(([subject, hours]) => (
             <div key={subject} className="space-y-1.5">

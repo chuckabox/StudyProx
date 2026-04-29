@@ -46,8 +46,8 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
           >
             <ArrowLeft className="w-3 h-3" /> Cancel Session
           </button>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Focus Environment</p>
-          <h2 className="text-3xl font-serif font-bold text-ink italic">Deep Study Preparation</h2>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Set Up Focus</p>
+          <h2 className="text-3xl font-serif font-bold text-ink italic">Get Ready</h2>
         </header>
 
         <div className="space-y-4">
@@ -100,8 +100,8 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
           >
             <ArrowLeft className="w-3 h-3" /> Back to Subjects
           </button>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">OS Integration</p>
-          <h2 className="text-3xl font-serif font-bold text-ink italic">Suppressing External Feeds</h2>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Blocking Apps</p>
+          <h2 className="text-3xl font-serif font-bold text-ink italic">Staying Quiet</h2>
         </header>
 
         <div className="flex flex-col items-center gap-12 py-10">
@@ -158,7 +158,7 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
         {/* Persistence Indicator - Addressing Screen Lock Issues */}
         <div className="flex items-center justify-center gap-1.5 text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-2">
           <div className="w-1 h-1 rounded-full bg-emerald-500" />
-          Persistence Shield Enabled: Audio & Timer Protected
+          Focus Shield Active: App & Audio Protected
         </div>
         <h2 className="text-[100px] font-serif font-bold text-ink leading-none tabular-nums tracking-tighter transition-all duration-300">
           {formatTime(timeLeft)}

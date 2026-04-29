@@ -59,8 +59,8 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
       ) : (
         <div className="space-y-12">
           <header className="space-y-1">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Daily Dashboard</p>
-            <h2 className="text-3xl font-serif font-bold text-ink italic">Cognitive Overview</h2>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Home</p>
+            <h2 className="text-3xl font-serif font-bold text-ink italic">Daily Progress</h2>
           </header>
 
           <div className="card-scholar py-12 text-center space-y-8 stagger-1">
@@ -80,9 +80,9 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
           {/* Smart Transition - Addressing Friction-to-Focus */}
           <section className="card-scholar bg-ink text-paper p-8 space-y-6 stagger-2 border-none shadow-2xl relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-paper/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-700" />
-            <div className="space-y-1 relative z-10">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-paper/40">Automated Transition</p>
-              <h4 className="text-2xl font-serif font-bold italic">Next Academic Block</h4>
+          <header className="space-y-1 relative z-10">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-paper/40">Next Up</p>
+            <h4 className="text-2xl font-serif font-bold italic">Upcoming Class</h4>
               <p className="text-sm text-paper/60 italic">Detected: Constitutional Law Seminar (09:00)</p>
             </div>
             <div className="flex items-center justify-between relative z-10 pt-4">

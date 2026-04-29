@@ -32,13 +32,13 @@ export function SettingsPage({ settings, setSettings }) {
   return (
     <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
       <section className="space-y-3">
-        <h1 className="text-4xl font-serif font-extrabold text-ink tracking-tight">Preferences</h1>
-        <p className="text-muted text-sm font-medium italic">Tailoring your intellectual environment.</p>
+        <h1 className="text-4xl font-serif font-extrabold text-ink tracking-tight">Settings</h1>
+        <p className="text-muted text-sm font-medium italic">Customize your focus.</p>
       </section>
 
       {/* AI Complexity */}
       <section className="space-y-4 stagger-1">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-muted">AI Deconstruction Complexity</h3>
+        <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Plan Detail Level</h3>
         <div className="grid grid-cols-1 gap-3">
           {complexityOptions.map(opt => (
             <button
@@ -61,7 +61,7 @@ export function SettingsPage({ settings, setSettings }) {
       {/* App Blocking */}
       <section className="space-y-4 stagger-2">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Restricted App Suite</h3>
+          <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Blocked Apps</h3>
           <Smartphone size={16} className="text-muted" />
         </div>
         

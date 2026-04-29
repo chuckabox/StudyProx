@@ -44,8 +44,8 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
       {step === 'input' && (
         <div className="space-y-10">
           <header className="space-y-1">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Architectural Intent</p>
-            <h2 className="text-3xl font-serif font-bold text-ink italic">Project Definition</h2>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Plan Task</p>
+            <h2 className="text-3xl font-serif font-bold text-ink italic">Project Goal</h2>
           </header>
 
           <input 
@@ -67,8 +67,8 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
       {step === 'review' && (
         <div className="space-y-10">
           <header className="space-y-1">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Sprint Deconstruction</p>
-            <h2 className="text-3xl font-serif font-bold text-ink italic">Planned Sequence</h2>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Task Breakdown</p>
+            <h2 className="text-3xl font-serif font-bold text-ink italic">Step List</h2>
           </header>
 
           <div className="space-y-4">
