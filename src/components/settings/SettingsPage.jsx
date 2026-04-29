@@ -30,29 +30,39 @@ export function SettingsPage({ settings, setSettings }) {
   };
 
   return (
-    <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
-      <section className="space-y-3">
-        <h1 className="text-4xl font-serif font-extrabold text-ink tracking-tight">Settings</h1>
-        <p className="text-muted text-sm font-medium italic">Customize your focus.</p>
-      </section>
+    <div className="max-w-lg mx-auto space-y-12 animate-[fade-in_600ms_ease-out]">
+      <header className="space-y-1">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Preferences</p>
+        <h2 className="text-3xl font-serif font-bold text-ink italic">Settings</h2>
+      </header>
 
       {/* AI Complexity */}
       <section className="space-y-4 stagger-1">
         <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Plan Detail Level</h3>
         <div className="grid grid-cols-1 gap-3">
-          {complexityOptions.map(opt => (
+          {complexityOptions.map((opt, i) => (
             <button
               key={opt.id}
               onClick={() => setSettings({ ...settings, aiComplexity: opt.id })}
               className={cn(
-                "p-4 rounded-xl border text-left transition-all",
+                "card-scholar p-5 text-left flex items-center justify-between group animate-none", // Remove animation: slide-up from class to avoid double animation
+                i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : "stagger-3",
                 settings.aiComplexity === opt.id 
-                  ? "border-ink bg-slate-50 shadow-sm" 
-                  : "border-slate-100 hover:border-ink/20"
+                  ? "border-ink bg-slate-50 shadow-md ring-1 ring-ink/5" 
+                  : "border-slate-100 hover:border-ink/10"
               )}
+              style={{ animation: 'slide-up 600ms var(--ease-out-expo) both' }} // Inline to ensure stagger works
             >
-              <p className="font-bold text-sm">{opt.label}</p>
-              <p className="text-[10px] text-muted">{opt.desc}</p>
+              <div>
+                <p className="font-bold text-sm text-ink">{opt.label}</p>
+                <p className="text-[10px] text-muted uppercase tracking-widest">{opt.desc}</p>
+              </div>
+              <div className={cn(
+                "w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center",
+                settings.aiComplexity === opt.id ? "border-ink bg-ink" : "border-slate-200 group-hover:border-ink/20"
+              )}>
+                {settings.aiComplexity === opt.id && <div className="w-1.5 h-1.5 bg-paper rounded-full" />}
+              </div>
             </button>
           ))}
         </div>
