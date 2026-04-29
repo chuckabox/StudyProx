@@ -79,6 +79,10 @@ export function useStudyCore() {
     });
   };
 
+  const clearTasks = () => {
+    setTasks([]);
+  };
+
   return {
     tasks,
     stats,
@@ -86,6 +90,7 @@ export function useStudyCore() {
     setSettings,
     addTask,
     updateSubtask,
-    logStudySession
+    logStudySession,
+    clearTasks
   };
 }

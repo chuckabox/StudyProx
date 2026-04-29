@@ -9,7 +9,7 @@ import { SettingsPage } from './components/settings/SettingsPage';
 import { useStudyCore } from './hooks/use-tasks';
 
 function App() {
-  const { tasks, stats, settings, setSettings, addTask, updateSubtask, logStudySession } = useStudyCore();
+  const { tasks, stats, settings, setSettings, addTask, updateSubtask, logStudySession, clearTasks } = useStudyCore();
   const [view, setView] = useState('dashboard'); // dashboard | architect | focus | cards | stats | settings
 
   const activeTask = tasks.find(t => !t.completed);
@@ -35,6 +35,7 @@ function App() {
               onStartNew={() => setView('architect')} 
               onUpdateSubtask={updateSubtask}
               onStartFocus={() => setView('focus')}
+              onCancelTask={clearTasks}
             />
           </div>
         )}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Check, Zap, CheckCircle2, TrendingUp, Clock } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtask, onStartFocus }) {
+export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtask, onStartFocus, onCancelTask }) {
   const quotes = [
     "Cognition peaks during early focus.",
     "Small steps lead to deep mastery.",
@@ -55,14 +55,24 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
               </div>
             </div>
           ) : (
-            <div className="card-scholar text-center space-y-4 animate-bounce">
-              <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-6 h-6 text-emerald-600" />
+            <>
+              <div className="card-scholar text-center space-y-4 animate-bounce">
+                <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-6 h-6 text-emerald-600" />
+                </div>
+                <p className="font-serif font-bold text-xl">Objective Complete</p>
+                <button onClick={onStartNew} className="btn-ink w-full">New Sprint</button>
               </div>
-              <p className="font-serif font-bold text-xl">Objective Complete</p>
-              <button onClick={onStartNew} className="btn-ink w-full">New Sprint</button>
-            </div>
+            </>
           )}
+          <div className="flex justify-center pt-6">
+            <button 
+              onClick={onCancelTask}
+              className="text-[10px] font-bold uppercase tracking-widest text-muted hover:text-red-500 transition-colors duration-200 border-b border-transparent hover:border-red-500 pb-1"
+            >
+              Cancel Project
+            </button>
+          </div>
         </div>
       ) : (
         <div className="space-y-12">
