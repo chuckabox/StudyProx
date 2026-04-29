@@ -18,7 +18,7 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
 
         {/* Internal Screen Container */}
         <div className={cn(
-          "flex-1 bg-paper relative flex flex-col shadow-inner overflow-hidden",
+          "flex-1 bg-paper relative flex flex-col shadow-inner overflow-hidden transform-gpu",
           "sm:rounded-[48px] sm:border sm:border-black/5"
         )}>
           {/* Scrollable Content Area */}
