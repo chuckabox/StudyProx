@@ -14,8 +14,19 @@ export function SocialAnalytics({ stats }) {
 
   const [range, setRange] = useState('weekly'); // weekly | monthly
   const [selectedDay, setSelectedDay] = useState(null);
+  
+  const today = new Date(2026, 3, 29); // April 29, 2026
+  const monthName = today.toLocaleString('default', { month: 'long' });
+  const year = today.getFullYear();
+
   const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-  const monthDays = Array.from({ length: 30 }, (_, i) => i + 1);
+  const monthDays = Array.from({ length: 30 }, (_, i) => ({
+    date: i + 1,
+    isToday: i + 1 === 29,
+    isPast: i + 1 < 29
+  }));
+
+  const weekDates = [26, 27, 28, 29, 30, 1, 2]; // Sample week around April 29
 
   return (
     <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
@@ -56,9 +67,12 @@ export function SocialAnalytics({ stats }) {
               <div 
                 key={i} 
                 className="space-y-2 cursor-pointer group"
-                onClick={() => setSelectedDay({ day, isMonth: false, index: i })}
+                onClick={() => setSelectedDay({ day: weekDates[i], month: weekDates[i] < 5 && i > 3 ? 'May' : 'April', isMonth: false })}
               >
-                <p className="text-[10px] font-bold text-center text-muted group-hover:text-ink">{day}</p>
+                <div className="text-center space-y-0.5">
+                  <p className="text-[10px] font-bold text-muted group-hover:text-ink">{day}</p>
+                  <p className="text-[8px] font-bold text-slate-300">{weekDates[i]}</p>
+                </div>
                 <div className={cn(
                   "aspect-square rounded-md transition-all duration-500",
                   i === 3 ? "bg-ink scale-110 shadow-lg" : "bg-slate-100 group-hover:bg-slate-200"
@@ -68,25 +82,25 @@ export function SocialAnalytics({ stats }) {
           </div>
         ) : (
           <div className="grid grid-cols-7 gap-1 animate-[fade-in_400ms_ease-out]">
-            {monthDays.map((day) => (
+            {monthDays.map((d) => (
               <div 
-                key={day} 
-                onClick={() => setSelectedDay({ day, isMonth: true })}
+                key={d.date} 
+                onClick={() => setSelectedDay({ day: d.date, month: 'April', isMonth: true })}
                 className={cn(
                   "aspect-square rounded-lg border border-slate-50 relative group flex items-center justify-center transition-all cursor-pointer hover:scale-105 hover:z-10",
-                  day < 15 ? (day === 4 || day === 7 || day === 12 ? "bg-ink/40" : day % 2 === 0 ? "bg-ink/10" : "bg-slate-50") : "bg-slate-50",
-                  day === 15 && "bg-ink ring-2 ring-ink ring-offset-2 scale-90"
+                  d.isPast ? (d.date === 4 || d.date === 7 || d.date === 12 ? "bg-ink/40" : d.date % 2 === 0 ? "bg-ink/10" : "bg-slate-50") : "bg-slate-50",
+                  d.isToday && "bg-ink ring-2 ring-ink ring-offset-2 scale-90"
                 )}
               >
                 <span className={cn(
                   "text-[8px] font-bold",
-                  day === 15 ? "text-paper" : "text-slate-300 group-hover:text-ink"
+                  d.isToday ? "text-paper" : "text-slate-300 group-hover:text-ink"
                 )}>
-                  {day}
+                  {d.date}
                 </span>
                 
                 {/* Due Date Indicator for future days */}
-                {day > 15 && (day === 17 || day === 19 || day === 24) && (
+                {!d.isPast && !d.isToday && (d.date === 17 || d.date === 19 || d.date === 24) && (
                   <div className="absolute top-1 right-1 w-1 h-1 bg-blue-500 rounded-full" />
                 )}
               </div>
@@ -160,10 +174,10 @@ export function SocialAnalytics({ stats }) {
             <div className="flex justify-between items-start">
               <div className="space-y-1">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted">
-                  {selectedDay.isMonth ? 'April' : 'This Week'}
+                  {selectedDay.month} {year}
                 </p>
                 <h3 className="text-2xl font-serif font-bold text-ink italic">
-                  Day {selectedDay.day}
+                  {selectedDay.month} {selectedDay.day}, {year}
                 </h3>
               </div>
               <button 
@@ -178,7 +192,7 @@ export function SocialAnalytics({ stats }) {
               <div className="p-4 bg-slate-50 rounded-xl space-y-1">
                 <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Study Effort</p>
                 <p className="text-xl font-serif font-bold text-ink italic">
-                  {selectedDay.day === 15 ? stats?.totalHours?.toFixed(1) || '0.0' : selectedDay.day < 15 ? '3.5' : '0.0'}h
+                  {selectedDay.day === 29 ? stats?.totalHours?.toFixed(1) || '0.0' : selectedDay.day < 29 ? '3.5' : '0.0'}h
                 </p>
               </div>
 
@@ -189,7 +203,7 @@ export function SocialAnalytics({ stats }) {
                 </div>
               )}
 
-              {selectedDay.day === 15 && (
+              {selectedDay.day === 29 && (
                 <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl space-y-1">
                   <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-600">Active</p>
                   <p className="text-sm font-bold text-emerald-900">Current Study Goal</p>
