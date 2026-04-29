@@ -12,6 +12,7 @@ export function SocialAnalytics({ stats }) {
   ].sort((a, b) => b.hours - a.hours);
 
   const [range, setRange] = useState('weekly'); // weekly | monthly
+  const [selectedDay, setSelectedDay] = useState(null);
   const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   const monthDays = Array.from({ length: 30 }, (_, i) => i + 1);
 
@@ -51,32 +52,41 @@ export function SocialAnalytics({ stats }) {
         {range === 'weekly' ? (
           <div className="grid grid-cols-7 gap-2">
             {days.map((day, i) => (
-              <div key={i} className="space-y-2">
-                <p className="text-[10px] font-bold text-center text-muted">{day}</p>
+              <div 
+                key={i} 
+                className="space-y-2 cursor-pointer group"
+                onClick={() => setSelectedDay({ day, isMonth: false, index: i })}
+              >
+                <p className="text-[10px] font-bold text-center text-muted group-hover:text-ink">{day}</p>
                 <div className={cn(
                   "aspect-square rounded-md transition-all duration-500",
-                  i === 3 ? "bg-ink scale-110 shadow-lg" : "bg-slate-100"
+                  i === 3 ? "bg-ink scale-110 shadow-lg" : "bg-slate-100 group-hover:bg-slate-200"
                 )} />
               </div>
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-7 gap-2 animate-[fade-in_400ms_ease-out]">
+          <div className="grid grid-cols-7 gap-1 animate-[fade-in_400ms_ease-out]">
             {monthDays.map((day) => (
               <div 
                 key={day} 
+                onClick={() => setSelectedDay({ day, isMonth: true })}
                 className={cn(
-                  "aspect-square rounded-md border border-slate-50 relative group",
+                  "aspect-square rounded-lg border border-slate-50 relative group flex items-center justify-center transition-all cursor-pointer hover:scale-105 hover:z-10",
                   day < 15 ? (day % 3 === 0 ? "bg-ink/10" : day % 5 === 0 ? "bg-ink/40" : "bg-slate-50") : "bg-slate-50",
                   day === 15 && "bg-ink ring-2 ring-ink ring-offset-2 scale-90"
                 )}
               >
+                <span className={cn(
+                  "text-[8px] font-bold",
+                  day === 15 ? "text-paper" : "text-slate-300 group-hover:text-ink"
+                )}>
+                  {day}
+                </span>
+                
                 {/* Due Date Indicator for future days */}
                 {day > 15 && (day === 17 || day === 19 || day === 24) && (
-                  <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-blue-500 rounded-full shadow-[0_0_8px_rgba(37,99,235,0.5)]" />
-                )}
-                {day === 15 && (
-                   <div className="absolute -top-1 -right-1 w-2 h-2 bg-emerald-500 rounded-full border-2 border-paper" />
+                  <div className="absolute top-1 right-1 w-1 h-1 bg-blue-500 rounded-full" />
                 )}
               </div>
             ))}
@@ -136,6 +146,65 @@ export function SocialAnalytics({ stats }) {
           ))}
         </div>
       </section>
+      {/* Day Detail Modal */}
+      {selectedDay && (
+        <div 
+          className="absolute inset-0 z-[100] flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]"
+          onClick={() => setSelectedDay(null)}
+        >
+          <div 
+            className="w-full max-w-xs card-scholar p-8 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)]"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-start">
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">
+                  {selectedDay.isMonth ? 'April' : 'This Week'}
+                </p>
+                <h3 className="text-2xl font-serif font-bold text-ink italic">
+                  Day {selectedDay.day}
+                </h3>
+              </div>
+              <button 
+                onClick={() => setSelectedDay(null)}
+                className="p-1 hover:bg-slate-100 rounded-md transition-colors"
+              >
+                <X className="w-4 h-4 text-muted" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div className="p-4 bg-slate-50 rounded-xl space-y-1">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Study Effort</p>
+                <p className="text-xl font-serif font-bold text-ink italic">
+                  {selectedDay.day === 15 ? stats?.totalHours?.toFixed(1) || '0.0' : selectedDay.day < 15 ? '3.5' : '0.0'}h
+                </p>
+              </div>
+
+              {(selectedDay.day === 17 || selectedDay.day === 19 || selectedDay.day === 24) && (
+                <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl space-y-1">
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-blue-600">Upcoming Due</p>
+                  <p className="text-sm font-bold text-blue-900">Law & Ethics Review</p>
+                </div>
+              )}
+
+              {selectedDay.day === 15 && (
+                <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl space-y-1">
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-600">Active</p>
+                  <p className="text-sm font-bold text-emerald-900">Current Study Goal</p>
+                </div>
+              )}
+            </div>
+
+            <button 
+              onClick={() => setSelectedDay(null)}
+              className="btn-ink w-full"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

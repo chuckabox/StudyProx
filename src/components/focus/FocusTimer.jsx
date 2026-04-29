@@ -58,17 +58,17 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
                 key={s.id}
                 onClick={() => setSelectedSubject(s.id)}
                 className={cn(
-                  "card-scholar p-6 flex items-center justify-between group",
-                  selectedSubject === s.id ? "border-ink bg-slate-50 shadow-md scale-[1.02]" : "hover:border-ink/20",
+                  "card-scholar p-4 flex items-center justify-between group",
+                  selectedSubject === s.id ? "border-ink bg-slate-50 shadow-md scale-[1.01]" : "hover:border-ink/20",
                   i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : "stagger-3"
                 )}
               >
-                <div className="flex items-center gap-4 text-left">
+                <div className="flex items-center gap-3 text-left">
                   <div className={cn(
-                    "w-10 h-10 rounded-lg flex items-center justify-center transition-colors",
+                    "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
                     selectedSubject === s.id ? "bg-ink text-paper" : "bg-slate-50 group-hover:bg-ink group-hover:text-paper"
                   )}>
-                    <Lock className="w-4 h-4" />
+                    <Lock className="w-3.5 h-3.5" />
                   </div>
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{s.id}</p>
