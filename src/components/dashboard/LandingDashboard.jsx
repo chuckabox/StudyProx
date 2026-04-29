@@ -133,7 +133,10 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
             
             {inCohort ? (
               <>
-                <div className="card-scholar bg-ink text-paper border-none p-8 flex flex-col gap-6 group overflow-hidden relative shadow-2xl">
+                <div 
+                  onClick={() => setIsViewingContributors(true)}
+                  className="card-scholar bg-ink text-paper border-none p-8 flex flex-col gap-6 group overflow-hidden relative shadow-2xl cursor-pointer active:scale-[0.98] transition-all"
+                >
                   <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -mr-20 -mt-20 transition-transform group-hover:scale-110 duration-1000" />
                   
                   <div className="relative z-10 flex items-center justify-between">
@@ -196,9 +199,9 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                   <TrendingUp size={20} />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-serif font-bold text-lg italic text-ink/40">Solo Focus Active</h4>
+                  <h4 className="font-serif font-bold text-lg italic text-ink/40">Solo Mode</h4>
                   <p className="text-[11px] text-muted max-w-[180px] mx-auto italic">
-                    Join a cohort to leverage social momentum and shared accountability.
+                    Join a cohort for shared accountability.
                   </p>
                 </div>
               </div>
@@ -243,6 +246,50 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                   className="btn-ghost w-full"
                 >
                   Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Contributors Dialog */}
+          {isViewingContributors && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+              <div className="w-full max-w-sm card-scholar p-8 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)]">
+                <div className="flex justify-between items-start">
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{activeCohort}</p>
+                    <h3 className="text-2xl font-serif font-bold text-ink italic">Top Contributors</h3>
+                  </div>
+                  <button onClick={() => setIsViewingContributors(false)} className="p-2 hover:bg-slate-50 rounded-lg transition-colors">
+                    <Plus className="w-5 h-5 rotate-45" />
+                  </button>
+                </div>
+
+                <div className="space-y-3">
+                  {[
+                    { name: 'Sarah L.', effort: '24.2h', rank: 1 },
+                    { name: 'Alex M.', effort: '19.5h', rank: 2 },
+                    { name: 'You', effort: stats?.totalHours?.toFixed(1) + 'h', rank: 3 },
+                    { name: 'James K.', effort: '12.8h', rank: 4 }
+                  ].map((user) => (
+                    <div key={user.name} className={cn(
+                      "flex items-center justify-between p-4 rounded-xl border",
+                      user.name === 'You' ? "border-ink bg-slate-50" : "border-slate-100"
+                    )}>
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-bold text-muted w-4">{user.rank}</span>
+                        <p className="font-bold text-sm text-ink">{user.name}</p>
+                      </div>
+                      <p className="font-serif font-bold italic text-ink">{user.effort}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <button 
+                  onClick={() => setIsViewingContributors(false)}
+                  className="btn-ink w-full"
+                >
+                  Done
                 </button>
               </div>
             </div>
