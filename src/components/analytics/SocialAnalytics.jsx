@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Info, ShieldAlert } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function SocialAnalytics({ stats }) {
   const friends = [
-    { name: 'Sarah L.', subject: 'LAW', hours: 14.5 },
-    { name: 'Alex M.', subject: 'STEM', hours: 12.2 },
-    { name: 'James K.', subject: 'MATH', hours: 10.8 },
-    { name: 'You', subject: 'LAW', hours: stats?.totalHours || 0 },
-    { name: 'Elena R.', subject: 'HIST', hours: 8.4 },
-    { name: 'Marcus T.', subject: 'ECON', hours: 6.2 },
+    { name: 'Sarah L.', subject: 'LAW', hours: 14.5, breaks: 0 },
+    { name: 'Alex M.', subject: 'STEM', hours: 12.2, breaks: 2 },
+    { name: 'James K.', subject: 'MATH', hours: 10.8, breaks: 1 },
+    { name: 'You', subject: 'LAW', hours: stats?.totalHours || 0, breaks: stats?.sessionsAborted || 0 },
+    { name: 'Elena R.', subject: 'HIST', hours: 8.4, breaks: 0 },
+    { name: 'Marcus T.', subject: 'ECON', hours: 6.2, breaks: 4 },
   ].sort((a, b) => b.hours - a.hours);
 
   const [range, setRange] = useState('weekly'); // weekly | monthly
@@ -121,15 +121,21 @@ export function SocialAnalytics({ stats }) {
 
       {/* Personal Stats Table */}
       <section className="grid grid-cols-2 gap-4 stagger-2">
-        <div className="card-scholar p-6 space-y-2">
+        <div className="card-scholar p-5 flex flex-col justify-between min-h-[100px]">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Total Hours</p>
           <p className="text-2xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
         </div>
         <div className={cn(
-          "card-scholar p-6 space-y-2 border-2",
+          "card-scholar p-5 flex flex-col justify-between min-h-[100px] border-2 relative group",
           stats?.sessionsAborted > 0 ? "border-red-100 bg-red-50/50" : "border-slate-100"
         )}>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-red-400">Integrity Breaks</p>
+          <div className="absolute top-4 right-4 text-slate-300 hover:text-ink transition-colors cursor-help">
+            <Info size={12} />
+            <div className="absolute bottom-full right-0 mb-2 w-32 p-2 bg-ink text-paper text-[8px] rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-xl z-50">
+              Recorded each time you cancel an active plan or focus session.
+            </div>
+          </div>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-red-400">Slip Ups</p>
           <p className={cn(
             "text-2xl font-serif font-bold italic",
             stats?.sessionsAborted > 0 ? "text-red-600" : "text-ink"
@@ -146,7 +152,7 @@ export function SocialAnalytics({ stats }) {
           {friends.map((friend, i) => (
             <div key={i} className={cn(
               "p-4 rounded-xl border flex items-center justify-between transition-all hover:border-ink/20 hover:bg-white",
-              friend.name === 'You' ? "border-ink bg-slate-50" : "border-slate-100"
+              friend.name === 'You' ? "border-ink bg-slate-50 scale-[1.02] shadow-md" : "border-slate-100"
             )}>
               <div className="flex items-center gap-3">
                 <span className="text-xs font-bold text-muted w-4">{i + 1}</span>
@@ -155,7 +161,26 @@ export function SocialAnalytics({ stats }) {
                   <p className="text-[10px] text-muted uppercase tracking-widest">{friend.subject}</p>
                 </div>
               </div>
-              <p className="font-serif font-bold text-lg italic">{friend.hours.toFixed(1)}h</p>
+              <div className="text-right flex items-center gap-6">
+                <div className="text-right">
+                  <p className="text-lg font-serif font-bold italic">{friend.hours.toFixed(1)}h</p>
+                  <p className="text-[7px] font-bold uppercase tracking-widest text-muted">Effort</p>
+                </div>
+                <div className="text-right min-w-[32px]">
+                  <p className={cn(
+                    "text-lg font-serif font-bold italic",
+                    friend.breaks > 0 ? "text-red-500" : "text-emerald-600"
+                  )}>
+                    {friend.breaks}
+                  </p>
+                  <p className={cn(
+                    "text-[7px] font-bold uppercase tracking-widest",
+                    friend.breaks > 0 ? "text-red-400" : "text-emerald-500"
+                  )}>
+                    {friend.breaks > 0 ? 'Slips' : 'No Slips'}
+                  </p>
+                </div>
+              </div>
             </div>
           ))}
         </div>

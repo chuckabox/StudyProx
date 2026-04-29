@@ -48,11 +48,11 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
         ];
       } else if (complexity === 'depth') {
         tasks = [
-          { id: crypto.randomUUID(), text: `Phase 1: Literary Audit for ${title}` },
-          { id: crypto.randomUUID(), text: 'Phase 2: Dependency Mapping' },
-          { id: crypto.randomUUID(), text: 'Phase 3: Structural Skeleton' },
-          { id: crypto.randomUUID(), text: 'Phase 4: Deep Neural Synthesis' },
-          { id: crypto.randomUUID(), text: 'Phase 5: Critical Polish & Citations' }
+          { id: crypto.randomUUID(), text: `Literary Audit for ${title}` },
+          { id: crypto.randomUUID(), text: 'Dependency Mapping' },
+          { id: crypto.randomUUID(), text: 'Structural Skeleton' },
+          { id: crypto.randomUUID(), text: 'Deep Neural Synthesis' },
+          { id: crypto.randomUUID(), text: 'Critical Polish & Citations' }
         ];
       } else {
         tasks = [
@@ -215,8 +215,12 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
 
           <div className="space-y-4 pt-6">
             <button 
+              disabled={isEditing}
               onClick={() => onTaskCreated(title, subtasks.map(s => s.text))}
-              className="btn-ink w-full"
+              className={cn(
+                "btn-ink w-full transition-all",
+                isEditing && "opacity-50 cursor-not-allowed grayscale"
+              )}
             >
               Begin Plan
             </button>
