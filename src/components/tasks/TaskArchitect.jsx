@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sparkles, X, Check, ArrowRight } from 'lucide-react';
+import { Sparkles, X, Check, ArrowRight, Pencil, GripVertical } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
@@ -49,6 +49,9 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
       setStep('review');
     }, 1500);
   };
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [draggedIdx, setDraggedIdx] = useState(null);
 
   return (
     <div className="max-w-lg mx-auto space-y-12 animate-[fade-in_600ms_ease-out]">
@@ -106,32 +109,65 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
 
       {step === 'review' && (
         <div className="space-y-10">
-          <header className="space-y-1">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Task Breakdown</p>
-            <h2 className="text-3xl font-serif font-bold text-ink italic">Step List</h2>
+          <header className="flex items-center justify-between">
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Task Breakdown</p>
+              <h2 className="text-3xl font-serif font-bold text-ink italic">Step List</h2>
+            </div>
+            <button 
+              onClick={() => setIsEditing(!isEditing)}
+              className={cn(
+                "p-3 rounded-full transition-all",
+                isEditing ? "bg-ink text-paper rotate-12" : "bg-slate-50 text-ink/40 hover:text-ink"
+              )}
+            >
+              <Pencil size={18} />
+            </button>
           </header>
 
           <div className="space-y-4">
             {subtasks.map((st, i) => (
               <div 
                 key={i} 
+                draggable={isEditing}
+                onDragStart={() => setDraggedIdx(i)}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  if (draggedIdx === null || draggedIdx === i) return;
+                  const newSubtasks = [...subtasks];
+                  const item = newSubtasks.splice(draggedIdx, 1)[0];
+                  newSubtasks.splice(i, 0, item);
+                  setSubtasks(newSubtasks);
+                  setDraggedIdx(i);
+                }}
+                onDragEnd={() => setDraggedIdx(null)}
                 className={cn(
-                  "card-scholar p-6 flex items-center gap-4 animate-[slide-up_400ms_var(--ease-out-expo)_both]",
-                  i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : i === 2 ? "stagger-3" : i === 3 ? "stagger-4" : "stagger-5"
+                  "card-scholar p-6 flex items-center gap-4 transition-all duration-300",
+                  isEditing ? "cursor-grab active:cursor-grabbing border-dashed border-ink/20" : "animate-[slide-up_400ms_var(--ease-out-expo)_both]",
+                  draggedIdx === i && "opacity-20 scale-95",
+                  !isEditing && (i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : i === 2 ? "stagger-3" : i === 3 ? "stagger-4" : "stagger-5")
                 )}
               >
-                <div className="w-8 h-8 rounded-lg bg-ink text-paper flex-shrink-0 flex items-center justify-center font-bold text-xs">
-                  {i + 1}
+                <div className={cn(
+                  "w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center font-bold text-xs transition-colors",
+                  isEditing ? "bg-slate-200 text-ink/40" : "bg-ink text-paper"
+                )}>
+                  {isEditing ? <GripVertical size={14} /> : i + 1}
                 </div>
-                <input 
-                  className="bg-transparent border-none p-0 font-serif text-lg text-ink italic w-full focus:outline-none focus:ring-0"
-                  value={st.text}
-                  onChange={(e) => {
-                    const newSubtasks = [...subtasks];
-                    newSubtasks[i].text = e.target.value;
-                    setSubtasks(newSubtasks);
-                  }}
-                />
+                
+                {isEditing ? (
+                  <input 
+                    className="bg-transparent border-none p-0 font-serif text-lg text-ink italic w-full focus:outline-none focus:ring-0"
+                    value={st.text}
+                    onChange={(e) => {
+                      const newSubtasks = [...subtasks];
+                      newSubtasks[i].text = e.target.value;
+                      setSubtasks(newSubtasks);
+                    }}
+                  />
+                ) : (
+                  <p className="font-serif text-lg text-ink italic">{st.text}</p>
+                )}
               </div>
             ))}
           </div>
