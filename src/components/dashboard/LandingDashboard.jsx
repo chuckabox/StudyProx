@@ -24,22 +24,22 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
           </header>
 
           {nextSubtask ? (
-            <div className="card-scholar space-y-8 stagger-1">
+            <div className="card-scholar p-6 space-y-6 stagger-1">
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-2">Next Step</p>
-                <p className="text-xl font-serif font-bold text-ink italic">{nextSubtask.text}</p>
+                <p className="text-lg font-serif font-bold text-ink italic">{nextSubtask.text}</p>
               </div>
 
               <div className="flex gap-3">
                 <button
                   onClick={() => onUpdateSubtask(activeTask.id, nextSubtask.id, true)}
-                  className="w-12 h-12 rounded-lg border border-slate-100 flex items-center justify-center hover:bg-slate-50 transition-all active:scale-90"
+                  className="w-10 h-10 rounded-lg border border-slate-100 flex items-center justify-center hover:bg-slate-50 transition-all active:scale-90"
                 >
                   <Check className="w-5 h-5" />
                 </button>
                 <button
                   onClick={onStartFocus}
-                  className="btn-ink flex-1"
+                  className="btn-ink flex-1 text-sm py-2"
                 >
                   <Zap className="w-4 h-4" />
                   <span>Start Focus</span>
@@ -63,10 +63,10 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
             <h2 className="text-3xl font-serif font-bold text-ink italic">Daily Progress</h2>
           </header>
 
-          <div className="card-scholar py-12 text-center space-y-8 stagger-1">
-            <div className="space-y-2">
-              <h3 className="text-2xl font-serif font-bold text-ink italic">Ready for a session?</h3>
-              <p className="text-muted text-sm italic">Deconstruct your next goal into focused sprints.</p>
+          <div className="card-scholar py-8 text-center space-y-6 stagger-1">
+            <div className="space-y-1">
+              <h3 className="text-xl font-serif font-bold text-ink italic">Ready for a session?</h3>
+              <p className="text-muted text-[13px] italic">Deconstruct your next goal into focused sprints.</p>
             </div>
             <button
               onClick={onStartNew}
@@ -79,34 +79,34 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
 
 
 
-          <section className="grid grid-cols-2 gap-6 stagger-3">
-            <div className="card-scholar p-8 space-y-4 hover:bg-white transition-all">
-              <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center">
-                <Clock className="w-5 h-5 text-ink" />
+          <section className="grid grid-cols-2 gap-4 stagger-3">
+            <div className="card-scholar p-6 space-y-3 hover:bg-white transition-all">
+              <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center">
+                <Clock className="w-4 h-4 text-ink" />
               </div>
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Total Effort</p>
-                <p className="text-3xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
+                <p className="text-2xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
               </div>
             </div>
-            <div className="card-scholar p-8 space-y-4 hover:bg-white transition-all">
-              <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-ink" />
+            <div className="card-scholar p-6 space-y-3 hover:bg-white transition-all">
+              <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-4 h-4 text-ink" />
               </div>
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Streak</p>
-                <p className="text-3xl font-serif font-bold text-ink italic">12 Days</p>
+                <p className="text-2xl font-serif font-bold text-ink italic">12 Days</p>
               </div>
             </div>
           </section>
 
-          <section className="card-scholar bg-slate-50 border-none p-8 flex items-center justify-between stagger-4 hover:bg-slate-100 transition-all cursor-default">
+          <section className="card-scholar bg-slate-50 border-none p-6 flex items-center justify-between stagger-4 hover:bg-slate-100 transition-all cursor-default">
             <div className="space-y-1">
               <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Weekly Commitment</p>
-              <h4 className="font-serif font-bold text-xl text-ink italic">Consistency Peak</h4>
+              <h4 className="font-serif font-bold text-lg text-ink italic">Consistency Peak</h4>
             </div>
             <div className="text-right">
-              <p className="text-3xl font-serif font-bold text-ink italic">92%</p>
+              <p className="text-2xl font-serif font-bold text-ink italic">92%</p>
             </div>
           </section>
         </div>
