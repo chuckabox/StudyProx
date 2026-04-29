@@ -127,6 +127,36 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
               <p className="text-2xl font-serif font-bold text-ink italic">92%</p>
             </div>
           </section>
+
+          {/* Social Proof - Theme 1.3 Social Studying */}
+          <section className="space-y-6 stagger-5">
+            <div className="card-scholar bg-ink text-paper border-none p-6 flex items-center justify-between group overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-paper/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-700" />
+              <div className="relative z-10 space-y-1">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-paper/40">Global Momentum</p>
+                <h4 className="text-xl font-serif font-bold italic">Group: Law Cohort B</h4>
+              </div>
+              <div className="relative z-10 text-right">
+                <p className="text-2xl font-serif font-bold italic">142h</p>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-paper/40">Collective Effort</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Peer Activity</p>
+              <div className="flex -space-x-3 overflow-hidden">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-10 h-10 rounded-full border-2 border-paper bg-slate-100 flex items-center justify-center text-[10px] font-bold text-ink">
+                    {['SL', 'AM', 'JK', 'ER'][i-1]}
+                  </div>
+                ))}
+                <div className="w-10 h-10 rounded-full border-2 border-paper bg-ink text-paper flex items-center justify-center text-[10px] font-bold">
+                  +12
+                </div>
+              </div>
+              <p className="text-[11px] text-muted italic">Sarah L. and 3 others are currently in Deep Focus sessions.</p>
+            </div>
+          </section>
         </div>
       )}
 
