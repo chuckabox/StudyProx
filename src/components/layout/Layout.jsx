@@ -1,5 +1,5 @@
 import { cloneElement } from 'react';
-import { Sparkles, Brain, Clock, BarChart3, Settings } from 'lucide-react';
+import { Sparkles, Brain, Clock, BarChart3, Settings, AlertTriangle } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function Layout({ children, currentView, setView, isHardLocked, onOpenSettings }) {
@@ -40,10 +40,18 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
               </button>
             </header>
 
+            {/* Hard-Lock Active Banner */}
+            {isHardLocked && (
+              <div className="mx-8 mt-2 py-2 px-4 bg-red-50 text-red-600 rounded-lg flex items-center gap-2 text-xs font-bold uppercase tracking-widest border border-red-100">
+                <AlertTriangle className="w-3 h-3" />
+                Hard-Lock Active
+              </div>
+            )}
+
             {/* Main Content */}
             <main className={cn(
               "relative z-10 flex-1 flex flex-col px-8 py-6 pb-40",
-              isHardLocked && "pt-12 pb-40"
+              isHardLocked && "pt-4"
             )}>
               {children}
             </main>

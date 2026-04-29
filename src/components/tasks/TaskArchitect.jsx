@@ -3,7 +3,7 @@ import { Sparkles, X, Check, ArrowRight } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
-  const [step, setStep] = useState('input'); // input | review
+  const [step, setStep] = useState('input'); // input | deconstructing | review
   const [title, setTitle] = useState('');
   const [subtasks, setSubtasks] = useState([]);
 
@@ -17,33 +17,37 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
   const handleDeconstruct = () => {
     if (!title.trim()) return;
     
-    // Simulating AI Deconstruction based on settings.aiComplexity
-    let tasks = [];
-    if (settings.aiComplexity === 'simple') {
-      tasks = [
-        { text: `Quick scan: ${title}` },
-        { text: 'Execute core focus' },
-        { text: 'Final verification' }
-      ];
-    } else if (settings.aiComplexity === 'depth') {
-      tasks = [
-        { text: `Phase 1: Literary Audit for ${title}` },
-        { text: 'Phase 2: Dependency Mapping' },
-        { text: 'Phase 3: Structural Skeleton' },
-        { text: 'Phase 4: Deep Neural Synthesis' },
-        { text: 'Phase 5: Critical Polish & Citations' }
-      ];
-    } else {
-      tasks = [
-        { text: `Research core tenets of ${title}` },
-        { text: 'Construct logical framework' },
-        { text: 'Draft focus-heavy sections' },
-        { text: 'Perform integrity review' }
-      ];
-    }
+    setStep('deconstructing');
     
-    setSubtasks(tasks);
-    setStep('review');
+    setTimeout(() => {
+      // Simulating AI Deconstruction based on settings.aiComplexity
+      let tasks = [];
+      if (settings.aiComplexity === 'simple') {
+        tasks = [
+          { text: `Quick scan: ${title}` },
+          { text: 'Execute core focus' },
+          { text: 'Final verification' }
+        ];
+      } else if (settings.aiComplexity === 'depth') {
+        tasks = [
+          { text: `Phase 1: Literary Audit for ${title}` },
+          { text: 'Phase 2: Dependency Mapping' },
+          { text: 'Phase 3: Structural Skeleton' },
+          { text: 'Phase 4: Deep Neural Synthesis' },
+          { text: 'Phase 5: Critical Polish & Citations' }
+        ];
+      } else {
+        tasks = [
+          { text: `Research core tenets of ${title}` },
+          { text: 'Construct logical framework' },
+          { text: 'Draft focus-heavy sections' },
+          { text: 'Perform integrity review' }
+        ];
+      }
+      
+      setSubtasks(tasks);
+      setStep('review');
+    }, 1500);
   };
 
   return (
@@ -86,6 +90,20 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
         </div>
       )}
 
+      {step === 'deconstructing' && (
+        <div className="py-20 flex flex-col items-center justify-center space-y-8 animate-[fade-in_400ms_ease-out]">
+          <div className="w-16 h-16 relative">
+            <div className="absolute inset-0 border-4 border-slate-100 rounded-full" />
+            <div className="absolute inset-0 border-4 border-t-ink rounded-full animate-spin" />
+            <Sparkles className="absolute inset-0 m-auto text-ink animate-pulse" size={24} />
+          </div>
+          <div className="text-center space-y-2">
+            <h3 className="text-xl font-serif font-bold text-ink italic animate-pulse">Deconstructing Neural Path</h3>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">AI is simplifying "{title}"...</p>
+          </div>
+        </div>
+      )}
+
       {step === 'review' && (
         <div className="space-y-10">
           <header className="space-y-1">
@@ -99,7 +117,7 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
                 key={i} 
                 className={cn(
                   "card-scholar p-6 flex items-center gap-4 animate-[slide-up_400ms_var(--ease-out-expo)_both]",
-                  i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : i === 2 ? "stagger-3" : "stagger-4"
+                  i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : i === 2 ? "stagger-3" : i === 3 ? "stagger-4" : "stagger-5"
                 )}
               >
                 <div className="w-8 h-8 rounded-lg bg-ink text-paper flex items-center justify-center font-bold text-xs">
