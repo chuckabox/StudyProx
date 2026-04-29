@@ -44,43 +44,64 @@ export function FlashcardSuite() {
         </header>
 
         <div className="grid grid-cols-1 gap-4">
-          {folders.map((folder, i) => (
-            <button
-              key={folder.id}
-              onClick={() => {
-                setSelectedFolder(folder.id);
-                setView('list');
-              }}
-              className={cn(
-                "card-scholar p-6 flex items-center justify-between group hover:border-ink/20",
-                i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : "stagger-3"
-              )}
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center transition-colors group-hover:bg-ink group-hover:text-paper">
-                  <Folder className="w-5 h-5" />
-                </div>
-                <div className="text-left">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{folder.id}</p>
-                  <h4 className="font-serif font-bold text-lg text-ink">{folder.name}</h4>
-                </div>
-              </div>
-              <div className="text-right flex flex-col items-end gap-2">
-                <div className="flex flex-col items-end">
-                  <p className="text-lg font-bold text-ink">{folder.count} Cards</p>
-                </div>
-                {folder.due ? (
-                  <span className="px-2 py-0.5 bg-ink text-paper text-[8px] font-bold uppercase tracking-tighter rounded-full animate-pulse">
-                    Due Today
-                  </span>
-                ) : (
-                  <span className="text-[8px] font-bold uppercase tracking-tighter text-muted">
-                    Review in {folder.nextReview}
-                  </span>
+          {folders.map((folder, i) => {
+            const subjectStyles = {
+              LAW: "bg-blue-50 text-blue-700",
+              STEM: "bg-emerald-50 text-emerald-700",
+              MATH: "bg-indigo-50 text-indigo-700",
+              HIST: "bg-amber-50 text-amber-700",
+              ECON: "bg-rose-50 text-rose-700"
+            };
+            const currentStyle = subjectStyles[folder.id] || "bg-slate-50 text-ink";
+
+            return (
+              <button
+                key={folder.id}
+                onClick={() => {
+                  setSelectedFolder(folder.id);
+                  setView('list');
+                }}
+                className={cn(
+                  "card-scholar p-5 flex items-center justify-between group hover:border-ink/20",
+                  i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : "stagger-3"
                 )}
-              </div>
-            </button>
-          ))}
+              >
+                <div className="flex items-center gap-5">
+                  <div className={cn(
+                    "w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110",
+                    currentStyle
+                  )}>
+                    <Folder className="w-6 h-6 fill-current opacity-20" />
+                    <Folder className="w-6 h-6 absolute" />
+                  </div>
+                  <div className="text-left space-y-0.5">
+                    <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted">{folder.id}</p>
+                    <h4 className="font-serif font-bold text-xl text-ink leading-tight">{folder.name}</h4>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col items-end gap-2.5">
+                  <div className="text-right">
+                    <p className="text-lg font-bold text-ink leading-none">{folder.count}</p>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Cards</p>
+                  </div>
+                  
+                  {folder.due ? (
+                    <span className="px-2.5 py-1 bg-ink text-paper text-[8px] font-bold uppercase tracking-widest rounded-md shadow-sm animate-pulse">
+                      Review Now
+                    </span>
+                  ) : (
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 rounded-md border border-slate-100">
+                      <div className="w-1 h-1 bg-slate-300 rounded-full" />
+                      <span className="text-[8px] font-bold uppercase tracking-widest text-muted/80">
+                        {folder.nextReview}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
     );
