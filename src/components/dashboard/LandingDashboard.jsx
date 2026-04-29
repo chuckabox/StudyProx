@@ -14,7 +14,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
         <div className="space-y-10">
           <header className="space-y-1">
             <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Active Objective</p>
-            <h2 className="text-3xl font-serif font-bold text-ink">{activeTask.title}</h2>
+            <h2 className="text-3xl font-serif font-bold text-ink italic">{activeTask.title}</h2>
             <div className="w-full h-1 bg-slate-100 rounded-full mt-4">
               <div 
                 className="h-full bg-ink rounded-full transition-all duration-1000 ease-out-expo" 
@@ -58,10 +58,15 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
         </div>
       ) : (
         <div className="space-y-12">
-          <div className="py-12 text-center space-y-8 stagger-1">
+          <header className="space-y-1">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Daily Dashboard</p>
+            <h2 className="text-3xl font-serif font-bold text-ink italic">Cognitive Overview</h2>
+          </header>
+
+          <div className="card-scholar py-12 text-center space-y-8 stagger-1">
             <div className="space-y-2">
-              <h3 className="text-3xl font-serif font-bold text-ink">What's next?</h3>
-              <p className="text-muted text-sm italic">Deconstruct your goal into focus blocks.</p>
+              <h3 className="text-2xl font-serif font-bold text-ink italic">Ready for a session?</h3>
+              <p className="text-muted text-sm italic">Deconstruct your next goal into focused sprints.</p>
             </div>
             <button
               onClick={onStartNew}

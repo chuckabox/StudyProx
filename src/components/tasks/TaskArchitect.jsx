@@ -43,9 +43,9 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
     <div className="max-w-lg mx-auto space-y-12 animate-[fade-in_600ms_ease-out]">
       {step === 'input' && (
         <div className="space-y-10">
-          <header className="space-y-2">
-            <h2 className="text-3xl font-serif font-bold text-ink">Project Definition</h2>
-            <p className="text-muted text-sm italic">What is the primary objective?</p>
+          <header className="space-y-1">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Architectural Intent</p>
+            <h2 className="text-3xl font-serif font-bold text-ink italic">Project Definition</h2>
           </header>
 
           <input 
@@ -66,9 +66,9 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
 
       {step === 'review' && (
         <div className="space-y-10">
-          <header className="space-y-2">
-            <h2 className="text-3xl font-serif font-bold text-ink">Planned Steps</h2>
-            <p className="text-muted text-sm italic">Review the micro-goal sequence for {title}.</p>
+          <header className="space-y-1">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Sprint Deconstruction</p>
+            <h2 className="text-3xl font-serif font-bold text-ink italic">Planned Sequence</h2>
           </header>
 
           <div className="space-y-4">
