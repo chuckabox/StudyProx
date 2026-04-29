@@ -17,6 +17,8 @@ export function FlashcardSuite() {
     { id: 1, subject: 'LAW', front: 'Duty of Care', back: 'Legal obligation to avoid harm.' },
     { id: 2, subject: 'LAW', front: 'Negligence', back: 'Failure to exercise reasonable care.' },
     { id: 3, subject: 'STEM', front: 'Mitochondria', back: 'Powerhouse of the cell.' },
+    { id: 4, subject: 'STEM', front: 'ATP Synthesis', back: 'Process of energy creation.' },
+    { id: 5, subject: 'MATH', front: 'Chain Rule', back: 'Derivative of composite functions.' },
   ];
 
   const filteredCards = selectedFolder 
@@ -63,6 +65,16 @@ export function FlashcardSuite() {
 
   if (view === 'quiz') {
     const currentCard = filteredCards[quizState.index];
+    
+    if (!currentCard) {
+      return (
+        <div className="text-center py-20 space-y-6">
+          <p className="text-xl font-serif italic text-ink">This deck is currently empty.</p>
+          <button onClick={() => setView('folders')} className="btn-ink px-8">Return to Library</button>
+        </div>
+      );
+    }
+
     return (
       <div className="space-y-12 min-h-[60vh] flex flex-col justify-center">
         <header className="text-center space-y-2">
