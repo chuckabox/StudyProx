@@ -33,7 +33,7 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
 
         {/* Bottom Navigation */}
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] px-6">
-          <nav className="p-2 bg-ink text-paper rounded-2xl flex items-center justify-around shadow-2xl">
+          <nav className="p-2 bg-ink text-paper rounded-2xl flex items-center justify-between shadow-2xl">
             <NavButton 
               icon={<Brain />} 
               label="Focus"
