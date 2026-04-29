@@ -27,7 +27,16 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
           <div className="flex-1 overflow-y-auto scroll-smooth no-scrollbar internal-scroll-area">
             {/* Top Nav */}
             <header className="sticky top-0 z-50 px-8 pt-10 sm:pt-14 pb-4 flex items-center justify-between bg-paper/80 backdrop-blur-md">
-              <div className="flex items-center gap-3 cursor-pointer" onClick={() => setView('dashboard')}>
+              <div 
+                className="flex items-center gap-3 cursor-pointer" 
+                onClick={() => {
+                  if (currentView === 'dashboard') {
+                    document.querySelector('.internal-scroll-area')?.scrollTo({ top: 0, behavior: 'smooth' });
+                  } else {
+                    setView('dashboard');
+                  }
+                }}
+              >
                 <div className="w-8 h-8 bg-ink rounded-lg flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-paper" />
                 </div>
@@ -125,19 +134,37 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
                 icon={<Clock />} 
                 label="Library"
                 active={currentView === 'cards'} 
-                onClick={() => setView('cards')}
+                onClick={() => {
+                  if (currentView === 'cards') {
+                    document.querySelector('.internal-scroll-area')?.scrollTo({ top: 0, behavior: 'smooth' });
+                  } else {
+                    setView('cards');
+                  }
+                }}
               />
               <NavButton 
                 icon={<Brain />} 
                 label="Home"
                 active={currentView === 'dashboard' || currentView === 'focus'} 
-                onClick={() => setView('dashboard')}
+                onClick={() => {
+                  if (currentView === 'dashboard') {
+                    document.querySelector('.internal-scroll-area')?.scrollTo({ top: 0, behavior: 'smooth' });
+                  } else {
+                    setView('dashboard');
+                  }
+                }}
               />
               <NavButton 
                 icon={<BarChart3 />} 
                 label="Stats"
                 active={currentView === 'stats'} 
-                onClick={() => setView('stats')}
+                onClick={() => {
+                  if (currentView === 'stats') {
+                    document.querySelector('.internal-scroll-area')?.scrollTo({ top: 0, behavior: 'smooth' });
+                  } else {
+                    setView('stats');
+                  }
+                }}
               />
             </nav>
           </div>
