@@ -17,6 +17,7 @@
   --radius-lg: 16px;
 }
 
+/* Base Styles */
 :root {
   --background: var(--color-paper);
   --foreground: var(--color-ink);
@@ -27,7 +28,6 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
-  position: relative;
 }
 
 @layer base {
@@ -37,7 +37,6 @@ body {
     font-weight: 600;
   }
 
-  /* Professional Focus States (§1) */
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 4px;
@@ -47,57 +46,24 @@ body {
 
 @layer components {
   .card-scholar {
-    @apply bg-white border border-slate-200/50 rounded-2xl p-10 hover:border-slate-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.03)] cursor-default;
-    position: relative;
-    overflow: hidden;
+    @apply bg-white border border-slate-100 rounded-xl p-8;
   }
 
-  /* Interaction Feedback (§2) */
   .btn-ink {
-    @apply bg-ink text-paper px-10 py-4 rounded-full font-bold tracking-tight hover:bg-ink/90 disabled:opacity-30 flex items-center justify-center gap-3 shadow-lg shadow-ink/5 focus-visible:ring-4 focus-visible:ring-accent/20;
-    min-height: 56px; /* Optimized Touch Target (§2) */
+    @apply bg-ink text-paper px-8 py-4 rounded-lg font-bold hover:bg-ink/90 disabled:opacity-30 flex items-center justify-center gap-2;
   }
 
   .btn-ghost {
-    @apply bg-transparent text-ink border border-slate-200 px-10 py-4 rounded-full font-bold tracking-tight hover:bg-slate-50 focus-visible:bg-slate-50;
-    min-height: 56px;
+    @apply bg-transparent text-ink border border-slate-100 px-8 py-4 rounded-lg font-bold hover:bg-slate-50;
   }
 
   .nav-item {
-    @apply flex items-center gap-3 px-4 py-2.5 rounded-full focus-visible:bg-paper focus-visible:text-ink;
-    min-width: 44px;
-    min-height: 44px;
+    @apply flex items-center gap-2 px-4 py-2 rounded-lg;
   }
 
   .input-scholar {
-    @apply w-full bg-transparent border-b border-slate-200 px-0 py-6 text-3xl font-serif italic focus:outline-none focus:border-ink placeholder:text-slate-200 focus:placeholder:text-slate-100;
+    @apply w-full bg-transparent border-b border-slate-100 px-0 py-4 text-2xl font-serif focus:outline-none focus:border-ink placeholder:text-slate-200;
   }
-}
-
-/* CVD Compliant Patterns (§45) */
-.pattern-dots {
-  background-image: radial-gradient(var(--color-ink) 1px, transparent 1px);
-  background-size: 8px 8px;
-}
-
-.pattern-stripes {
-  background-image: repeating-linear-gradient(45deg, var(--color-ink), var(--color-ink) 1px, transparent 1px, transparent 10px);
-}
-
-.pattern-mesh {
-  background-image: 
-    linear-gradient(var(--color-ink) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-ink) 1px, transparent 1px);
-  background-size: 10px 10px;
-}
-
-.paper-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.015;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* Custom Utilities */
@@ -105,6 +71,3 @@ body {
   text-wrap: balance;
 }
 
-.sepia-soft {
-  filter: sepia(0.1) contrast(0.95);
-}

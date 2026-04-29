@@ -3,76 +3,34 @@ import { BookOpen, Plus, ChevronRight, Archive } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function FlashcardSuite() {
-  const [activeSubject, setActiveSubject] = useState('All');
-  
-  const subjects = ['All', 'Law::Torts', 'STEM::Bio', 'MATH::Calc', 'HIST::Mid'];
   const cards = [
-    { id: 1, subject: 'Law::Torts', front: 'Duty of Care', back: 'A legal obligation imposed on an individual...' },
-    { id: 2, subject: 'STEM::Bio', front: 'Mitochondria', back: 'The powerhouse of the cell...' },
-    { id: 3, subject: 'MATH::Calc', front: 'Chain Rule', back: 'The derivative of f(g(x)) is f\'(g(x))g\'(x)...' },
+    { id: 1, subject: 'Law::Torts', front: 'Duty of Care' },
+    { id: 2, subject: 'STEM::Bio', front: 'Mitochondria' },
+    { id: 3, subject: 'MATH::Calc', front: 'Chain Rule' },
   ];
-
-  const filteredCards = activeSubject === 'All' 
-    ? cards 
-    : cards.filter(c => c.subject === activeSubject);
 
   return (
     <div className="space-y-12">
-      {/* Header */}
-      <section className="space-y-3">
-        <h1 className="text-4xl font-serif font-extrabold text-ink tracking-tight">Library Drawers</h1>
-        <p className="text-muted text-sm font-medium italic">"Knowledge categorized is knowledge retained."</p>
-      </section>
+      <header className="space-y-1">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Library Index</p>
+        <h2 className="text-3xl font-serif font-bold text-ink italic">Personal Knowledge Base</h2>
+      </header>
 
-      {/* Subject Filter - Horizontal Drawer Selection */}
-      <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar -mx-8 px-8">
-        {subjects.map(subject => (
-          <button
-            key={subject}
-            onClick={() => setActiveSubject(subject)}
-            className={cn(
-              "px-6 py-3 rounded-full text-xs font-bold whitespace-nowrap",
-              activeSubject === subject 
-                ? "bg-ink text-paper shadow-xl shadow-ink/10" 
-                : "bg-paper border border-ink/5 text-ink/40 hover:text-ink"
-            )}
-          >
-            {subject}
-          </button>
-        ))}
-      </div>
-
-      {/* The Filing Drawer */}
-      <div className="space-y-6">
-        {filteredCards.map((card, i) => (
+      <div className="space-y-4">
+        {cards.map((card) => (
           <div 
             key={card.id}
-            className="card-scholar p-6! flex items-center justify-between group cursor-pointer hover:border-ink/20"
+            className="flex items-center gap-4 py-4 border-b border-slate-100"
           >
-            <div className="flex items-center gap-6">
-              <div className="w-12 h-12 bg-ink/5 rounded-full flex items-center justify-center group-hover:bg-ink group-hover:text-paper">
-                <BookOpen className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-muted mb-1">{card.subject}</p>
-                <h4 className="font-serif font-bold text-xl text-ink italic">{card.front}</h4>
-              </div>
+            <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-ink">
+              <BookOpen className="w-4 h-4" />
             </div>
-            <ChevronRight className="text-slate-200 group-hover:text-ink" />
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-0.5">{card.subject}</p>
+              <p className="font-serif text-lg text-ink italic">{card.front}</p>
+            </div>
           </div>
         ))}
-      </div>
-
-      {/* Action Footer */}
-      <div className="pt-8 grid grid-cols-2 gap-4">
-        <button className="btn-ghost p-6! flex flex-col items-center gap-3">
-          <Plus size={20} />
-          <span className="text-[10px] uppercase tracking-widest font-bold">New Index</span>
-        </button>
-        <button className="btn-ink p-6! flex flex-col items-center gap-3">
-          <Archive size={20} />
-          <span className="text-[10px] uppercase tracking-widest font-bold text-paper">Export Anki</span>
-        </button>
       </div>
     </div>
   );
