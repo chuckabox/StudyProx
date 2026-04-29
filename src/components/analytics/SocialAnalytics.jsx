@@ -73,7 +73,7 @@ export function SocialAnalytics({ stats }) {
                 onClick={() => setSelectedDay({ day, isMonth: true })}
                 className={cn(
                   "aspect-square rounded-lg border border-slate-50 relative group flex items-center justify-center transition-all cursor-pointer hover:scale-105 hover:z-10",
-                  day < 15 ? (day % 3 === 0 ? "bg-ink/10" : day % 5 === 0 ? "bg-ink/40" : "bg-slate-50") : "bg-slate-50",
+                  day < 15 ? (day === 4 || day === 7 || day === 12 ? "bg-ink/40" : day % 2 === 0 ? "bg-ink/10" : "bg-slate-50") : "bg-slate-50",
                   day === 15 && "bg-ink ring-2 ring-ink ring-offset-2 scale-90"
                 )}
               >

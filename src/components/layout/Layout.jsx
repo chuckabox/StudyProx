@@ -53,16 +53,16 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
           <div className="absolute bottom-8 left-0 right-0 z-50 px-6">
             <nav className="p-1.5 bg-ink text-paper rounded-[20px] flex items-center shadow-2xl">
               <NavButton 
-                icon={<Brain />} 
-                label="Focus"
-                active={currentView === 'dashboard' || currentView === 'focus'} 
-                onClick={() => setView('dashboard')}
-              />
-              <NavButton 
                 icon={<Clock />} 
                 label="Library"
                 active={currentView === 'cards'} 
                 onClick={() => setView('cards')}
+              />
+              <NavButton 
+                icon={<Brain />} 
+                label="Home"
+                active={currentView === 'dashboard' || currentView === 'focus'} 
+                onClick={() => setView('dashboard')}
               />
               <NavButton 
                 icon={<BarChart3 />} 
