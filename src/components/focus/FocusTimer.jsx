@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Timer, Shield, Lock, Wind, BellOff, PhoneOff, Droplets, Play, Pause, X, RotateCcw } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
@@ -31,7 +30,7 @@ export function FocusTimer({ task, onComplete, onExit }) {
 
   if (!setupComplete) {
     return (
-      <div className="space-y-12 animate-fade-in py-8 max-w-lg mx-auto">
+      <div className="space-y-12 py-8 max-w-lg mx-auto">
         <section className="space-y-3">
           <h1 className="text-4xl font-serif font-extrabold text-ink tracking-tight">Environmental Lock</h1>
           <p className="text-muted text-sm font-medium italic">"The room must match the mind."</p>
@@ -63,12 +62,8 @@ export function FocusTimer({ task, onComplete, onExit }) {
   }
 
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-16 animate-fade-in text-center">
-      <motion.div 
-        animate={{ scale: isPaused ? 1 : [1, 1.02, 1] }}
-        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-        className="space-y-4"
-      >
+    <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-16 text-center">
+      <div className="space-y-4">
         <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-ink/30">Academic Lockdown Active</p>
         <h2 className="text-[120px] font-serif font-extrabold text-ink leading-none tabular-nums tracking-tighter">
           {formatTime(timeLeft)}
@@ -76,7 +71,7 @@ export function FocusTimer({ task, onComplete, onExit }) {
         <p className="font-serif font-bold text-2xl text-ink italic opacity-60">
           Focus: {task?.title || 'General Scholarship'}
         </p>
-      </motion.div>
+      </div>
 
       <div className="flex flex-col gap-6 w-full max-w-xs mx-auto">
         <button 
@@ -91,7 +86,7 @@ export function FocusTimer({ task, onComplete, onExit }) {
         </button>
 
         {!isPaused && (
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted animate-pulse">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">
             Navigation is restricted.
           </p>
         )}
@@ -99,7 +94,7 @@ export function FocusTimer({ task, onComplete, onExit }) {
         {isPaused && (
           <button 
             onClick={onExit}
-            className="text-[10px] font-bold uppercase tracking-widest text-destructive hover:opacity-80 transition-opacity mt-4"
+            className="text-[10px] font-bold uppercase tracking-widest text-destructive mt-4"
           >
             Terminate Session (Integrity Loss)
           </button>
@@ -108,11 +103,9 @@ export function FocusTimer({ task, onComplete, onExit }) {
 
       <div className="pt-12">
         <div className="w-24 h-1 bg-ink/5 rounded-full overflow-hidden">
-          <motion.div 
-            initial={{ width: '100%' }}
-            animate={{ width: `${(timeLeft / (25 * 60)) * 100}%` }}
-            transition={{ duration: 1, ease: "linear" }}
+          <div 
             className="h-full bg-ink"
+            style={{ width: `${(timeLeft / (25 * 60)) * 100}%` }}
           />
         </div>
       </div>

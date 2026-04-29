@@ -1,5 +1,4 @@
 import { cloneElement } from 'react';
-import { motion } from 'framer-motion';
 import { Sparkles, Brain, Clock, BarChart3, Settings } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
@@ -25,23 +24,23 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
           <div className="flex items-center gap-4">
             <button 
               onClick={onOpenSettings}
-              className="p-3 hover:bg-ink/5 rounded-full transition-all active:scale-95 group"
+              className="p-3 hover:bg-ink/5 rounded-full group"
             >
-              <Settings className="w-5 h-5 text-slate-300 group-hover:text-ink transition-colors" />
+              <Settings className="w-5 h-5 text-slate-300 group-hover:text-ink" />
             </button>
           </div>
         </header>
 
         {/* Main Content */}
         <main className={cn(
-          "relative z-10 flex-1 p-8 pb-40 transition-all duration-700 stagger-reveal",
+          "relative z-10 flex-1 p-8 pb-40",
           isHardLocked && "pt-16 pb-40"
         )}>
           {children}
         </main>
 
         {/* Bottom Navigation: Library Cards (Always showing as requested) */}
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] flex justify-center px-6 animate-slide-up">
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-full max-w-[480px] flex justify-center px-6">
           <nav className="px-6 py-3 bg-ink text-paper rounded-full flex items-center gap-2 shadow-2xl shadow-ink/40 border border-paper/10 backdrop-blur-sm">
             <NavButton 
               icon={<Brain />} 

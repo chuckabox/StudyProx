@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BookOpen, Plus, ChevronRight, Archive } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../lib/utils';
 
 export function FlashcardSuite() {
@@ -18,7 +17,7 @@ export function FlashcardSuite() {
     : cards.filter(c => c.subject === activeSubject);
 
   return (
-    <div className="space-y-12 animate-fade-in">
+    <div className="space-y-12">
       {/* Header */}
       <section className="space-y-3">
         <h1 className="text-4xl font-serif font-extrabold text-ink tracking-tight">Library Drawers</h1>
@@ -32,7 +31,7 @@ export function FlashcardSuite() {
             key={subject}
             onClick={() => setActiveSubject(subject)}
             className={cn(
-              "px-6 py-3 rounded-full text-xs font-bold whitespace-nowrap transition-all active:scale-95",
+              "px-6 py-3 rounded-full text-xs font-bold whitespace-nowrap",
               activeSubject === subject 
                 ? "bg-ink text-paper shadow-xl shadow-ink/10" 
                 : "bg-paper border border-ink/5 text-ink/40 hover:text-ink"
@@ -45,30 +44,23 @@ export function FlashcardSuite() {
 
       {/* The Filing Drawer */}
       <div className="space-y-6">
-        <AnimatePresence mode="popLayout">
-          {filteredCards.map((card, i) => (
-            <motion.div 
-              key={card.id}
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ delay: i * 0.05 }}
-              className="card-scholar p-6! flex items-center justify-between group cursor-pointer hover:border-ink/20"
-            >
-              <div className="flex items-center gap-6">
-                <div className="w-12 h-12 bg-ink/5 rounded-full flex items-center justify-center group-hover:bg-ink group-hover:text-paper transition-all">
-                  <BookOpen className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-muted mb-1">{card.subject}</p>
-                  <h4 className="font-serif font-bold text-xl text-ink italic">{card.front}</h4>
-                </div>
+        {filteredCards.map((card, i) => (
+          <div 
+            key={card.id}
+            className="card-scholar p-6! flex items-center justify-between group cursor-pointer hover:border-ink/20"
+          >
+            <div className="flex items-center gap-6">
+              <div className="w-12 h-12 bg-ink/5 rounded-full flex items-center justify-center group-hover:bg-ink group-hover:text-paper">
+                <BookOpen className="w-5 h-5" />
               </div>
-              <ChevronRight className="text-slate-200 group-hover:text-ink transition-all group-hover:translate-x-1" />
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-muted mb-1">{card.subject}</p>
+                <h4 className="font-serif font-bold text-xl text-ink italic">{card.front}</h4>
+              </div>
+            </div>
+            <ChevronRight className="text-slate-200 group-hover:text-ink" />
+          </div>
+        ))}
       </div>
 
       {/* Action Footer */}

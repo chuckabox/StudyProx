@@ -10,7 +10,7 @@ export function SettingsPage() {
   ];
 
   return (
-    <div className="space-y-12 animate-fade-in">
+    <div className="space-y-12">
       <section className="space-y-3">
         <h1 className="text-4xl font-serif font-extrabold text-ink tracking-tight">Preferences</h1>
         <p className="text-muted text-sm font-medium italic">Tailoring your intellectual environment.</p>
@@ -23,7 +23,7 @@ export function SettingsPage() {
             className="card-scholar p-6! flex items-center justify-between group cursor-pointer hover:border-ink/20"
           >
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-ink/5 rounded-full flex items-center justify-center text-muted group-hover:text-ink transition-colors">
+              <div className="w-10 h-10 bg-ink/5 rounded-full flex items-center justify-center text-muted group-hover:text-ink">
                 {item.icon}
               </div>
               <div>
@@ -31,7 +31,7 @@ export function SettingsPage() {
                 <p className="font-serif font-bold text-lg text-ink italic">{item.value}</p>
               </div>
             </div>
-            <ChevronRight className="text-slate-200 group-hover:text-ink transition-all group-hover:translate-x-1" />
+            <ChevronRight className="text-slate-200 group-hover:text-ink" />
           </div>
         ))}
       </div>
@@ -42,9 +42,9 @@ export function SettingsPage() {
           <span className="text-[10px] font-bold uppercase tracking-widest">Support & Legals</span>
         </div>
         <div className="space-y-2">
-          <button className="w-full text-left py-4 px-2 text-sm font-bold text-ink/40 hover:text-ink transition-colors border-b border-ink/5">Terms of Academic Integrity</button>
-          <button className="w-full text-left py-4 px-2 text-sm font-bold text-ink/40 hover:text-ink transition-colors border-b border-ink/5">Privacy Policy</button>
-          <button className="w-full text-left py-4 px-2 text-destructive font-bold hover:opacity-80 transition-opacity">Deactivate Account</button>
+          <button className="w-full text-left py-4 px-2 text-sm font-bold text-ink/40 hover:text-ink border-b border-ink/5">Terms of Academic Integrity</button>
+          <button className="w-full text-left py-4 px-2 text-sm font-bold text-ink/40 hover:text-ink border-b border-ink/5">Privacy Policy</button>
+          <button className="w-full text-left py-4 px-2 text-destructive font-bold hover:opacity-80">Deactivate Account</button>
         </div>
       </section>
 

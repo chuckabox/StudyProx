@@ -1,6 +1,5 @@
-@import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,800;1,400&family=Albert+Sans:wght@300;400;600;800&display=swap');
+@import "tailwindcss";
 
 @theme {
   --font-serif: "Crimson Pro", serif;
@@ -16,18 +15,6 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
-
-  --animate-fade-in: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  --animate-slide-up: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  @keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
 }
 
 :root {
@@ -60,30 +47,30 @@ body {
 
 @layer components {
   .card-scholar {
-    @apply bg-white border border-slate-200/50 rounded-2xl p-10 transition-all duration-700 hover:border-slate-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.03)] cursor-default;
+    @apply bg-white border border-slate-200/50 rounded-2xl p-10 hover:border-slate-300 hover:shadow-[0_20px_40px_rgba(0,0,0,0.03)] cursor-default;
     position: relative;
     overflow: hidden;
   }
 
   /* Interaction Feedback (§2) */
   .btn-ink {
-    @apply bg-ink text-paper px-10 py-4 rounded-full font-bold tracking-tight transition-all duration-300 hover:bg-ink/90 hover:-translate-y-0.5 active:scale-95 disabled:opacity-30 flex items-center justify-center gap-3 shadow-lg shadow-ink/5 focus-visible:ring-4 focus-visible:ring-accent/20;
+    @apply bg-ink text-paper px-10 py-4 rounded-full font-bold tracking-tight hover:bg-ink/90 disabled:opacity-30 flex items-center justify-center gap-3 shadow-lg shadow-ink/5 focus-visible:ring-4 focus-visible:ring-accent/20;
     min-height: 56px; /* Optimized Touch Target (§2) */
   }
 
   .btn-ghost {
-    @apply bg-transparent text-ink border border-slate-200 px-10 py-4 rounded-full font-bold tracking-tight transition-all hover:bg-slate-50 active:scale-95 focus-visible:bg-slate-50;
+    @apply bg-transparent text-ink border border-slate-200 px-10 py-4 rounded-full font-bold tracking-tight hover:bg-slate-50 focus-visible:bg-slate-50;
     min-height: 56px;
   }
 
   .nav-item {
-    @apply flex items-center gap-3 px-4 py-2.5 rounded-full transition-all duration-300 active:scale-90 focus-visible:bg-paper focus-visible:text-ink;
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-full focus-visible:bg-paper focus-visible:text-ink;
     min-width: 44px;
     min-height: 44px;
   }
 
   .input-scholar {
-    @apply w-full bg-transparent border-b border-slate-200 px-0 py-6 text-3xl font-serif italic focus:outline-none focus:border-ink transition-all placeholder:text-slate-200 focus:placeholder:text-slate-100;
+    @apply w-full bg-transparent border-b border-slate-200 px-0 py-6 text-3xl font-serif italic focus:outline-none focus:border-ink placeholder:text-slate-200 focus:placeholder:text-slate-100;
   }
 }
 
@@ -111,10 +98,6 @@ body {
   pointer-events: none;
   opacity: 0.015;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-.stagger-reveal > * {
-  opacity: 0;
 }
 
 /* Custom Utilities */

@@ -7,7 +7,6 @@ import { FlashcardSuite } from './components/cards/FlashcardSuite';
 import { SocialAnalytics } from './components/analytics/SocialAnalytics';
 import { SettingsPage } from './components/settings/SettingsPage';
 import { useTasks } from './hooks/use-tasks';
-import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
   const { tasks, addTask, updateSubtask } = useTasks();
@@ -27,76 +26,54 @@ function App() {
       isHardLocked={view === 'focus'}
       onOpenSettings={() => setView('settings')}
     >
-      <AnimatePresence mode="wait">
+      <div className="w-full">
         {view === 'dashboard' && (
-          <motion.div
-            key="dashboard"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="w-full"
-          >
+          <div className="w-full">
             <LandingDashboard 
               activeTask={activeTask} 
               onStartNew={() => setView('architect')} 
               onUpdateSubtask={updateSubtask}
               onStartFocus={() => setView('focus')}
             />
-          </motion.div>
+          </div>
         )}
 
         {view === 'architect' && (
-          <motion.div
-            key="architect"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            className="w-full"
-          >
+          <div className="w-full">
             <TaskArchitect 
               onTaskCreated={handleTaskCreated}
               onCancel={() => setView('dashboard')}
             />
-          </motion.div>
+          </div>
         )}
 
         {view === 'focus' && (
-          <motion.div
-            key="focus"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+          <div>
             <FocusTimer 
               task={activeTask}
               onFinish={() => setView('dashboard')}
             />
-          </motion.div>
+          </div>
         )}
 
         {view === 'cards' && (
-          <motion.div key="cards">
+          <div>
             <FlashcardSuite />
-          </motion.div>
+          </div>
         )}
 
         {view === 'stats' && (
-          <motion.div key="stats">
+          <div>
             <SocialAnalytics />
-          </motion.div>
+          </div>
         )}
 
         {view === 'settings' && (
-          <motion.div
-            key="settings"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-          >
+          <div>
             <SettingsPage />
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </Layout>
   );
 }

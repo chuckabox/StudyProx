@@ -1,6 +1,5 @@
 import React from 'react';
 import { Users, Zap, TrendingUp, ShieldAlert, Award } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 export function SocialAnalytics() {
   const regions = [
@@ -11,7 +10,7 @@ export function SocialAnalytics() {
   ];
 
   return (
-    <div className="space-y-12 animate-fade-in">
+    <div className="space-y-12">
       {/* Header */}
       <section className="space-y-3">
         <h1 className="text-4xl font-serif font-extrabold text-ink tracking-tight">Cohort Pulse</h1>
@@ -33,11 +32,7 @@ export function SocialAnalytics() {
         <div>
           <p className="text-2xl font-serif font-bold text-ink italic leading-none">1,248 Scholars</p>
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted mt-1 flex items-center gap-2">
-            <motion.span 
-              animate={{ opacity: [1, 0.4, 1] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="w-1.5 h-1.5 rounded-full bg-emerald-500" 
-            />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             Synchronized focus now
           </p>
         </div>
@@ -56,11 +51,8 @@ export function SocialAnalytics() {
 
         <div className="grid grid-cols-1 gap-4">
           {regions.map((region, i) => (
-            <motion.div 
+            <div 
               key={region.name}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.1 }}
               className="card-scholar p-6! flex items-center justify-between group cursor-pointer hover:border-ink/20"
             >
               <div className="flex items-center gap-6">
@@ -77,7 +69,7 @@ export function SocialAnalytics() {
                 <p className="text-2xl font-serif font-bold text-ink">{region.students}</p>
                 <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Active</p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
@@ -94,11 +86,9 @@ export function SocialAnalytics() {
           </div>
         </div>
         <div className="h-2 bg-paper/10 rounded-full overflow-hidden">
-          <motion.div 
-            initial={{ width: 0 }}
-            animate={{ width: '86%' }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+          <div 
             className="h-full bg-paper"
+            style={{ width: '86%' }}
           />
         </div>
         <p className="text-[10px] font-medium leading-relaxed opacity-60">
