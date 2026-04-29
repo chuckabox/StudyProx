@@ -1,63 +1,47 @@
-# StudyProx ⚡
+# StudyProx
 
-**Bridge the Intent-Action Gap.**
+Student productivity tool designed to reduce decision fatigue through task decomposition and focused study sessions.
 
-StudyProx is a premium, mobile-first productivity ecosystem designed specifically for students. It moves beyond simple task lists to enforce focus and deconstruct overwhelm through AI-driven planning and high-contrast "Deep Work" design principles.
+## Core Features
 
-## 🌟 Core Functional Modules
+### Task Architect
+Deconstruct large goals into manageable steps.
+- **Decomposition**: Generates actionable micro-goals from complex tasks.
+- **Progressive Disclosure**: Shows one step at a time to minimize overwhelm.
 
-### 🤖 AI Task Architect
-Don't just add a task; deconstruct it.
-- **Complex Task Decomposition**: Input large goals (e.g., "Write MATH2001 Report") and watch as StudyProx simulates/generates 4–6 actionable **Micro-Goals**.
-- **Progressive Checklist**: A "Single-Path" interface that reveals one goal at a time to eliminate decision fatigue and overwhelm.
+### Focus Engine
+Restricted interface for deep work.
+- **Subject Timers**: Presets for specific academic subjects.
+- **Lock Mode**: Minimalist UI that limits navigation to maintain focus.
 
-### ⏱️ Focus Engine & App Blocking
-Enforced discipline for deep study.
-- **Subject-Specific Timers**: Tailored focus sessions for Math, Econ, and more.
-- **Hard Lock Mode**: A restricted UI state that disables main navigation and displays a "Focus Active" overlay.
-- **2FA Utility Whitelist**: A simulated environment allowing only essential utility buttons while masking distractions.
+### Flashcards
+Spaced repetition system organized by subject with performance tracking.
 
-### 🗂️ Flashcard Suite
-Spaced repetition for long-term retention.
-- **Folder Organization**: Categorize cards by subject.
-- **Quiz Mode**: Performance metrics and study history tracking.
+### Analytics
+Visualizes deadline clusters and study distribution to identify high-pressure periods.
 
-### 📊 Visual Analytics (The "Assessment Clump")
-Visualize your stress before it happens.
-- **Deadline Heatmap**: Uses high-contrast patterns (not just colors) to visualize "Assessment Clumps"—clusters of deadlines that require early intervention.
-- **Subject Distribution**: Comparison charts of study time across different subjects.
+## Design Principles
+- **High-Contrast Dark Mode**: Built for low-distraction environments.
+- **Single-Path UI**: Focuses on the immediate next action.
+- **Texture-Based Urgency**: Uses patterns alongside color for accessibility.
 
-## 🎨 Design & Accessibility
+## Stack
+- React 19 + Vite
+- Tailwind CSS
+- Framer Motion
+- Lucide React
 
-StudyProx follows a **"Deep Work" Aesthetics** philosophy:
-- **High-Contrast Dark Mode**: Minimizes eye strain and visual noise.
-- **Accessibility Patterns**: Uses textures (linear gradients, dots) in addition to colors to indicate urgency, ensuring support for color-vision deficiency.
-- **Single-Path Journey**: A minimalist dashboard that focuses on "The Next Step," hiding the clutter of the entire week until you need it.
-- **Glassmorphism**: A premium, layered UI feel with backdrop blurs and subtle glows.
+## Development
 
-## 🛠️ Tech Stack
-
-- **Frontend**: React 19 + Vite
-- **Styling**: Tailwind CSS (Custom Design System)
-- **Icons**: Lucide React
-- **Animations**: Framer Motion (Fluid transitions and haptic simulations)
-- **State**: Local Storage Persistence (Mock Backend Strategy)
-
-## 🚀 Getting Started
-
-### 1. Install Dependencies
+### Setup
 ```bash
 npm install
 ```
 
-### 2. Run Development Server
+### Run
 ```bash
 npm run dev
 ```
 
-### 3. Open the App
-Visit `http://localhost:5173`. For the intended experience, toggle **Mobile View** in your browser's Developer Tools (F12).
-
----
-
-*StudyProx: Engineered to bridge the gap between intending to work and actually doing it.*
+### Mobile Testing
+The app is optimized for mobile. Use browser developer tools to simulate a mobile viewport at `http://localhost:5173`.
