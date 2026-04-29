@@ -120,10 +120,18 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
                   i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : i === 2 ? "stagger-3" : i === 3 ? "stagger-4" : "stagger-5"
                 )}
               >
-                <div className="w-8 h-8 rounded-lg bg-ink text-paper flex items-center justify-center font-bold text-xs">
+                <div className="w-8 h-8 rounded-lg bg-ink text-paper flex-shrink-0 flex items-center justify-center font-bold text-xs">
                   {i + 1}
                 </div>
-                <p className="font-serif text-lg text-ink italic">{st.text}</p>
+                <input 
+                  className="bg-transparent border-none p-0 font-serif text-lg text-ink italic w-full focus:outline-none focus:ring-0"
+                  value={st.text}
+                  onChange={(e) => {
+                    const newSubtasks = [...subtasks];
+                    newSubtasks[i].text = e.target.value;
+                    setSubtasks(newSubtasks);
+                  }}
+                />
               </div>
             ))}
           </div>
@@ -133,9 +141,9 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
               onClick={() => onTaskCreated(title, subtasks.map(s => s.text))}
               className="btn-ink w-full"
             >
-              Commit to Plan
+              Begin Plan
             </button>
-            <button onClick={() => setStep('input')} className="btn-ghost w-full">Edit Goal</button>
+            <button onClick={() => setStep('input')} className="btn-ghost w-full">Back</button>
           </div>
         </div>
       )}
