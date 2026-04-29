@@ -23,12 +23,14 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
     localStorage.setItem('studyprox-history', JSON.stringify(history));
   }, [history]);
 
+  const [isManagingHistory, setIsManagingHistory] = useState(false);
+
   const handleDeconstruct = () => {
     if (!title.trim()) return;
     
     // Add to history if unique
     if (!history.includes(title)) {
-      setHistory(prev => [title, ...prev.slice(0, 5)]);
+      setHistory(prev => [title, ...prev.slice(0, 9)]);
     }
     
     setStep('deconstructing');
@@ -66,6 +68,10 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
     }, 1500);
   };
 
+  const removeHistoryItem = (item) => {
+    setHistory(prev => prev.filter(h => h !== item));
+  };
+
   return (
     <div className="max-w-lg mx-auto space-y-12 animate-[fade-in_600ms_ease-out]">
       {step === 'input' && (
@@ -85,19 +91,42 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
           />
 
           <div className="space-y-3">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Quick Start History</p>
+            <div className="flex items-center justify-between">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Quick Start History</p>
+              <button 
+                onClick={() => setIsManagingHistory(!isManagingHistory)}
+                className={cn(
+                  "p-1 rounded-md transition-all",
+                  isManagingHistory ? "bg-ink text-paper" : "text-muted hover:text-ink"
+                )}
+              >
+                <Pencil size={10} />
+              </button>
+            </div>
             <div className="flex flex-wrap gap-2">
               {history.map((h, i) => (
-                <button 
-                  key={i}
-                  onClick={() => setTitle(h)}
-                  className="px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-lg text-[10px] font-bold text-ink/60 hover:border-ink transition-colors"
-                >
-                  {h}
-                </button>
+                <div key={i} className="relative group">
+                  <button 
+                    onClick={() => !isManagingHistory && setTitle(h)}
+                    className={cn(
+                      "px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-lg text-[10px] font-bold transition-all",
+                      isManagingHistory ? "opacity-50 cursor-default" : "text-ink/60 hover:border-ink cursor-pointer"
+                    )}
+                  >
+                    {h}
+                  </button>
+                  {isManagingHistory && (
+                    <button 
+                      onClick={() => removeHistoryItem(h)}
+                      className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center animate-[scale-in_200ms_ease-out]"
+                    >
+                      <X size={8} />
+                    </button>
+                  )}
+                </div>
               ))}
             </div>
-            <p className="text-[8px] text-muted italic">Type a new goal and press 'Deconstruct' to save it here.</p>
+            {!isManagingHistory && <p className="text-[8px] text-muted italic">Type a new goal and press 'Deconstruct' to save it here.</p>}
           </div>
 
           <div className="flex gap-4">
