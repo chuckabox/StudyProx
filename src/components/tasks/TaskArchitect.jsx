@@ -12,10 +12,10 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
   const [history, setHistory] = useState(() => {
     const saved = localStorage.getItem('studyprox-history');
     return saved ? JSON.parse(saved) : [
-      'Constitutional Law Analysis',
-      'Organic Chemistry Review',
-      'Macroeconomics Phase 2',
-      'Historical Context Audit'
+      'React Architecture Audit',
+      'System Design Review',
+      'Database Indexing Strategy',
+      'Legacy Code Refactoring'
     ];
   });
 
@@ -84,7 +84,7 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
           <input 
             autoFocus
             className="input-scholar"
-            placeholder="e.g. Constitutional Law Analysis"
+            placeholder="e.g. React Architecture Audit"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleDeconstruct()}

@@ -4,12 +4,12 @@ import { cn } from '../../lib/utils';
 
 export function SocialAnalytics({ stats }) {
   const friends = [
-    { name: 'Sarah L.', subject: 'LAW', hours: 14.5, breaks: 0 },
-    { name: 'Alex M.', subject: 'STEM', hours: 12.2, breaks: 2 },
-    { name: 'James K.', subject: 'MATH', hours: 10.8, breaks: 1 },
-    { name: 'You', subject: 'LAW', hours: stats?.totalHours || 0, breaks: stats?.sessionsAborted || 0 },
-    { name: 'Elena R.', subject: 'HIST', hours: 8.4, breaks: 0 },
-    { name: 'Marcus T.', subject: 'ECON', hours: 6.2, breaks: 4 },
+    { name: 'Sarah L.', subject: 'JS', hours: 14.5, breaks: 0 },
+    { name: 'Alex M.', subject: 'SWEN', hours: 12.2, breaks: 2 },
+    { name: 'James K.', subject: 'REAC', hours: 10.8, breaks: 1 },
+    { name: 'You', subject: 'SWEN', hours: stats?.totalHours || 0, breaks: stats?.sessionsAborted || 0 },
+    { name: 'Elena R.', subject: 'DATA', hours: 8.4, breaks: 0 },
+    { name: 'Marcus T.', subject: 'ALGO', hours: 6.2, breaks: 4 },
   ].sort((a, b) => b.hours - a.hours);
 
   const [range, setRange] = useState('weekly'); // weekly | monthly
@@ -120,24 +120,28 @@ export function SocialAnalytics({ stats }) {
       </section>
 
       {/* Personal Stats Table */}
-      <section className="grid grid-cols-2 gap-4 stagger-2">
-        <div className="card-scholar p-5 flex flex-col justify-between min-h-[100px]">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Total Hours</p>
-          <p className="text-2xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
+      <section className="grid grid-cols-3 gap-3 stagger-2">
+        <div className="card-scholar p-4 flex flex-col justify-between min-h-[90px]">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Effort</p>
+          <p className="text-xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
+        </div>
+        <div className="card-scholar p-4 flex flex-col justify-between min-h-[90px]">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Streak</p>
+          <p className="text-xl font-serif font-bold text-ink italic">12 Days</p>
         </div>
         <div className={cn(
-          "card-scholar p-5 flex flex-col justify-between min-h-[100px] border-2 relative group",
+          "card-scholar p-4 flex flex-col justify-between min-h-[90px] border-2 relative group",
           stats?.sessionsAborted > 0 ? "border-red-100 bg-red-50/50" : "border-slate-100"
         )}>
-          <div className="absolute top-4 right-4 text-slate-300 hover:text-ink transition-colors cursor-help">
-            <Info size={12} />
+          <div className="absolute top-2 right-2 text-slate-300 hover:text-ink transition-colors cursor-help">
+            <Info size={10} />
             <div className="absolute bottom-full right-0 mb-2 w-32 p-2 bg-ink text-paper text-[8px] rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-xl z-50">
               Recorded each time you cancel an active plan or focus session.
             </div>
           </div>
           <p className="text-[10px] font-bold uppercase tracking-widest text-red-400">Slip Ups</p>
           <p className={cn(
-            "text-2xl font-serif font-bold italic",
+            "text-xl font-serif font-bold italic",
             stats?.sessionsAborted > 0 ? "text-red-600" : "text-ink"
           )}>
             {stats?.sessionsAborted || 0}
@@ -238,7 +242,7 @@ export function SocialAnalytics({ stats }) {
               {(selectedDay.day === 17 || selectedDay.day === 19 || selectedDay.day === 24) && (
                 <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl space-y-1">
                   <p className="text-[9px] font-bold uppercase tracking-widest text-blue-600">Upcoming Due</p>
-                  <p className="text-sm font-bold text-blue-900">Law & Ethics Review</p>
+                  <p className="text-sm font-bold text-blue-900">React Component Audit</p>
                 </div>
               )}
 

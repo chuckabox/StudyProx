@@ -16,6 +16,17 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
     ? (activeTask.subtasks.filter(st => st.completed).length / activeTask.subtasks.length) * 100
     : 0;
 
+  const [cohortMembers, setCohortMembers] = useState(['SL', 'AM', 'JK', 'ER']);
+  const [inCohort, setInCohort] = useState(true);
+
+  const handleAddPeer = () => {
+    const mockInitials = ['DT', 'KB', 'JW', 'RL', 'SP', 'MY'];
+    const random = mockInitials[Math.floor(Math.random() * mockInitials.length)];
+    if (!cohortMembers.includes(random)) {
+      setCohortMembers(prev => [...prev, random]);
+    }
+  };
+
   return (
     <div className="min-h-full flex flex-col space-y-12 animate-[fade-in_600ms_ease-out] relative">
       {activeTask ? (
@@ -95,66 +106,109 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
             </button>
           </div>
 
-
-
           <section className="space-y-6 stagger-3">
             <header className="flex items-center justify-between">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Your Cohort</p>
-              <button className="p-2 bg-slate-50 text-ink/40 hover:text-ink rounded-lg transition-all active:scale-90">
-                <UserPlus size={14} />
-              </button>
+              <div className="flex items-center gap-2">
+                {inCohort && (
+                  <button 
+                    onClick={handleAddPeer}
+                    className="p-2 bg-slate-50 text-ink/40 hover:text-ink rounded-lg transition-all active:scale-90"
+                    title="Add Peer"
+                  >
+                    <UserPlus size={14} />
+                  </button>
+                )}
+                <button 
+                  onClick={() => setInCohort(!inCohort)}
+                  className={cn(
+                    "px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-all active:scale-95",
+                    inCohort ? "bg-red-50 text-red-500 hover:bg-red-100" : "bg-ink text-paper"
+                  )}
+                >
+                  {inCohort ? 'Leave Group' : 'Join Group'}
+                </button>
+              </div>
             </header>
             
-            <div className="card-scholar bg-ink text-paper border-none p-8 flex flex-col gap-6 group overflow-hidden relative shadow-2xl">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -mr-20 -mt-20 transition-transform group-hover:scale-110 duration-1000" />
-              
-              <div className="relative z-10 flex items-center justify-between">
-                <div className="space-y-1">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-paper/40">Collective Momentum</p>
-                  <h4 className="text-2xl font-serif font-bold italic">Law Cohort B</h4>
-                </div>
-                <div className="text-right">
-                  <div className="flex items-center gap-2 justify-end">
-                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <p className="text-2xl font-serif font-bold italic">142h</p>
-                  </div>
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-paper/40">This Week</p>
-                </div>
-              </div>
-
-              <div className="relative z-10 w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                <div className="h-full bg-paper w-3/4 shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000" />
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Active Peers</p>
-                <p className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">4 Deep Focusing</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-3 overflow-hidden">
-                  {['SL', 'AM', 'JK', 'ER'].map((initials, i) => (
-                    <div 
-                      key={i} 
-                      className={cn(
-                        "w-12 h-12 rounded-full border-4 border-paper bg-slate-100 flex items-center justify-center text-[11px] font-bold text-ink shadow-sm relative group",
-                        i === 0 && "ring-2 ring-emerald-400 ring-offset-2"
-                      )}
-                    >
-                      {initials}
-                      {i === 0 && <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-paper" />}
+            {inCohort ? (
+              <>
+                <div className="card-scholar bg-ink text-paper border-none p-8 flex flex-col gap-6 group overflow-hidden relative shadow-2xl">
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -mr-20 -mt-20 transition-transform group-hover:scale-110 duration-1000" />
+                  
+                  <div className="relative z-10 flex items-center justify-between">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-paper/40">Collective Momentum</p>
+                      <h4 className="text-2xl font-serif font-bold italic">Dev Cohort Alpha</h4>
                     </div>
-                  ))}
-                  <div className="w-12 h-12 rounded-full border-4 border-paper bg-ink text-paper flex items-center justify-center text-[10px] font-bold">
-                    +12
+                    <div className="text-right">
+                      <div className="flex items-center gap-2 justify-end">
+                        <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <p className="text-2xl font-serif font-bold italic">142h</p>
+                      </div>
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-paper/40">This Week</p>
+                    </div>
+                  </div>
+
+                  <div className="relative z-10 w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-full bg-paper w-3/4 shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000" />
                   </div>
                 </div>
-                <div className="flex-1">
-                  <p className="text-[11px] text-ink/80 font-medium leading-tight">Sarah L. and 3 others started sessions in the last hour.</p>
+
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Active Peers</p>
+                    <p className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                      {Math.ceil(cohortMembers.length * 0.7)} Deep Focusing
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex -space-x-3 overflow-hidden">
+                      {cohortMembers.map((initials, i) => (
+                        <div 
+                          key={i} 
+                          className={cn(
+                            "w-12 h-12 rounded-full border-4 border-paper bg-slate-100 flex items-center justify-center text-[11px] font-bold text-ink shadow-sm relative group",
+                            i === 0 && "ring-2 ring-emerald-400 ring-offset-2"
+                          )}
+                        >
+                          {initials}
+                          {i === 0 && <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-paper" />}
+                        </div>
+                      ))}
+                      {cohortMembers.length > 5 && (
+                        <div className="w-12 h-12 rounded-full border-4 border-paper bg-ink text-paper flex items-center justify-center text-[10px] font-bold">
+                          +{cohortMembers.length - 4}
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-[11px] text-ink/80 font-medium leading-tight">
+                        {cohortMembers[0]} and {cohortMembers.length - 1} others started sessions in the last hour.
+                      </p>
+                    </div>
+                  </div>
                 </div>
+              </>
+            ) : (
+              <div className="card-scholar p-10 text-center space-y-4 bg-slate-50 border-dashed">
+                <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-muted">
+                  <UserPlus size={20} />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="font-serif font-bold text-lg italic text-ink/40">No Group Active</h4>
+                  <p className="text-[11px] text-muted max-w-[180px] mx-auto italic">
+                    Join a cohort to leverage social momentum and shared accountability.
+                  </p>
+                </div>
+                <button 
+                  onClick={() => setInCohort(true)}
+                  className="btn-ink text-xs px-8 py-2"
+                >
+                  Join Dev Cohort Alpha
+                </button>
               </div>
-            </div>
+            )}
           </section>
         </div>
       )}
