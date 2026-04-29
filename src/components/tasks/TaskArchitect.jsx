@@ -179,9 +179,14 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
                 key={st.id} 
                 value={st}
                 dragListener={isEditing}
+                whileDrag={{ 
+                  scale: 1.02, 
+                  boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1)",
+                  zIndex: 50
+                }}
                 className={cn(
-                  "card-scholar p-6 flex items-center gap-4 transition-all duration-300",
-                  isEditing ? "cursor-grab active:cursor-grabbing border-dashed border-ink/20" : ""
+                  "card-scholar p-6 flex items-center gap-4 transition-all duration-300 relative",
+                  isEditing ? "cursor-grab active:cursor-grabbing border-dashed border-ink/20 bg-white" : ""
                 )}
               >
                 <div className={cn(
