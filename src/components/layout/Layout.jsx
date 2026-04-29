@@ -42,7 +42,7 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
 
             {/* Main Content */}
             <main className={cn(
-              "relative z-10 flex-1 px-8 py-6 pb-40",
+              "relative z-10 flex-1 flex flex-col px-8 py-6 pb-40",
               isHardLocked && "pt-12 pb-40"
             )}>
               {children}

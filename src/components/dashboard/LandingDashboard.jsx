@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Check, Zap, CheckCircle2, TrendingUp, Clock } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtask, onStartFocus }) {
+  const [isSyncing, setIsSyncing] = useState(true);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsSyncing(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const quotes = [
+    "Cognition peaks during early focus.",
+    "Small steps lead to deep mastery.",
+    "Your future self thanks you for this.",
+    "Focus is the ultimate leverage."
+  ];
+  const randomQuote = quotes[Math.floor(new Date().getDate() % quotes.length)];
+
   const nextSubtask = activeTask?.subtasks?.find(st => !st.completed);
   const progress = activeTask
     ? (activeTask.subtasks.filter(st => st.completed).length / activeTask.subtasks.length) * 100
     : 0;
 
   return (
-    <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
+    <div className="min-h-full flex flex-col space-y-12 animate-[fade-in_600ms_ease-out] relative">
       {activeTask ? (
         <div className="space-y-10">
           <header className="space-y-1">
@@ -109,6 +124,22 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
               <p className="text-2xl font-serif font-bold text-ink italic">92%</p>
             </div>
           </section>
+        </div>
+      )}
+
+      <div className="text-center py-6 opacity-30 mt-auto">
+        <p className="text-[8px] font-bold text-slate-400 uppercase tracking-[0.4em] mb-1">StudyProx v4.0.1</p>
+        <p className="text-[10px] font-serif italic text-slate-500">"{randomQuote}"</p>
+      </div>
+
+      {/* Syncing Overlay - Bridging the Gap */}
+      {isSyncing && (
+        <div className="absolute inset-0 z-[200] bg-paper flex flex-col items-center justify-center space-y-6">
+          <div className="w-12 h-12 border-4 border-slate-100 border-t-ink rounded-full animate-spin" />
+          <div className="text-center space-y-1">
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-ink animate-pulse">Syncing Environment</p>
+            <p className="text-[8px] font-bold text-muted uppercase tracking-widest">Optimizing friction-to-focus...</p>
+          </div>
         </div>
       )}
     </div>
