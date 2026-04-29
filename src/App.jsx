@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Layout } from './components/layout/Layout';
 import { LandingDashboard } from './components/dashboard/LandingDashboard';
 import { TaskArchitect } from './components/tasks/TaskArchitect';
@@ -11,6 +11,10 @@ import { useStudyCore } from './hooks/use-tasks';
 function App() {
   const { tasks, stats, settings, setSettings, addTask, updateSubtask, logStudySession, clearTasks, abortSession } = useStudyCore();
   const [view, setView] = useState('dashboard'); // dashboard | architect | focus | cards | stats | settings
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [view]);
 
   const activeTask = tasks.find(t => !t.completed);
 

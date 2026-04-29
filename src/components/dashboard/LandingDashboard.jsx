@@ -28,6 +28,16 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
     { name: 'System Design Hub', members: 12, focus: 'Architecture' }
   ];
 
+  const [isViewingMomentum, setIsViewingMomentum] = useState(false);
+
+  const contributors = [
+    { name: 'Sarah L.', hours: 42.5, rank: 1 },
+    { name: 'James K.', hours: 38.2, rank: 2 },
+    { name: 'Elena R.', hours: 31.8, rank: 3 },
+    { name: 'Alex M.', hours: 29.5, rank: 4 },
+    { name: 'You', hours: stats?.totalHours || 0, rank: 5 }
+  ].sort((a, b) => b.hours - a.hours);
+
   const handleJoinCohort = (name) => {
     setActiveCohort(name);
     setInCohort(true);
@@ -133,9 +143,9 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
             
             {inCohort ? (
               <>
-                <div 
-                  onClick={() => setIsViewingContributors(true)}
-                  className="card-scholar bg-ink text-paper border-none p-8 flex flex-col gap-6 group overflow-hidden relative shadow-2xl cursor-pointer active:scale-[0.98] transition-all"
+                <button 
+                  onClick={() => setIsViewingMomentum(true)}
+                  className="w-full card-scholar bg-ink text-paper border-none p-8 flex flex-col gap-6 group overflow-hidden relative shadow-2xl text-left transition-all active:scale-[0.98]"
                 >
                   <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -mr-20 -mt-20 transition-transform group-hover:scale-110 duration-1000" />
                   
@@ -156,7 +166,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                   <div className="relative z-10 w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                     <div className="h-full bg-paper w-3/4 shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-1000" />
                   </div>
-                </div>
+                </button>
 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -199,20 +209,68 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                   <TrendingUp size={20} />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-serif font-bold text-lg italic text-ink/40">Solo Mode</h4>
-                  <p className="text-[11px] text-muted max-w-[180px] mx-auto italic">
-                    Join a cohort for shared accountability.
+                  <h4 className="font-serif font-bold text-lg italic text-ink/40">Solo Focus</h4>
+                  <p className="text-[11px] text-muted max-w-[180px] mx-auto italic leading-relaxed">
+                    Working alone. Join a group for shared momentum.
                   </p>
                 </div>
               </div>
             )}
           </section>
 
+          {/* Momentum Leaderboard Dialog */}
+          {isViewingMomentum && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+              <div className="w-full max-w-sm card-scholar p-6 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)] max-h-[85vh] flex flex-col">
+                <div className="flex justify-between items-start flex-shrink-0">
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Momentum</p>
+                    <h3 className="text-2xl font-serif font-bold text-ink italic">Top Contributors</h3>
+                  </div>
+                  <button onClick={() => setIsViewingMomentum(false)} className="p-2 hover:bg-slate-50 rounded-lg transition-colors">
+                    <Plus className="w-5 h-5 rotate-45" />
+                  </button>
+                </div>
+
+                <div className="space-y-3 overflow-y-auto pr-1 flex-1 custom-scrollbar">
+                  {contributors.map((c, i) => (
+                    <div 
+                      key={c.name} 
+                      className={cn(
+                        "p-4 rounded-xl border flex items-center justify-between transition-all",
+                        c.name === 'You' ? "border-ink bg-slate-50 scale-[1.02] shadow-md" : "border-slate-100"
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-bold text-muted w-4">{i + 1}</span>
+                        <div>
+                          <p className="font-bold text-sm text-ink">{c.name}</p>
+                          <p className="text-[10px] text-muted uppercase tracking-widest">{activeCohort}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-serif font-bold text-ink italic">{c.hours.toFixed(1)}h</p>
+                        <p className="text-[7px] font-bold uppercase tracking-widest text-muted">Weekly Effort</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <button 
+                  onClick={() => setIsViewingMomentum(false)}
+                  className="btn-ink w-full flex-shrink-0"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Join Group Dialog */}
           {isJoiningGroup && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
-              <div className="w-full max-w-sm card-scholar p-8 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)]">
-                <div className="flex justify-between items-start">
+              <div className="w-full max-w-sm card-scholar p-6 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)] max-h-[85vh] flex flex-col">
+                <div className="flex justify-between items-start flex-shrink-0">
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Discovery</p>
                     <h3 className="text-2xl font-serif font-bold text-ink italic">Join a Cohort</h3>
@@ -222,7 +280,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
                   </button>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-3 overflow-y-auto pr-1 flex-1 custom-scrollbar">
                   {mockCohorts.map((cohort) => (
                     <button
                       key={cohort.name}
@@ -243,53 +301,9 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
 
                 <button 
                   onClick={() => setIsJoiningGroup(false)}
-                  className="btn-ghost w-full"
+                  className="btn-ghost w-full flex-shrink-0"
                 >
                   Cancel
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Contributors Dialog */}
-          {isViewingContributors && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
-              <div className="w-full max-w-sm card-scholar p-8 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)]">
-                <div className="flex justify-between items-start">
-                  <div className="space-y-1">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted">{activeCohort}</p>
-                    <h3 className="text-2xl font-serif font-bold text-ink italic">Top Contributors</h3>
-                  </div>
-                  <button onClick={() => setIsViewingContributors(false)} className="p-2 hover:bg-slate-50 rounded-lg transition-colors">
-                    <Plus className="w-5 h-5 rotate-45" />
-                  </button>
-                </div>
-
-                <div className="space-y-3">
-                  {[
-                    { name: 'Sarah L.', effort: '24.2h', rank: 1 },
-                    { name: 'Alex M.', effort: '19.5h', rank: 2 },
-                    { name: 'You', effort: stats?.totalHours?.toFixed(1) + 'h', rank: 3 },
-                    { name: 'James K.', effort: '12.8h', rank: 4 }
-                  ].map((user) => (
-                    <div key={user.name} className={cn(
-                      "flex items-center justify-between p-4 rounded-xl border",
-                      user.name === 'You' ? "border-ink bg-slate-50" : "border-slate-100"
-                    )}>
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs font-bold text-muted w-4">{user.rank}</span>
-                        <p className="font-bold text-sm text-ink">{user.name}</p>
-                      </div>
-                      <p className="font-serif font-bold italic text-ink">{user.effort}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <button 
-                  onClick={() => setIsViewingContributors(false)}
-                  className="btn-ink w-full"
-                >
-                  Done
                 </button>
               </div>
             </div>
