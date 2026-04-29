@@ -83,33 +83,33 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
                   <section className="space-y-2 text-left">
                     <div className="flex items-center gap-2 text-ink">
                       <Brain size={16} />
-                      <h4 className="font-bold text-sm uppercase tracking-wider">AI Task Architect</h4>
+                      <h4 className="font-bold text-sm uppercase tracking-wider">Plan Tasks</h4>
                     </div>
-                    <p className="text-xs text-muted leading-relaxed">Deconstructs overwhelming assignments into manageable micro-steps using neural synthesis logic.</p>
+                    <p className="text-xs text-muted leading-relaxed">Breaks big, scary assignments into small, easy steps automatically.</p>
                   </section>
 
                   <section className="space-y-2 text-left">
                     <div className="flex items-center gap-2 text-ink">
                       <Clock size={16} />
-                      <h4 className="font-bold text-sm uppercase tracking-wider">Environmental Shield</h4>
+                      <h4 className="font-bold text-sm uppercase tracking-wider">Focus Timer</h4>
                     </div>
-                    <p className="text-xs text-muted leading-relaxed">Enforces a Hard-Lock on distracting applications during focus sessions, removing willpower from the equation.</p>
+                    <p className="text-xs text-muted leading-relaxed">Locks distracting apps like TikTok and Instagram while you study.</p>
                   </section>
 
                   <section className="space-y-2 text-left">
                     <div className="flex items-center gap-2 text-ink">
                       <Settings size={16} />
-                      <h4 className="font-bold text-sm uppercase tracking-wider">Filing Library</h4>
+                      <h4 className="font-bold text-sm uppercase tracking-wider">Study Library</h4>
                     </div>
-                    <p className="text-xs text-muted leading-relaxed">A structured filing system for flashcards. Filter by subject and test your knowledge with interactive quiz modes.</p>
+                    <p className="text-xs text-muted leading-relaxed">Organize your flashcards by subject and test yourself with quick quizzes.</p>
                   </section>
 
                   <section className="space-y-2 text-left">
                     <div className="flex items-center gap-2 text-ink">
                       <BarChart3 size={16} />
-                      <h4 className="font-bold text-sm uppercase tracking-wider">Social Momentum</h4>
+                      <h4 className="font-bold text-sm uppercase tracking-wider">Stats & Social</h4>
                     </div>
-                    <p className="text-xs text-muted leading-relaxed">Leverage social proof by tracking group effort and visualizing your own consistency on the historical calendar.</p>
+                    <p className="text-xs text-muted leading-relaxed">Track your study streaks on a calendar and see how your friends are doing.</p>
                   </section>
                 </div>
 

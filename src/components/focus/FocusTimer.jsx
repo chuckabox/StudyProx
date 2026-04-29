@@ -182,9 +182,9 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
 
         <button 
           onClick={onExit}
-          className="text-xs font-bold uppercase tracking-widest text-slate-300 hover:text-destructive transition-colors duration-200"
+          className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-red-500 transition-colors duration-200 border-b border-transparent hover:border-red-500 pb-1"
         >
-          Abort Focus (Integrity Loss)
+          Abort Focus Session
         </button>
       </div>
 
