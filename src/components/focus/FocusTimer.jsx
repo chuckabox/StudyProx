@@ -6,6 +6,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
   const [step, setStep] = useState(isTimerRunning || task?.subject ? 'timer' : 'subject'); // subject | blocking | timer
   const [selectedSubject, setSelectedSubject] = useState(task?.subject || 'LAW');
   const [showAbortConfirm, setShowAbortConfirm] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   const subjects = [
     { id: 'LAW', name: 'Law & Ethics' },
@@ -180,7 +181,17 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
                 {task.subtasks.find(st => !st.completed).text}
               </p>
               <button
-                onClick={() => onUpdateSubtask(task.id, task.subtasks.find(st => !st.completed).id, true)}
+                onClick={() => {
+                  const currentSubtask = task.subtasks.find(st => !st.completed);
+                  const remainingSubtasks = task.subtasks.filter(st => !st.completed).length;
+                  
+                  onUpdateSubtask(task.id, currentSubtask.id, true);
+                  
+                  if (remainingSubtasks === 1) {
+                    setIsTimerRunning(false);
+                    setShowCelebration(true);
+                  }
+                }}
                 className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-muted hover:border-ink hover:text-ink transition-all active:scale-90 shrink-0"
                 title="Mark step as complete"
               >
@@ -235,6 +246,45 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
                 Cancel
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {showCelebration && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+          <div className="dialog-scholar w-full max-w-sm text-center space-y-8 py-10">
+            <div className="space-y-4">
+              <div className="w-16 h-16 bg-ink rounded-full flex items-center justify-center mx-auto shadow-xl">
+                <Check className="w-8 h-8 text-paper" />
+              </div>
+              <div className="space-y-2">
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Session Complete</p>
+                <h3 className="text-3xl font-serif font-bold text-ink italic">Achievement Locked</h3>
+              </div>
+            </div>
+
+            <div className="space-y-6 bg-slate-50/50 p-6 rounded-2xl border border-slate-100">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-left">
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-muted mb-1">Project</p>
+                  <p className="font-serif font-bold text-lg text-ink italic leading-tight truncate">{task?.title}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-muted mb-1">Duration</p>
+                  <p className="font-serif font-bold text-lg text-ink italic">{Math.max(1, Math.floor((25 * 60 - timerTime) / 60))}m Focus</p>
+                </div>
+              </div>
+              <div className="pt-4 border-t border-slate-200/50 flex items-center justify-between">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Execution Flow</p>
+                <p className="text-xs font-serif italic text-ink font-bold">{task?.subtasks?.length} Stages Resolved</p>
+              </div>
+            </div>
+
+            <button 
+              onClick={() => onComplete(selectedSubject, Math.floor((25 * 60 - timerTime) / 60))}
+              className="btn-ink w-full py-4 text-sm"
+            >
+              Archive & Return
+            </button>
           </div>
         </div>
       )}

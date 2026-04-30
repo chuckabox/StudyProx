@@ -213,7 +213,7 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
               </div>
               <div className="space-y-1">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Hard Lock</p>
-                <p className="text-[11px] leading-relaxed text-ink font-serif italic">
+                <p className="text-sm leading-relaxed text-ink font-serif italic">
                   Focus session active. Complete or abandon to navigate.
                 </p>
               </div>
