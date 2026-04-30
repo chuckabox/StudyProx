@@ -110,7 +110,7 @@ export function LandingDashboard({ stats, onStartNew }) {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="flex -space-x-3 overflow-hidden">
+                    <div className="flex -space-x-3 py-1">
                       {cohortMembers.map((initials, i) => (
                         <div 
                           key={initials + i} 

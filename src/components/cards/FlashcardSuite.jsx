@@ -68,7 +68,7 @@ export function FlashcardSuite() {
               >
                 <div className="flex items-center gap-5 flex-1 min-w-0">
                   <div className={cn(
-                    "w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center transition-all duration-300 group-hover:scale-110",
+                    "w-12 h-12 rounded-xl shrink-0 flex items-center justify-center transition-all duration-300 group-hover:scale-110",
                     currentStyle
                   )}>
                     <Folder className="w-6 h-6 fill-current opacity-20" />
@@ -80,7 +80,7 @@ export function FlashcardSuite() {
                   </div>
                 </div>
                 
-                <div className="flex flex-col items-end gap-2.5 flex-shrink-0 ml-4">
+                <div className="flex flex-col items-end gap-2.5 shrink-0 ml-4">
                   <div className="text-right">
                     <p className="text-lg font-bold text-ink leading-none">{folder.count}</p>
                     <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Cards</p>
@@ -139,7 +139,7 @@ export function FlashcardSuite() {
           onClick={() => setFlipped(!flipped)}
           className={cn(
             "card-scholar p-12 aspect-[4/3] flex flex-col items-center justify-center text-center space-y-8 bg-white border-2 border-ink shadow-xl cursor-pointer transition-all duration-500",
-            flipped && "rotate-y-180"
+            flipped && "[transform:rotateY(180deg)]"
           )}
         >
           <div className={cn("transition-all duration-300", flipped ? "opacity-0 invisible h-0" : "opacity-100 visible")}>
