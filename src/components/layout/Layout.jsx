@@ -24,7 +24,10 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
           "sm:rounded-[48px] sm:border sm:border-black/5"
         )}>
           {/* Scrollable Content Area */}
-          <div className="flex-1 overflow-y-auto scroll-smooth no-scrollbar internal-scroll-area">
+          <div className={cn(
+            "flex-1 scroll-smooth no-scrollbar internal-scroll-area",
+            isHardLocked ? "overflow-hidden" : "overflow-y-auto"
+          )}>
             {/* Top Nav */}
             <header className="sticky top-0 z-50 px-8 pt-10 sm:pt-14 pb-4 flex items-center justify-between bg-paper/80 backdrop-blur-md">
               <div 
@@ -59,13 +62,7 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
               </div>
             </header>
 
-            {/* Hard-Lock Active Banner */}
-            {isHardLocked && (
-              <div className="mx-8 mt-2 py-2 px-4 bg-red-50 text-red-600 rounded-lg flex items-center gap-2 text-xs font-bold uppercase tracking-widest border border-red-100">
-                <AlertTriangle className="w-3 h-3" />
-                Hard-Lock Active
-              </div>
-            )}
+
 
             {/* Main Content */}
             <main className={cn(

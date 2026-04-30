@@ -150,16 +150,6 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-12 text-center animate-[fade-in_600ms_ease-out]">
       <div className="space-y-4">
-        <div className="flex items-center justify-center gap-2 text-emerald-600 mb-4 animate-pulse">
-          <Shield size={16} />
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Hard-Lock Active</span>
-        </div>
-        
-        {/* Persistence Indicator - Addressing Screen Lock Issues */}
-        <div className="flex items-center justify-center gap-1.5 text-[8px] font-bold uppercase tracking-widest text-slate-400 mb-2">
-          <div className="w-1 h-1 rounded-full bg-emerald-500" />
-          Focus Shield Active: App & Audio Protected
-        </div>
         <h2 className="text-[100px] font-serif font-bold text-ink leading-none tabular-nums tracking-tighter transition-all duration-300">
           {formatTime(timeLeft)}
         </h2>
