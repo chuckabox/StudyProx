@@ -117,7 +117,7 @@ export function FlashcardSuite() {
         <header className="flex justify-between items-end">
           <div className="space-y-1">
             <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Study Library</p>
-            <h2 className="text-3xl font-serif font-bold text-ink italic">Knowledge Filing System</h2>
+            <h2 className="text-3xl font-serif font-bold text-ink italic">Flashcards</h2>
           </div>
           <button 
             onClick={() => setIsAddingFolder(true)}
