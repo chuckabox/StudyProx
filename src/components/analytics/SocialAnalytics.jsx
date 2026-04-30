@@ -24,6 +24,8 @@ export function SocialAnalytics({ stats, sessionHistory = [] }) {
   }));
 
   const weekDates = [26, 27, 28, 29, 30, 1, 2]; // Sample week around April 29
+  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  const year = 2026;
 
   return (
     <div className="space-y-12 animate-[fade-in_600ms_ease-out]">

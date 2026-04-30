@@ -175,9 +175,9 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
             <p className="text-[8px] font-bold uppercase tracking-[0.4em] text-muted/60">
               Stage {task.subtasks.filter(st => st.completed).length + 1} of {task.subtasks.length}
             </p>
-            <div className="flex items-center justify-center gap-3">
-              <span className="text-[10px] font-bold text-ink/20 w-6">0{task.subtasks.filter(st => st.completed).length + 1}</span>
-              <p className="text-sm font-serif italic text-muted leading-tight max-w-[200px]">
+            <div className="grid grid-cols-[32px_1fr_32px] items-center gap-4 w-full max-w-[320px] mx-auto">
+              <span className="text-[10px] font-bold text-ink/20">0{task.subtasks.filter(st => st.completed).length + 1}</span>
+              <p className="text-sm font-serif italic text-muted leading-tight text-center">
                 {task.subtasks.find(st => !st.completed).text}
               </p>
               <button
@@ -192,7 +192,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
                     setShowCelebration(true);
                   }
                 }}
-                className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-muted hover:border-ink hover:text-ink transition-all active:scale-90 shrink-0"
+                className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-muted hover:border-ink hover:text-ink transition-all active:scale-90 shrink-0"
                 title="Mark step as complete"
               >
                 <Check className="w-4 h-4" />
