@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sparkles, X, Check, ArrowRight, Pencil, GripVertical } from 'lucide-react';
+import { Sparkles, X, Check, ArrowRight, Pencil, GripVertical, Plus } from 'lucide-react';
 import { Reorder } from 'framer-motion';
 import { cn } from '../../lib/utils';
 
@@ -233,21 +233,38 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
                 </div>
                 
                 {isEditing ? (
-                  <input 
-                    className="bg-transparent border-none p-0 font-serif text-lg text-ink italic w-full focus:outline-none focus:ring-0"
-                    value={st.text}
-                    onChange={(e) => {
-                      const newSubtasks = [...subtasks];
-                      newSubtasks[i].text = e.target.value;
-                      setSubtasks(newSubtasks);
-                    }}
-                  />
+                  <div className="flex-1 flex items-center gap-2">
+                    <input 
+                      className="bg-transparent border-none p-0 font-serif text-lg text-ink italic w-full focus:outline-none focus:ring-0"
+                      value={st.text}
+                      onChange={(e) => {
+                        const newSubtasks = [...subtasks];
+                        newSubtasks[i].text = e.target.value;
+                        setSubtasks(newSubtasks);
+                      }}
+                    />
+                    <button 
+                      onClick={() => setSubtasks(subtasks.filter(s => s.id !== st.id))}
+                      className="p-2 text-muted hover:text-red-500 transition-colors"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
                 ) : (
                   <p className="font-serif text-lg text-ink italic">{st.text}</p>
                 )}
               </Reorder.Item>
             ))}
           </Reorder.Group>
+
+          {isEditing && (
+            <button 
+              onClick={() => setSubtasks([...subtasks, { id: crypto.randomUUID(), text: '' }])}
+              className="w-full py-4 border-2 border-dashed border-slate-200 rounded-xl text-muted hover:border-ink hover:text-ink transition-all flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest"
+            >
+              <Plus className="w-4 h-4" /> Add Stage
+            </button>
+          )}
 
           <div className="space-y-4 pt-6">
             <button 
