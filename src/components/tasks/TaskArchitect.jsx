@@ -160,7 +160,7 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
       )}
 
       {step === 'deconstructing' && (
-        <div className="fixed inset-0 z-[100] bg-paper flex flex-col items-center justify-center space-y-8 animate-[fade-in_400ms_ease-out]">
+        <div className="fixed inset-0 z-100 bg-paper flex flex-col items-center justify-center space-y-8 animate-[fade-in_400ms_ease-out]">
           <div className="w-20 h-20 relative">
             <div className="absolute inset-0 border-4 border-slate-100 rounded-full" />
             <div className="absolute inset-0 border-4 border-t-ink rounded-full animate-spin" />
@@ -213,7 +213,7 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
                 )}
               >
                 <div className={cn(
-                  "w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center font-bold text-xs transition-colors",
+                  "w-8 h-8 rounded-lg shrink-0 flex items-center justify-center font-bold text-xs transition-colors",
                   isEditing ? "bg-slate-200 text-ink/40" : "bg-ink text-paper"
                 )}>
                   {isEditing ? <GripVertical size={14} /> : i + 1}

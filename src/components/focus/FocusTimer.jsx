@@ -149,14 +149,18 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
   }
 
   return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-12 text-center animate-[fade-in_600ms_ease-out]">
+    <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-16 text-center animate-[fade-in_600ms_ease-out] pb-20">
       <div className="space-y-4">
-        <h2 className="text-[100px] font-serif font-bold text-ink leading-none tabular-nums tracking-tighter transition-all duration-300">
+        <h2 className="text-[120px] font-serif font-bold text-ink leading-none tabular-nums tracking-tighter transition-all duration-300">
           {formatTime(timerTime)}
         </h2>
-        <p className="font-serif text-2xl text-ink/60 italic stagger-1">
-          {selectedSubject} | {task?.title || 'Deep Work'}
-        </p>
+        <div className="space-y-1">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Current Objective</p>
+          <p className="font-serif text-3xl font-bold text-ink italic stagger-1">
+            {task?.title || 'Deep Work'}
+          </p>
+          <p className="text-xs font-bold uppercase tracking-widest text-ink/40">{selectedSubject}</p>
+        </div>
 
         {task?.subtasks?.find(st => !st.completed) && (
           <div className="mt-8 p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between gap-4 animate-[slide-up_600ms_var(--ease-out-expo)] max-w-sm mx-auto">
@@ -180,7 +184,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
         <button 
           onClick={() => setIsTimerRunning(!isTimerRunning)}
           className={cn(
-            "btn-ink w-full py-5 text-lg",
+            "btn-ink w-full py-4 text-sm",
             !isTimerRunning ? "bg-emerald-600 shadow-emerald-200" : "bg-ink shadow-ink/10"
           )}
         >
@@ -189,7 +193,11 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
         </button>
 
         <button 
-          onClick={onExit}
+          onClick={() => {
+            if (window.confirm("Are you sure you want to abort? This will record a slip-up in your performance analytics.")) {
+              onExit();
+            }
+          }}
           className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-red-500 transition-colors duration-200 border-b border-transparent hover:border-red-500 pb-1"
         >
           Abort Focus Session

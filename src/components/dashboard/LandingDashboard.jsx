@@ -11,10 +11,7 @@ export function LandingDashboard({ stats, onStartNew }) {
   ];
   const randomQuote = quotes[Math.floor(new Date().getDate() % quotes.length)];
 
-  const nextSubtask = activeTask?.subtasks?.find(st => !st.completed);
-  const progress = activeTask
-    ? (activeTask.subtasks.filter(st => st.completed).length / activeTask.subtasks.length) * 100
-    : 0;
+
 
   const [cohortMembers, setCohortMembers] = useState(['SL', 'AM', 'JK', 'ER']);
   const [inCohort, setInCohort] = useState(true);
@@ -50,7 +47,7 @@ export function LandingDashboard({ stats, onStartNew }) {
 
   return (
     <div className="min-h-full flex flex-col space-y-12 animate-[fade-in_600ms_ease-out] relative">
-      <div className="space-y-12">
+      <div className="space-y-12 flex-1">
         <header className="space-y-1">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Home</p>
           <h2 className="text-3xl font-serif font-bold text-ink italic">Daily Progress</h2>
@@ -163,9 +160,9 @@ export function LandingDashboard({ stats, onStartNew }) {
 
           {/* Momentum Leaderboard Dialog */}
           {isViewingMomentum && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+            <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
               <div className="w-full max-w-sm card-scholar p-6 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)] max-h-[75vh] flex flex-col">
-                <div className="flex justify-between items-start flex-shrink-0">
+                <div className="flex justify-between items-start shrink-0">
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Momentum</p>
                     <h3 className="text-2xl font-serif font-bold text-ink italic">Top Contributors</h3>
@@ -198,7 +195,7 @@ export function LandingDashboard({ stats, onStartNew }) {
 
                 <button 
                   onClick={() => setIsViewingMomentum(false)}
-                  className="btn-ink w-full flex-shrink-0"
+                  className="btn-ink w-full shrink-0"
                 >
                   Close
                 </button>
@@ -208,9 +205,9 @@ export function LandingDashboard({ stats, onStartNew }) {
 
           {/* Join Group Dialog */}
           {isJoiningGroup && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+            <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
               <div className="w-full max-w-sm card-scholar p-6 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)] max-h-[75vh] flex flex-col">
-                <div className="flex justify-between items-start flex-shrink-0">
+                <div className="flex justify-between items-start shrink-0">
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Discovery</p>
                     <h3 className="text-2xl font-serif font-bold text-ink italic">Join a Cohort</h3>
@@ -238,14 +235,13 @@ export function LandingDashboard({ stats, onStartNew }) {
 
                 <button 
                   onClick={() => setIsJoiningGroup(false)}
-                  className="btn-ghost w-full flex-shrink-0"
+                  className="btn-ghost w-full shrink-0"
                 >
                   Cancel
                 </button>
               </div>
             </div>
           )}
-        </div>
       </div>
 
       <div className="text-center py-6 opacity-30 mt-auto">

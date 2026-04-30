@@ -14,7 +14,7 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
         "sm:w-[412px] sm:h-[840px] sm:bg-[#1a1a1a] sm:rounded-[60px] sm:p-[12px] sm:shadow-[0_0_2px_2px_rgba(255,255,255,0.1)_inset,0_0_0_2px_#333,0_30px_100px_-20px_rgba(0,0,0,0.5)]"
       )}>
         {/* Dynamic Island - Hidden on mobile */}
-        <div className="hidden sm:flex absolute top-8 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-[100] items-center justify-end px-4">
+        <div className="hidden sm:flex absolute top-8 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-100 items-center justify-end px-4">
           <div className="w-2 h-2 rounded-full bg-[#1a1a1a] shadow-[inset_0_0_2px_rgba(255,255,255,0.2)]" />
         </div>
 
@@ -75,7 +75,7 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
 
           {/* Help Modal */}
           {showHelp && (
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+            <div className="fixed inset-0 z-200 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
               <div 
                 className="w-full max-w-sm card-scholar p-8 space-y-6 shadow-2xl max-h-[80vh] overflow-y-auto"
                 onClick={e => e.stopPropagation()}
