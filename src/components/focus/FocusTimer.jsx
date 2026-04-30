@@ -177,7 +177,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
             </p>
             <div className="grid grid-cols-[32px_1fr_32px] items-center gap-4 w-full max-w-[320px] mx-auto">
               <span className="text-[10px] font-bold text-ink/20">0{task.subtasks.filter(st => st.completed).length + 1}</span>
-              <p className="text-sm font-serif italic text-muted leading-tight text-center">
+              <p className="text-sm font-serif italic text-muted leading-tight text-center break-words min-w-0">
                 {task.subtasks.find(st => !st.completed).text}
               </p>
               <button
