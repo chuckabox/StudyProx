@@ -197,27 +197,9 @@ export function FlashcardSuite() {
                   >
                     <Pencil size={14} />
                   </button>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); deleteFolder(folder.id); }}
-                    className="p-2 bg-paper border border-slate-200 rounded-lg text-muted hover:text-red-600 hover:border-red-200 transition-all shadow-sm"
-                  >
-                    <Trash2 size={14} />
-                  </button>
                 </div>
 
-                {editingFolder?.id === folder.id && (
-                  <div className="absolute inset-0 z-10 bg-paper/95 backdrop-blur-sm card-scholar p-4 flex items-center gap-3">
-                    <input 
-                      autoFocus
-                      className="input-scholar flex-1"
-                      value={editingFolder.name}
-                      onChange={e => setEditingFolder({ ...editingFolder, name: e.target.value })}
-                      onKeyDown={e => e.key === 'Enter' && updateFolder(folder.id, editingFolder.name)}
-                    />
-                    <button onClick={() => setEditingFolder(null)} className="text-xs font-bold uppercase tracking-widest text-muted">Cancel</button>
-                    <button onClick={() => updateFolder(folder.id, editingFolder.name)} className="btn-ink px-4 py-2 text-[10px]">Save</button>
-                  </div>
-                )}
+
               </div>
             );
           })}
@@ -256,15 +238,15 @@ export function FlashcardSuite() {
 
         <div 
           onClick={() => setFlipped(!flipped)}
-          className="w-full max-w-sm aspect-4/3 relative [perspective:1000px] cursor-pointer group"
+          className="w-full max-w-sm aspect-4/3 relative perspective-[1000px] cursor-pointer group"
         >
           <div className={cn(
-            "w-full h-full relative transition-all duration-500 [transform-style:preserve-3d]",
-            flipped && "[transform:rotateY(180deg)]"
+            "w-full h-full relative transition-all duration-500 transform-3d",
+            flipped && "transform-[rotateY(180deg)]"
           )}>
             {/* Front Side */}
             <div className={cn(
-              "absolute inset-0 card-scholar p-12 flex flex-col items-center justify-center text-center space-y-4 bg-white border-2 border-ink shadow-xl [backface-visibility:hidden] transition-opacity duration-300",
+              "absolute inset-0 card-scholar p-12 flex flex-col items-center justify-center text-center space-y-4 bg-white border-2 border-ink shadow-xl backface-hidden transition-opacity duration-300",
               flipped ? "opacity-0 pointer-events-none" : "opacity-100 z-10"
             )}>
               <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Front</p>
@@ -273,7 +255,7 @@ export function FlashcardSuite() {
 
             {/* Back Side */}
             <div className={cn(
-              "absolute inset-0 card-scholar p-12 flex flex-col items-center justify-center text-center space-y-4 bg-white border-2 border-ink shadow-xl [backface-visibility:hidden] [transform:rotateY(180deg)] transition-opacity duration-300",
+              "absolute inset-0 card-scholar p-12 flex flex-col items-center justify-center text-center space-y-4 bg-white border-2 border-ink shadow-xl backface-hidden transform-[rotateY(180deg)] transition-opacity duration-300",
               flipped ? "opacity-100 z-20" : "opacity-0 pointer-events-none"
             )}>
               <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Back</p>
@@ -401,44 +383,103 @@ export function FlashcardSuite() {
               >
                 <Pencil size={14} />
               </button>
-              <button 
-                onClick={() => deleteCard(card.id)}
-                className="p-2 text-muted hover:text-red-600 transition-colors"
-              >
-                <Trash2 size={14} />
-              </button>
             </div>
 
-            {editingCard?.id === card.id && (
-              <div className="absolute inset-0 z-20 bg-paper backdrop-blur-sm flex flex-col gap-4 p-4 card-scholar shadow-2xl animate-[slide-up_200ms_ease-out]">
-                <div className="space-y-3">
-                  <div className="space-y-1">
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Question</p>
-                    <input 
-                      autoFocus
-                      className="input-scholar"
-                      value={editingCard.front}
-                      onChange={e => setEditingCard({ ...editingCard, front: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Answer</p>
-                    <textarea 
-                      className="input-scholar min-h-[80px] py-2"
-                      value={editingCard.back}
-                      onChange={e => setEditingCard({ ...editingCard, back: e.target.value })}
-                    />
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <button onClick={() => setEditingCard(null)} className="btn-ghost flex-1 py-2 text-xs">Cancel</button>
-                  <button onClick={() => updateCard(card.id, editingCard.front, editingCard.back)} className="btn-ink flex-1 py-2 text-xs">Update</button>
-                </div>
-              </div>
-            )}
+
           </div>
         ))}
       </div>
+
+      {editingCard && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+          <div className="w-full max-w-sm dialog-scholar space-y-6">
+            <header className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Edit Card</p>
+              <h3 className="text-2xl font-serif font-bold text-ink italic">Revise Material</h3>
+            </header>
+
+            <div className="space-y-4">
+              <div className="space-y-1 text-left">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Question</p>
+                <input 
+                  autoFocus
+                  className="input-scholar text-lg"
+                  value={editingCard.front}
+                  onChange={e => setEditingCard({ ...editingCard, front: e.target.value })}
+                />
+              </div>
+              <div className="space-y-1 text-left">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Answer</p>
+                <textarea 
+                  className="input-scholar text-lg min-h-[100px] py-2"
+                  value={editingCard.back}
+                  onChange={e => setEditingCard({ ...editingCard, back: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-2">
+              <button 
+                onClick={() => {
+                  if (window.confirm("Delete this card?")) {
+                    deleteCard(editingCard.id);
+                    setEditingCard(null);
+                  }
+                }} 
+                className="p-2 text-muted hover:text-red-600 transition-colors shrink-0"
+              >
+                <Trash2 size={16} />
+              </button>
+              <div className="flex-1 flex gap-2">
+                <button onClick={() => setEditingCard(null)} className="btn-ghost flex-1 py-2 text-xs">Cancel</button>
+                <button onClick={() => updateCard(editingCard.id, editingCard.front, editingCard.back)} className="btn-ink flex-1 py-2 text-xs">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {editingFolder && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+          <div className="w-full max-w-sm dialog-scholar space-y-6">
+            <header className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Edit Category</p>
+              <h3 className="text-2xl font-serif font-bold text-ink italic">Rename Library Node</h3>
+            </header>
+
+            <div className="space-y-4">
+              <div className="space-y-1 text-left">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Category Name</p>
+                <input 
+                  autoFocus
+                  className="input-scholar text-lg"
+                  value={editingFolder.name}
+                  onChange={e => setEditingFolder({ ...editingFolder, name: e.target.value })}
+                  onKeyDown={e => e.key === 'Enter' && updateFolder(editingFolder.id, editingFolder.name)}
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-2">
+              <button 
+                onClick={() => {
+                  if (window.confirm("Delete this category and all its cards?")) {
+                    deleteFolder(editingFolder.id);
+                    setEditingFolder(null);
+                  }
+                }} 
+                className="p-2 text-muted hover:text-red-600 transition-colors shrink-0"
+              >
+                <Trash2 size={16} />
+              </button>
+              <div className="flex-1 flex gap-2">
+                <button onClick={() => setEditingFolder(null)} className="btn-ghost flex-1 py-2 text-xs">Cancel</button>
+                <button onClick={() => updateFolder(editingFolder.id, editingFolder.name)} className="btn-ink flex-1 py-2 text-xs">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

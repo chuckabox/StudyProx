@@ -65,6 +65,11 @@ a,
     animation: slide-up 600ms var(--ease-out-expo) both;
   }
 
+  .dialog-scholar {
+    @apply bg-white border-2 border-ink rounded-xl p-8 shadow-2xl transition-all duration-300 ease-out-expo;
+    animation: scale-in 300ms var(--ease-out-expo) both;
+  }
+
   .card-scholar:hover {
     @apply border-ink/10 shadow-xl shadow-ink/5 -translate-y-1;
   }
@@ -109,6 +114,17 @@ a,
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Stagger Logic */

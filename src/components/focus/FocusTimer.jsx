@@ -162,7 +162,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
           {formatTime(timerTime)}
         </h2>
         <div className="space-y-1">
-          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Current Objective</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Current Project</p>
           <p className="font-serif text-3xl font-bold text-ink italic stagger-1">
             {task?.title || 'Deep Work'}
           </p>
@@ -170,17 +170,23 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
         </div>
 
         {task?.subtasks?.find(st => !st.completed) && (
-          <div className="mt-8 flex items-center justify-center gap-3 animate-[fade-in_600ms_ease-out]">
-            <p className="text-sm font-serif italic text-muted leading-tight max-w-[200px]">
-              {task.subtasks.find(st => !st.completed).text}
+          <div className="mt-8 space-y-2 animate-[fade-in_600ms_ease-out]">
+            <p className="text-[8px] font-bold uppercase tracking-[0.4em] text-muted/60">
+              Stage {task.subtasks.filter(st => st.completed).length + 1} of {task.subtasks.length}
             </p>
-            <button
-              onClick={() => onUpdateSubtask(task.id, task.subtasks.find(st => !st.completed).id, true)}
-              className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-muted hover:border-ink hover:text-ink transition-all active:scale-90 shrink-0"
-              title="Mark step as complete"
-            >
-              <Check className="w-4 h-4" />
-            </button>
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-[10px] font-bold text-ink/20 w-6">0{task.subtasks.filter(st => st.completed).length + 1}</span>
+              <p className="text-sm font-serif italic text-muted leading-tight max-w-[200px]">
+                {task.subtasks.find(st => !st.completed).text}
+              </p>
+              <button
+                onClick={() => onUpdateSubtask(task.id, task.subtasks.find(st => !st.completed).id, true)}
+                className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-muted hover:border-ink hover:text-ink transition-all active:scale-90 shrink-0"
+                title="Mark step as complete"
+              >
+                <Check className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -217,16 +223,16 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
             
             <div className="flex flex-col gap-2">
               <button 
-                onClick={() => setShowAbortConfirm(false)}
-                className="btn-ink w-full py-3 text-xs"
-              >
-                Continue Session
-              </button>
-              <button 
                 onClick={onExit}
-                className="text-[10px] font-bold uppercase tracking-widest text-muted hover:text-red-500 py-2 transition-colors"
+                className="btn-ink w-full py-3 text-xs bg-red-600 hover:bg-red-700 shadow-none border-none"
               >
                 Confirm Abandon
+              </button>
+              <button 
+                onClick={() => setShowAbortConfirm(false)}
+                className="text-[10px] font-bold uppercase tracking-widest text-muted hover:text-ink py-2 transition-colors"
+              >
+                Cancel
               </button>
             </div>
           </div>

@@ -1,9 +1,24 @@
-import { cloneElement, useState } from 'react';
+import { cloneElement, useState, useEffect } from 'react';
 import { Sparkles, Brain, Clock, BarChart3, Settings, AlertTriangle, HelpCircle } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function Layout({ children, currentView, setView, isHardLocked, onOpenSettings }) {
   const [showHelp, setShowHelp] = useState(false);
+  const [showLockAlert, setShowLockAlert] = useState(false);
+
+  useEffect(() => {
+    if (showLockAlert) {
+      const timer = setTimeout(() => setShowLockAlert(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showLockAlert]);
+
+  useEffect(() => {
+    const scrollArea = document.querySelector('.internal-scroll-area');
+    if (scrollArea) {
+      scrollArea.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [currentView]);
 
   return (
     <div className="h-screen w-screen bg-slate-100 flex items-center justify-center sm:py-10 selection:bg-ink/5 overflow-hidden">
@@ -54,8 +69,17 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
                   <HelpCircle className="w-5 h-5" />
                 </button>
                 <button 
-                  onClick={onOpenSettings}
-                  className="p-2 hover:bg-ink/5 rounded-lg text-muted"
+                  onClick={() => {
+                    if (isHardLocked) {
+                      setShowLockAlert(true);
+                    } else {
+                      onOpenSettings();
+                    }
+                  }}
+                  className={cn(
+                    "p-2 rounded-lg text-muted transition-colors",
+                    isHardLocked ? "opacity-30 cursor-not-allowed" : "hover:bg-ink/5"
+                  )}
                 >
                   <Settings className="w-5 h-5" />
                 </button>
@@ -132,6 +156,10 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
                 label="Library"
                 active={currentView === 'cards'} 
                 onClick={() => {
+                  if (isHardLocked) {
+                    setShowLockAlert(true);
+                    return;
+                  }
                   if (currentView === 'cards') {
                     document.querySelector('.internal-scroll-area')?.scrollTo({ top: 0, behavior: 'smooth' });
                   } else {
@@ -156,6 +184,10 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
                 label="Stats"
                 active={currentView === 'stats'} 
                 onClick={() => {
+                  if (isHardLocked) {
+                    setShowLockAlert(true);
+                    return;
+                  }
                   if (currentView === 'stats') {
                     document.querySelector('.internal-scroll-area')?.scrollTo({ top: 0, behavior: 'smooth' });
                   } else {
@@ -171,6 +203,23 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
         <div className="hidden sm:flex h-8 items-center justify-center">
           <div className="w-32 h-1 bg-black/20 rounded-full" />
         </div>
+
+        {/* Hard Lock Alert */}
+        {showLockAlert && (
+          <div className="absolute top-24 left-1/2 -translate-x-1/2 z-200 w-[280px] animate-[scale-in_300ms_var(--ease-out-expo)]">
+            <div className="bg-white border-2 border-ink p-4 rounded-xl shadow-2xl flex items-start gap-4">
+              <div className="w-10 h-10 rounded-lg bg-ink text-paper flex items-center justify-center shrink-0">
+                <AlertTriangle className="w-5 h-5 text-amber-400" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Hard Lock</p>
+                <p className="text-[11px] leading-relaxed text-ink font-serif italic">
+                  Focus session active. Complete or abandon to navigate.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

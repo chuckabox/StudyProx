@@ -9,6 +9,7 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
   const [subject, setSubject] = useState('STEM');
   const [subtasks, setSubtasks] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [error, setError] = useState('');
   
   const [history, setHistory] = useState(() => {
     const saved = localStorage.getItem('studyprox-history');
@@ -27,7 +28,11 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
   const [isManagingHistory, setIsManagingHistory] = useState(false);
 
   const handleDeconstruct = () => {
-    if (!title.trim()) return;
+    if (!title.trim()) {
+      setError('Enter a goal');
+      return;
+    }
+    setError('');
     
     // Add to history if unique
     if (!history.includes(title)) {
@@ -88,9 +93,17 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
               className="input-scholar"
               placeholder="e.g. React Architecture Audit"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                if (error) setError('');
+              }}
               onKeyDown={(e) => e.key === 'Enter' && handleDeconstruct()}
             />
+            {error && (
+              <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest animate-pulse">
+                {error}
+              </p>
+            )}
 
             <div className="space-y-2">
               <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Subject Domain</p>
