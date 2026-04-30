@@ -57,7 +57,7 @@ export function LandingDashboard({ stats, onStartNew }) {
               className="btn-ink mx-auto px-12"
             >
               <Plus className="w-5 h-5" />
-              <span>Begin Task</span>
+              <span>Start Planning</span>
             </button>
           </div>
 

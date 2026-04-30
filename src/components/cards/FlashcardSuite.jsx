@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BookOpen, Folder, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { BookOpen, Folder, ChevronRight, Plus } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function FlashcardSuite() {
@@ -8,29 +8,77 @@ export function FlashcardSuite() {
   const [quizState, setQuizState] = useState({ active: false, index: 0, score: 0 });
   const [flipped, setFlipped] = useState(false);
 
-  const folders = [
-    { id: 'LAW', name: 'Law & Ethics', count: 12, accuracy: 88, due: true, nextReview: 'Today' },
-    { id: 'STEM', name: 'Biological Sciences', count: 45, accuracy: 64, due: false, nextReview: 'Tomorrow' },
-    { id: 'MATH', name: 'Advanced Calculus', count: 28, accuracy: 92, due: false, nextReview: '2 days' },
-    { id: 'HIST', name: 'Modern World History', count: 15, accuracy: 78, due: true, nextReview: 'Today' },
-    { id: 'ECON', name: 'Macroeconomics', count: 22, accuracy: 85, due: false, nextReview: '4 days' },
-  ];
+  const [folders, setFolders] = useState(() => {
+    const saved = localStorage.getItem('studyprox-folders');
+    return saved ? JSON.parse(saved) : [
+      { id: 'LAW', name: 'Law & Ethics', count: 12 },
+      { id: 'STEM', name: 'Biological Sciences', count: 45 },
+      { id: 'MATH', name: 'Advanced Calculus', count: 28 },
+      { id: 'HIST', name: 'Modern World History', count: 15 },
+      { id: 'ECON', name: 'Macroeconomics', count: 22 },
+    ];
+  });
 
-  const cards = [
-    { id: 1, subject: 'LAW', front: 'Duty of Care', back: 'Legal obligation to avoid harm.' },
-    { id: 2, subject: 'LAW', front: 'Negligence', back: 'Failure to exercise reasonable care.' },
-    { id: 3, subject: 'LAW', front: 'Res Ipsa Loquitur', back: 'The thing speaks for itself.' },
-    { id: 4, subject: 'STEM', front: 'Mitochondria', back: 'Powerhouse of the cell.' },
-    { id: 5, subject: 'STEM', front: 'ATP Synthesis', back: 'Process of energy creation.' },
-    { id: 6, subject: 'STEM', front: 'Golgi Apparatus', back: 'Sorting and packaging of proteins.' },
-    { id: 7, subject: 'MATH', front: 'Chain Rule', back: 'Derivative of composite functions.' },
-    { id: 8, subject: 'MATH', front: 'Partial Derivatives', back: 'Derivative with respect to one variable.' },
-    { id: 9, subject: 'MATH', front: 'Taylor Series', back: 'Infinite sum of terms that approximate a function.' },
-    { id: 10, subject: 'HIST', front: 'Treaty of Versailles', back: 'Peace treaty that ended WWI.' },
-    { id: 11, subject: 'HIST', front: 'Cold War Origins', back: 'Geopolitical tension between US and USSR.' },
-    { id: 12, subject: 'ECON', front: 'Opportunity Cost', back: 'The value of the next best alternative.' },
-    { id: 13, subject: 'ECON', front: 'Fiscal Policy', back: 'Government spending and taxation to influence economy.' },
-  ];
+  const [cards, setCards] = useState(() => {
+    const saved = localStorage.getItem('studyprox-cards');
+    return saved ? JSON.parse(saved) : [
+      { id: 1, subject: 'LAW', front: 'Duty of Care', back: 'Legal obligation to avoid harm.' },
+      { id: 2, subject: 'LAW', front: 'Negligence', back: 'Failure to exercise reasonable care.' },
+      { id: 3, subject: 'LAW', front: 'Res Ipsa Loquitur', back: 'The thing speaks for itself.' },
+      { id: 4, subject: 'STEM', front: 'Mitochondria', back: 'Powerhouse of the cell.' },
+      { id: 5, subject: 'STEM', front: 'ATP Synthesis', back: 'Process of energy creation.' },
+      { id: 6, subject: 'STEM', front: 'Golgi Apparatus', back: 'Sorting and packaging of proteins.' },
+      { id: 7, subject: 'MATH', front: 'Chain Rule', back: 'Derivative of composite functions.' },
+      { id: 8, subject: 'MATH', front: 'Partial Derivatives', back: 'Derivative with respect to one variable.' },
+      { id: 9, subject: 'MATH', front: 'Taylor Series', back: 'Infinite sum of terms that approximate a function.' },
+      { id: 10, subject: 'HIST', front: 'Treaty of Versailles', back: 'Peace treaty that ended WWI.' },
+      { id: 11, subject: 'HIST', front: 'Cold War Origins', back: 'Geopolitical tension between US and USSR.' },
+      { id: 12, subject: 'ECON', front: 'Opportunity Cost', back: 'The value of the next best alternative.' },
+      { id: 13, subject: 'ECON', front: 'Fiscal Policy', back: 'Government spending and taxation to influence economy.' },
+    ];
+  });
+
+  const [isAddingFolder, setIsAddingFolder] = useState(false);
+  const [isAddingCard, setIsAddingCard] = useState(false);
+  const [newFolderName, setNewFolderName] = useState('');
+  const [newCardFront, setNewCardFront] = useState('');
+  const [newCardBack, setNewCardBack] = useState('');
+  const [addCardError, setAddCardError] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('studyprox-folders', JSON.stringify(folders));
+  }, [folders]);
+
+  useEffect(() => {
+    localStorage.setItem('studyprox-cards', JSON.stringify(cards));
+  }, [cards]);
+
+  const addFolder = () => {
+    if (!newFolderName.trim()) return;
+    const id = newFolderName.slice(0, 4).toUpperCase();
+    setFolders([...folders, { id, name: newFolderName, count: 0 }]);
+    setNewFolderName('');
+    setIsAddingFolder(false);
+  };
+
+  const addCard = () => {
+    if (!newCardFront.trim() || !newCardBack.trim()) {
+      setAddCardError('Please provide both a prompt and an explanation.');
+      return;
+    }
+    setAddCardError('');
+    const newCard = {
+      id: Date.now(),
+      subject: selectedFolder,
+      front: newCardFront,
+      back: newCardBack
+    };
+    setCards([...cards, newCard]);
+    setFolders(folders.map(f => f.id === selectedFolder ? { ...f, count: (f.count || 0) + 1 } : f));
+    setNewCardFront('');
+    setNewCardBack('');
+    setIsAddingCard(false);
+  };
 
   const filteredCards = selectedFolder 
     ? cards.filter(c => c.subject === selectedFolder)
@@ -39,10 +87,36 @@ export function FlashcardSuite() {
   if (view === 'folders') {
     return (
       <div className="space-y-12 animate-[fade-in_600ms_ease-out]">
-        <header className="space-y-1">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Study Library</p>
-          <h2 className="text-3xl font-serif font-bold text-ink italic">Knowledge Filing System</h2>
+        <header className="flex justify-between items-end">
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Study Library</p>
+            <h2 className="text-3xl font-serif font-bold text-ink italic">Knowledge Filing System</h2>
+          </div>
+          <button 
+            onClick={() => setIsAddingFolder(true)}
+            className="w-10 h-10 rounded-full bg-ink text-paper flex items-center justify-center hover:scale-105 transition-all shadow-lg active:scale-95"
+          >
+            <Plus className="w-5 h-5" />
+          </button>
         </header>
+
+        {isAddingFolder && (
+          <div className="card-scholar p-6 bg-slate-50 space-y-4 animate-[slide-down_300ms_ease-out]">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">New Category</p>
+            <input 
+              autoFocus
+              className="input-scholar text-lg"
+              placeholder="Enter category name..."
+              value={newFolderName}
+              onChange={e => setNewFolderName(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && addFolder()}
+            />
+            <div className="flex gap-2">
+              <button onClick={() => setIsAddingFolder(false)} className="btn-ghost flex-1 py-2">Cancel</button>
+              <button onClick={addFolder} className="btn-ink flex-1 py-2">Create</button>
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 gap-4">
           {folders.map((folder, i) => {
@@ -123,14 +197,14 @@ export function FlashcardSuite() {
     }
 
     return (
-      <div className="space-y-12 min-h-[60vh] flex flex-col justify-center">
-        <header className="text-center space-y-2">
+      <div className="flex-1 flex flex-col items-center justify-center space-y-12 animate-[fade-in_600ms_ease-out] -mt-10">
+        <header className="text-center space-y-2 shrink-0">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted">
             Card {quizState.index + 1} of {filteredCards.length}
           </p>
-          <div className="w-full h-1 bg-slate-100 rounded-full max-w-[200px] mx-auto">
+          <div className="w-full h-1 bg-slate-100 rounded-full max-w-[200px] mx-auto overflow-hidden">
             <div 
-              className="h-full bg-ink rounded-full transition-all duration-500" 
+              className="h-full bg-ink transition-all duration-500" 
               style={{ width: `${((quizState.index + 1) / filteredCards.length) * 100}%` }}
             />
           </div>
@@ -138,59 +212,50 @@ export function FlashcardSuite() {
 
         <div 
           onClick={() => setFlipped(!flipped)}
-          className={cn(
-            "card-scholar p-12 aspect-4/3 flex flex-col items-center justify-center text-center space-y-8 bg-white border-2 border-ink shadow-xl cursor-pointer transition-all duration-500",
-            flipped && "transform-[rotateY(180deg)]"
-          )}
+          className="w-full max-w-sm aspect-4/3 relative [perspective:1000px] cursor-pointer group"
         >
-          <div className={cn("transition-all duration-300", flipped ? "opacity-0 invisible h-0" : "opacity-100 visible")}>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-4">Front</p>
-            <h3 className="text-3xl font-serif font-bold text-ink italic">{currentCard.front}</h3>
-          </div>
-          <div className={cn("transition-all duration-300", !flipped ? "opacity-0 invisible h-0" : "opacity-100 visible")}>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 mb-4">Back</p>
-            <h3 className="text-2xl font-serif font-bold text-ink italic">{currentCard.back}</h3>
+          <div className={cn(
+            "w-full h-full relative transition-all duration-500 [transform-style:preserve-3d]",
+            flipped && "[transform:rotateY(180deg)]"
+          )}>
+            {/* Front Side */}
+            <div className="absolute inset-0 card-scholar p-12 flex flex-col items-center justify-center text-center space-y-4 bg-white border-2 border-ink shadow-xl [backface-visibility:hidden]">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Front</p>
+              <h3 className="text-3xl font-serif font-bold text-ink italic leading-tight">{currentCard.front}</h3>
+            </div>
+
+            {/* Back Side */}
+            <div className="absolute inset-0 card-scholar p-12 flex flex-col items-center justify-center text-center space-y-4 bg-white border-2 border-ink shadow-xl [backface-visibility:hidden] [transform:rotateY(180deg)]">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Back</p>
+              <h3 className="text-2xl font-serif font-bold text-ink italic leading-tight">{currentCard.back}</h3>
+            </div>
           </div>
         </div>
 
-        <div className="flex gap-4">
-          {!flipped ? (
-            <button 
-              onClick={() => setFlipped(true)}
-              className="btn-ink w-full py-6"
-            >
-              Flip Card
-            </button>
-          ) : (
-            <>
-              <button 
-                onClick={() => {
-                  setFlipped(false);
-                  if (quizState.index < filteredCards.length - 1) {
-                    setQuizState(prev => ({ ...prev, index: prev.index + 1 }));
-                  } else {
-                    setView('folders');
-                  }
-                }}
-                className="btn-ghost flex-1 py-6 border-red-200 text-red-600 hover:bg-red-50"
-              >
-                Incorrect
-              </button>
-              <button 
-                onClick={() => {
-                  setFlipped(false);
-                  if (quizState.index < filteredCards.length - 1) {
-                    setQuizState(prev => ({ ...prev, index: prev.index + 1, score: prev.score + 1 }));
-                  } else {
-                    setView('folders');
-                  }
-                }}
-                className="btn-ink flex-1 py-6 bg-emerald-600 hover:bg-emerald-700"
-              >
-                Correct
-              </button>
-            </>
-          )}
+        <div className="w-full max-w-sm flex gap-4 shrink-0">
+          <button 
+            disabled={quizState.index === 0}
+            onClick={() => {
+              setFlipped(false);
+              setQuizState(prev => ({ ...prev, index: Math.max(0, prev.index - 1) }));
+            }}
+            className="btn-ghost flex-1 py-4 text-xs disabled:opacity-30"
+          >
+            Previous
+          </button>
+          <button 
+            onClick={() => {
+              setFlipped(false);
+              if (quizState.index < filteredCards.length - 1) {
+                setQuizState(prev => ({ ...prev, index: prev.index + 1 }));
+              } else {
+                setView('folders');
+              }
+            }}
+            className="btn-ink flex-1 py-4 text-xs"
+          >
+            {quizState.index < filteredCards.length - 1 ? 'Next Card' : 'Finish Session'}
+          </button>
         </div>
       </div>
     );
@@ -201,20 +266,67 @@ export function FlashcardSuite() {
       <header className="flex justify-between items-end">
         <div className="space-y-4">
           <button onClick={() => setView('folders')} className="text-[10px] font-bold uppercase tracking-widest text-muted flex items-center gap-1 hover:text-ink transition-colors">
-            <ChevronRight className="rotate-180 w-3 h-3" /> Back to Folders
+            <ChevronRight className="rotate-180 w-3 h-3" /> Back to Library
           </button>
           <h2 className="text-3xl font-serif font-bold text-ink italic">{selectedFolder} Deck</h2>
         </div>
-        <button 
-          onClick={() => {
-            setQuizState({ active: true, index: 0, score: 0 });
-            setView('quiz');
-          }}
-          className="btn-ink px-6 h-12"
-        >
-          Start Quiz
-        </button>
+        <div className="flex gap-2">
+          <button 
+            onClick={() => setIsAddingCard(true)}
+            className="w-10 h-10 rounded-lg bg-slate-50 text-ink flex items-center justify-center border border-slate-200 hover:border-ink transition-all active:scale-95 shadow-sm"
+          >
+            <Plus className="w-5 h-5" />
+          </button>
+          <button 
+            onClick={() => {
+              setQuizState({ active: true, index: 0, score: 0 });
+              setView('quiz');
+            }}
+            className="btn-ink px-6 h-10 text-[10px]"
+          >
+            Start Quiz
+          </button>
+        </div>
       </header>
+
+      {isAddingCard && (
+        <div className="card-scholar p-6 bg-slate-50 space-y-6 animate-[slide-down_300ms_ease-out]">
+          <div className="space-y-4">
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Question (Front)</p>
+              <input 
+                autoFocus
+                className="input-scholar text-lg"
+                placeholder="Enter prompt..."
+                value={newCardFront}
+                onChange={e => {
+                  setNewCardFront(e.target.value);
+                  if (addCardError) setAddCardError('');
+                }}
+              />
+            </div>
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Answer (Back)</p>
+              <textarea 
+                className="input-scholar text-lg min-h-[100px] py-3"
+                placeholder="Enter explanation..."
+                value={newCardBack}
+                onChange={e => {
+                  setNewCardBack(e.target.value);
+                  if (addCardError) setAddCardError('');
+                }}
+              />
+            </div>
+            {addCardError && (
+              <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest animate-pulse">{addCardError}</p>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <button onClick={() => { setIsAddingCard(false); setAddCardError(''); }} className="btn-ghost flex-1 py-2">Cancel</button>
+            <button onClick={addCard} className="btn-ink flex-1 py-2">Add Card</button>
+          </div>
+        </div>
+      )}
 
       <div className="space-y-4">
         {filteredCards.map((card) => (
