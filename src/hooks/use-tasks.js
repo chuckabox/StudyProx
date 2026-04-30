@@ -30,6 +30,9 @@ export function useStudyCore() {
     localStorage.setItem('studyprox-settings', JSON.stringify(settings));
   }, [tasks, stats, settings]);
 
+  const [timerTime, setTimerTime] = useState(25 * 60);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+
   const addTask = (title, subject, subtasks = []) => {
     const newTask = {
       id: crypto.randomUUID(),
@@ -90,7 +93,6 @@ export function useStudyCore() {
 
   const clearTasks = () => {
     setTasks([]);
-    abortSession(); // Punish for clearing an active plan
   };
 
   return {
@@ -102,6 +104,10 @@ export function useStudyCore() {
     updateSubtask,
     logStudySession,
     clearTasks,
-    abortSession
+    abortSession,
+    timerTime,
+    setTimerTime,
+    isTimerRunning,
+    setIsTimerRunning
   };
 }

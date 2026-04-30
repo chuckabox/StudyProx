@@ -9,7 +9,11 @@ import { SettingsPage } from './components/settings/SettingsPage';
 import { useStudyCore } from './hooks/use-tasks';
 
 function App() {
-  const { tasks, stats, settings, setSettings, addTask, updateSubtask, logStudySession, clearTasks, abortSession } = useStudyCore();
+  const { 
+    tasks, stats, settings, setSettings, addTask, updateSubtask, 
+    logStudySession, clearTasks, abortSession, 
+    timerTime, setTimerTime, isTimerRunning, setIsTimerRunning 
+  } = useStudyCore();
   const [view, setView] = useState('dashboard'); // dashboard | architect | focus | cards | stats | settings
 
   useEffect(() => {
@@ -26,7 +30,14 @@ function App() {
   return (
     <Layout 
       currentView={view} 
-      setView={setView} 
+      setView={(newView) => {
+        // If timer is running and user clicks home, go to focus
+        if (newView === 'dashboard' && isTimerRunning) {
+          setView('focus');
+        } else {
+          setView(newView);
+        }
+      }} 
       isHardLocked={view === 'focus'}
       onOpenSettings={() => setView('settings')}
     >
@@ -34,12 +45,8 @@ function App() {
         {view === 'dashboard' && (
           <div className="w-full">
             <LandingDashboard 
-              activeTask={activeTask} 
               stats={stats}
               onStartNew={() => setView('architect')} 
-              onUpdateSubtask={updateSubtask}
-              onStartFocus={() => setView('focus')}
-              onCancelTask={clearTasks}
             />
           </div>
         )}
@@ -59,12 +66,21 @@ function App() {
             <FocusTimer 
               task={activeTask}
               settings={settings}
+              timerTime={timerTime}
+              setTimerTime={setTimerTime}
+              isTimerRunning={isTimerRunning}
+              setIsTimerRunning={setIsTimerRunning}
+              onUpdateSubtask={updateSubtask}
               onComplete={(subject, mins) => {
                 logStudySession(subject, mins);
+                setIsTimerRunning(false);
+                setTimerTime(25 * 60);
                 setView('dashboard');
               }}
               onExit={() => {
                 abortSession();
+                setIsTimerRunning(false);
+                setTimerTime(25 * 60);
                 setView('dashboard');
               }}
             />

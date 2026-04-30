@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, Lock, Shield, Smartphone, ArrowLeft } from 'lucide-react';
+import { Play, Pause, Lock, Shield, Smartphone, ArrowLeft, Check } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-export function FocusTimer({ task, settings, onComplete, onExit }) {
-  const [step, setStep] = useState(task?.subject ? 'timer' : 'subject'); // subject | blocking | timer
+export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRunning, setIsTimerRunning, onUpdateSubtask, onComplete, onExit }) {
+  const [step, setStep] = useState(isTimerRunning || task?.subject ? 'timer' : 'subject'); // subject | blocking | timer
   const [selectedSubject, setSelectedSubject] = useState(task?.subject || 'LAW');
-  const [timeLeft, setTimeLeft] = useState(25 * 60);
-  const [isPaused, setIsPaused] = useState(false);
 
   const subjects = [
     { id: 'LAW', name: 'Law & Ethics' },
@@ -16,9 +14,9 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
   ];
 
   useEffect(() => {
-    if (step !== 'timer' || isPaused) return;
+    if (step !== 'timer' || !isTimerRunning) return;
     const interval = setInterval(() => {
-      setTimeLeft(t => {
+      setTimerTime(t => {
         if (t <= 1) {
           clearInterval(interval);
           onComplete(selectedSubject, 25);
@@ -28,7 +26,7 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [isPaused, step, selectedSubject, onComplete]);
+  }, [isTimerRunning, step, selectedSubject, onComplete, setTimerTime]);
 
   const formatTime = (s) => {
     const mins = Math.floor(s / 60);
@@ -138,7 +136,10 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
         </div>
 
         <button 
-          onClick={() => setStep('timer')}
+          onClick={() => {
+            setStep('timer');
+            setIsTimerRunning(true);
+          }}
           className="btn-ink w-full py-6 text-xl shadow-xl shadow-ink/10 stagger-4"
         >
           Enter Full Focus
@@ -151,23 +152,40 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
     <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-12 text-center animate-[fade-in_600ms_ease-out]">
       <div className="space-y-4">
         <h2 className="text-[100px] font-serif font-bold text-ink leading-none tabular-nums tracking-tighter transition-all duration-300">
-          {formatTime(timeLeft)}
+          {formatTime(timerTime)}
         </h2>
         <p className="font-serif text-2xl text-ink/60 italic stagger-1">
           {selectedSubject} | {task?.title || 'Deep Work'}
         </p>
+
+        {task?.subtasks?.find(st => !st.completed) && (
+          <div className="mt-8 p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between gap-4 animate-[slide-up_600ms_var(--ease-out-expo)] max-w-sm mx-auto">
+            <div className="text-left flex-1">
+              <p className="text-[8px] font-bold uppercase tracking-widest text-muted">Next Step</p>
+              <p className="text-sm font-serif font-bold text-ink italic leading-tight">
+                {task.subtasks.find(st => !st.completed).text}
+              </p>
+            </div>
+            <button
+              onClick={() => onUpdateSubtask(task.id, task.subtasks.find(st => !st.completed).id, true)}
+              className="w-10 h-10 rounded-lg bg-ink text-paper flex items-center justify-center hover:bg-ink/80 transition-all active:scale-90"
+            >
+              <Check className="w-5 h-5" />
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="w-full max-w-xs space-y-6 stagger-2">
         <button 
-          onClick={() => setIsPaused(!isPaused)}
+          onClick={() => setIsTimerRunning(!isTimerRunning)}
           className={cn(
             "btn-ink w-full py-5 text-lg",
-            isPaused ? "bg-emerald-600 shadow-emerald-200" : "bg-ink shadow-ink/10"
+            !isTimerRunning ? "bg-emerald-600 shadow-emerald-200" : "bg-ink shadow-ink/10"
           )}
         >
-          {isPaused ? <Play className="w-5 h-5" /> : <Pause className="w-5 h-5" />}
-          <span>{isPaused ? 'Resume' : 'Pause'}</span>
+          {!isTimerRunning ? <Play className="w-5 h-5" /> : <Pause className="w-5 h-5" />}
+          <span>{!isTimerRunning ? 'Resume' : 'Pause'}</span>
         </button>
 
         <button 
@@ -181,7 +199,7 @@ export function FocusTimer({ task, settings, onComplete, onExit }) {
       <div className="w-24 h-1 bg-slate-100 rounded-full overflow-hidden stagger-3">
         <div 
           className="h-full bg-ink transition-all duration-1000 linear"
-          style={{ width: `${(timeLeft / (25 * 60)) * 100}%` }}
+          style={{ width: `${(timerTime / (25 * 60)) * 100}%` }}
         />
       </div>
     </div>

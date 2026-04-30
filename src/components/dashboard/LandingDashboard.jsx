@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Check, Zap, CheckCircle2, TrendingUp, Clock, UserPlus } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtask, onStartFocus, onCancelTask }) {
+export function LandingDashboard({ stats, onStartNew }) {
   const quotes = [
     "Cognition peaks during early focus.",
     "Small steps lead to deep mastery.",
@@ -50,68 +50,11 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
 
   return (
     <div className="min-h-full flex flex-col space-y-12 animate-[fade-in_600ms_ease-out] relative">
-      {activeTask ? (
-        <div className="space-y-10">
-          <header className="space-y-1">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Active Objective</p>
-            <h2 className="text-3xl font-serif font-bold text-ink italic">{activeTask.title}</h2>
-            <div className="w-full h-1 bg-slate-100 rounded-full mt-4">
-              <div 
-                className="h-full bg-ink rounded-full transition-all duration-1000 ease-out-expo" 
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          </header>
-
-          {nextSubtask ? (
-            <div className="card-scholar p-6 space-y-6 stagger-1">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-2">Next Step</p>
-                <p className="text-lg font-serif font-bold text-ink italic">{nextSubtask.text}</p>
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => onUpdateSubtask(activeTask.id, nextSubtask.id, true)}
-                  className="w-10 h-10 rounded-lg border border-slate-100 flex items-center justify-center hover:bg-slate-50 transition-all active:scale-90"
-                >
-                  <Check className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={onStartFocus}
-                  className="btn-ink flex-1 text-sm py-2"
-                >
-                  <Zap className="w-4 h-4" />
-                  <span>Start Focus</span>
-                </button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className="card-scholar text-center space-y-4 animate-bounce">
-                <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-600" />
-                </div>
-                <p className="font-serif font-bold text-xl">Objective Complete</p>
-                <button onClick={onStartNew} className="btn-ink w-full">New Sprint</button>
-              </div>
-            </>
-          )}
-          <div className="flex justify-center pt-6">
-            <button 
-              onClick={onCancelTask}
-              className="text-[10px] font-bold uppercase tracking-widest text-muted hover:text-red-500 transition-colors duration-200 border-b border-transparent hover:border-red-500 pb-1"
-            >
-              Cancel Project
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-12">
-          <header className="space-y-1">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Home</p>
-            <h2 className="text-3xl font-serif font-bold text-ink italic">Daily Progress</h2>
-          </header>
+      <div className="space-y-12">
+        <header className="space-y-1">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Home</p>
+          <h2 className="text-3xl font-serif font-bold text-ink italic">Daily Progress</h2>
+        </header>
 
           <div className="card-scholar py-8 text-center space-y-6 stagger-1">
             <div className="space-y-1">
@@ -303,7 +246,7 @@ export function LandingDashboard({ activeTask, stats, onStartNew, onUpdateSubtas
             </div>
           )}
         </div>
-      )}
+      </div>
 
       <div className="text-center py-6 opacity-30 mt-auto">
         <p className="text-[8px] font-bold text-slate-400 uppercase tracking-[0.4em] mb-1">StudyProx v4.0.1</p>
