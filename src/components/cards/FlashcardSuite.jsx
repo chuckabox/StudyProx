@@ -211,9 +211,7 @@ export function FlashcardSuite() {
 
 
   if (view === 'quiz') {
-    const currentCard = filteredCards[quizState.index];
-    
-    if (!currentCard) {
+    if (filteredCards.length === 0) {
       return (
         <div className="text-center py-20 space-y-6">
           <p className="text-xl font-serif italic text-ink">This deck is currently empty.</p>
@@ -222,16 +220,28 @@ export function FlashcardSuite() {
       );
     }
 
+    const currentCard = filteredCards[quizState.index] || { front: 'No content', back: 'Empty deck' };
+    const progress = (quizState.index + 1) / filteredCards.length * 100;
+
     return (
-      <div className="flex-1 flex flex-col items-center justify-center space-y-12 animate-[fade-in_600ms_ease-out] -mt-10">
-        <header className="text-center space-y-2 shrink-0">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">
-            Card {quizState.index + 1} of {filteredCards.length}
-          </p>
+      <div className="space-y-12 animate-[fade-in_600ms_ease-out] flex flex-col min-h-[600px]">
+        <header className="space-y-4">
+          <div className="flex items-center justify-between">
+            <button 
+              onClick={() => {
+                setQuizState({ active: false, index: 0, score: 0 });
+                setView('list');
+              }} 
+              className="text-[10px] font-bold uppercase tracking-widest text-muted flex items-center gap-1 hover:text-ink transition-colors"
+            >
+              <ChevronRight className="rotate-180 w-3 h-3" /> End Session
+            </button>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Quiz Mode</p>
+          </div>
           <div className="w-full h-1 bg-slate-100 rounded-full max-w-[200px] mx-auto overflow-hidden">
             <div 
               className="h-full bg-ink transition-all duration-500" 
-              style={{ width: `${((quizState.index + 1) / filteredCards.length) * 100}%` }}
+              style={{ width: `${progress}%` }}
             />
           </div>
         </header>
@@ -310,11 +320,15 @@ export function FlashcardSuite() {
             <Plus className="w-5 h-5" />
           </button>
           <button 
+            disabled={filteredCards.length === 0}
             onClick={() => {
               setQuizState({ active: true, index: 0, score: 0 });
               setView('quiz');
             }}
-            className="btn-ink px-6 h-10 text-[10px]"
+            className={cn(
+              "btn-ink px-6 h-10 text-[10px]",
+              filteredCards.length === 0 && "opacity-30 cursor-not-allowed"
+            )}
           >
             Start Quiz
           </button>
