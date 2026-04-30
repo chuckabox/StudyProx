@@ -71,14 +71,14 @@ function App() {
               isTimerRunning={isTimerRunning}
               setIsTimerRunning={setIsTimerRunning}
               onUpdateSubtask={updateSubtask}
-              onComplete={(subject, mins) => {
-                logStudySession(subject, mins);
+              onComplete={(task, mins) => {
+                logTaskCompletion(task, mins);
                 setIsTimerRunning(false);
                 setTimerTime(25 * 60);
                 setView('dashboard');
               }}
-              onExit={() => {
-                abortSession();
+              onExit={(task, mins) => {
+                abortSession(task, mins);
                 setIsTimerRunning(false);
                 setTimerTime(25 * 60);
                 setView('dashboard');

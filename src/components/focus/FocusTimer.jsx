@@ -234,7 +234,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
             
             <div className="flex flex-col gap-2">
               <button 
-                onClick={onExit}
+                onClick={() => onExit(task, Math.floor((25 * 60 - timerTime) / 60))}
                 className="btn-ink w-full py-3 text-xs bg-red-600 hover:bg-red-700 shadow-none border-none"
               >
                 Confirm Abandon
@@ -257,8 +257,8 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
                 <Check className="w-8 h-8 text-paper" />
               </div>
               <div className="space-y-2">
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Session Complete</p>
-                <h3 className="text-3xl font-serif font-bold text-ink italic">Achievement Locked</h3>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted">Focus Success</p>
+                <h3 className="text-3xl font-serif font-bold text-ink italic">Session Complete</h3>
               </div>
             </div>
 
@@ -280,10 +280,10 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
             </div>
 
             <button 
-              onClick={() => onComplete(selectedSubject, Math.floor((25 * 60 - timerTime) / 60))}
+              onClick={() => onComplete(task, Math.floor((25 * 60 - timerTime) / 60))}
               className="btn-ink w-full py-4 text-sm"
             >
-              Archive & Return
+              Hooray
             </button>
           </div>
         </div>

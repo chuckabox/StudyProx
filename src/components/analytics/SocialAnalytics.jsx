@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { X, Info, ShieldAlert } from 'lucide-react';
+import { X, Info, FileText, Check, XCircle } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-export function SocialAnalytics({ stats }) {
+export function SocialAnalytics({ stats, sessionHistory = [] }) {
   const friends = [
     { name: 'Sarah L.', subject: 'JS', hours: 14.5, breaks: 0 },
     { name: 'Alex M.', subject: 'SWEN', hours: 12.2, breaks: 2 },
@@ -12,14 +12,11 @@ export function SocialAnalytics({ stats }) {
     { name: 'Marcus T.', subject: 'ALGO', hours: 6.2, breaks: 4 },
   ].sort((a, b) => b.hours - a.hours);
 
-  const [range, setRange] = useState('weekly'); // weekly | monthly
+  const [range, setRange] = useState('weekly');
   const [selectedDay, setSelectedDay] = useState(null);
+  const [selectedSession, setSelectedSession] = useState(null);
   
-  const today = new Date(2026, 3, 29); // April 29, 2026
-  const monthName = today.toLocaleString('default', { month: 'long' });
-  const year = today.getFullYear();
-
-  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  const today = new Date(2026, 3, 29);
   const monthDays = Array.from({ length: 30 }, (_, i) => ({
     date: i + 1,
     isToday: i + 1 === 29,
@@ -198,7 +195,6 @@ export function SocialAnalytics({ stats }) {
           ))}
         </div>
       </section>
-
       {/* Per-Subject Charts */}
       <section className="space-y-6 stagger-3">
         <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Subject Stats</h3>
@@ -219,50 +215,130 @@ export function SocialAnalytics({ stats }) {
           ))}
         </div>
       </section>
-      {/* Day Detail Modal */}
-      {selectedDay && (
+      {/* Academic Log History */}
+      <section className="space-y-6 stagger-4 pb-12">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Academic Log</h3>
+          <p className="text-[9px] font-bold uppercase tracking-widest text-ink/20">Last 50 sessions</p>
+        </div>
+        <div className="space-y-3">
+          {(stats?.sessionHistory || []).length === 0 ? (
+            <div className="py-12 text-center space-y-2 border-2 border-dashed border-slate-100 rounded-2xl">
+              <FileText className="w-8 h-8 text-slate-200 mx-auto" />
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">No history recorded yet</p>
+            </div>
+          ) : (
+            stats.sessionHistory.map((session) => (
+              <button
+                key={session.id}
+                onClick={() => setSelectedSession(session)}
+                className="w-full card-scholar p-4 flex items-center justify-between group hover:border-ink/20 text-left transition-all"
+              >
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className={cn(
+                    "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors",
+                    session.status === 'completed' ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600"
+                  )}>
+                    {session.status === 'completed' ? <Check size={16} /> : <XCircle size={16} />}
+                  </div>
+                  <div className="truncate">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <p className="text-[8px] font-bold uppercase tracking-widest text-muted">{session.subject}</p>
+                      <span className="w-1 h-1 rounded-full bg-slate-200" />
+                      <p className={cn(
+                        "text-[8px] font-bold uppercase tracking-widest",
+                        session.status === 'completed' ? "text-emerald-600" : "text-red-500"
+                      )}>
+                        {session.status}
+                      </p>
+                    </div>
+                    <h4 className="font-serif font-bold text-base text-ink italic leading-tight truncate">{session.title}</h4>
+                  </div>
+                </div>
+                <div className="text-right shrink-0">
+                  <p className="text-sm font-bold text-ink leading-none">{session.durationMins}m</p>
+                  <p className="text-[8px] font-bold uppercase tracking-widest text-muted mt-1">Focus</p>
+                </div>
+              </button>
+            ))
+          )}
+        </div>
+      </section>
+      {/* Session Detail Modal */}
+      {selectedSession && (
         <div 
           className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]"
-          onClick={() => setSelectedDay(null)}
+          onClick={() => setSelectedSession(null)}
         >
           <div 
-            className="w-full max-w-xs card-scholar p-8 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)]"
+            className="w-full max-w-sm dialog-scholar space-y-6 animate-[scale-in_300ms_var(--ease-out-expo)]"
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex justify-between items-start">
-              <div className="space-y-1">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">
-                  {selectedDay.month} {year}
-                </p>
-                <h3 className="text-2xl font-serif font-bold text-ink italic">
-                  {selectedDay.month} {selectedDay.day}, {year}
-                </h3>
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-muted">{selectedSession.subject}</p>
+                <span className={cn(
+                  "px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest",
+                  selectedSession.status === 'completed' ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600"
+                )}>
+                  {selectedSession.status}
+                </span>
+              </div>
+              <h3 className="text-2xl font-serif font-bold text-ink italic leading-tight">
+                {selectedSession.title}
+              </h3>
+              <p className="text-[10px] text-muted">
+                {new Date(selectedSession.timestamp).toLocaleDateString(undefined, { 
+                  weekday: 'long', 
+                  month: 'short', 
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3 bg-slate-50 rounded-xl">
+                <p className="text-[8px] font-bold uppercase tracking-widest text-muted mb-0.5">Time Focused</p>
+                <p className="text-lg font-serif font-bold text-ink italic">{selectedSession.durationMins}m</p>
+              </div>
+              <div className="p-3 bg-slate-50 rounded-xl">
+                <p className="text-[8px] font-bold uppercase tracking-widest text-muted mb-0.5">Execution</p>
+                <p className="text-lg font-serif font-bold text-ink italic">{selectedSession.subtasks?.length || 0} Stages</p>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="p-4 bg-slate-50 rounded-xl space-y-1">
-                <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Study Effort</p>
-                <p className="text-xl font-serif font-bold text-ink italic">
-                  {selectedDay.day === 29 ? stats?.totalHours?.toFixed(1) || '0.0' : selectedDay.day < 29 ? '3.5' : '0.0'}h
-                </p>
+            <div className="space-y-3">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Project Blueprint</p>
+              <div className="space-y-2 max-h-[160px] overflow-y-auto pr-2 no-scrollbar">
+                {selectedSession.subtasks?.map((st, i) => (
+                  <div key={st.id} className="flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-lg">
+                    <div className={cn(
+                      "w-5 h-5 rounded flex items-center justify-center shrink-0 text-[10px]",
+                      st.completed ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-400"
+                    )}>
+                      {st.completed ? <Check size={10} /> : i + 1}
+                    </div>
+                    <p className={cn(
+                      "text-xs font-serif italic leading-tight",
+                      st.completed ? "text-ink" : "text-muted line-through opacity-50"
+                    )}>
+                      {st.text}
+                    </p>
+                  </div>
+                ))}
+                {(!selectedSession.subtasks || selectedSession.subtasks.length === 0) && (
+                  <p className="text-xs text-muted italic">No specific stages recorded for this project.</p>
+                )}
               </div>
-
-              {(selectedDay.day === 17 || selectedDay.day === 19 || selectedDay.day === 24) && (
-                <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl space-y-1">
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-blue-600">Upcoming Due</p>
-                  <p className="text-sm font-bold text-blue-900">React Component Audit</p>
-                </div>
-              )}
-
-
             </div>
 
             <button 
-              onClick={() => setSelectedDay(null)}
-              className="btn-ink w-full"
+              onClick={() => setSelectedSession(null)}
+              className="btn-ink w-full py-4 text-sm"
             >
-              Close
+              Close Record
             </button>
           </div>
         </div>

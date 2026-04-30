@@ -12,7 +12,8 @@ export function useStudyCore() {
       totalHours: 0,
       sessionsAborted: 0,
       subjectBreakdown: { 'LAW': 0, 'STEM': 0, 'MATH': 0, 'HIST': 0 },
-      dailyActivity: [] // { date: '2026-04-29', hours: 0 }
+      dailyActivity: [], // { date: '2026-04-29', hours: 0 }
+      sessionHistory: [] // { id, title, subject, durationMins, status: 'completed' | 'abandoned', subtasks: [], timestamp }
     };
   });
 
@@ -79,15 +80,75 @@ export function useStudyCore() {
           ...prev.subjectBreakdown,
           [subject]: (prev.subjectBreakdown[subject] || 0) + hours
         },
-        dailyActivity: newDaily
+        dailyActivity: newDaily,
+        sessionHistory: [
+          {
+            id: crypto.randomUUID(),
+            title: subject, // Fallback if no task
+            subject,
+            durationMins: minutes,
+            status: 'completed',
+            timestamp: new Date().toISOString()
+          },
+          ...prev.sessionHistory.slice(0, 49)
+        ]
       };
     });
   };
 
-  const abortSession = () => {
+  const logTaskCompletion = (task, minutes) => {
+    const hours = minutes / 60;
+    const today = new Date().toISOString().split('T')[0];
+
+    setStats(prev => {
+      const newDaily = [...prev.dailyActivity];
+      const dayIdx = newDaily.findIndex(d => d.date === today);
+      if (dayIdx > -1) {
+        newDaily[dayIdx].hours += hours;
+      } else {
+        newDaily.push({ date: today, hours });
+      }
+
+      return {
+        ...prev,
+        totalHours: prev.totalHours + hours,
+        subjectBreakdown: {
+          ...prev.subjectBreakdown,
+          [task.subject]: (prev.subjectBreakdown[task.subject] || 0) + hours
+        },
+        dailyActivity: newDaily,
+        sessionHistory: [
+          {
+            id: crypto.randomUUID(),
+            title: task.title,
+            subject: task.subject,
+            durationMins: minutes,
+            status: 'completed',
+            subtasks: task.subtasks,
+            timestamp: new Date().toISOString()
+          },
+          ...prev.sessionHistory.slice(0, 49)
+        ]
+      };
+    });
+  };
+
+  const abortSession = (task, minutes = 0) => {
     setStats(prev => ({
       ...prev,
-      sessionsAborted: prev.sessionsAborted + 1
+      sessionsAborted: prev.sessionsAborted + 1,
+      sessionHistory: [
+        {
+          id: crypto.randomUUID(),
+          title: task?.title || 'Unknown Project',
+          subject: task?.subject || 'STEM',
+          durationMins: minutes,
+          status: 'abandoned',
+          subtasks: task?.subtasks || [],
+          timestamp: new Date().toISOString()
+        },
+        ...prev.sessionHistory.slice(0, 49)
+      ]
     }));
   };
 
@@ -103,6 +164,7 @@ export function useStudyCore() {
     addTask,
     updateSubtask,
     logStudySession,
+    logTaskCompletion,
     clearTasks,
     abortSession,
     timerTime,
