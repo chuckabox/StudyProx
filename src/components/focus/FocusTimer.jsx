@@ -207,27 +207,26 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
 
       {showAbortConfirm && (
         <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
-          <div className="card-scholar w-full max-w-sm p-8 space-y-8 bg-white border-2 border-ink shadow-2xl animate-[scale-in_300ms_var(--ease-out-expo)]">
-            <div className="space-y-3 text-center">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-red-500">Warning: High Friction</p>
-              <h3 className="text-2xl font-serif font-bold text-ink italic">Abandon Session?</h3>
-              <p className="text-muted text-sm italic leading-relaxed">
-                Aborting now will record a <span className="text-red-500 font-bold not-italic">Slip-Up</span> in your performance analytics. Are you sure you wish to break your focus streak?
+          <div className="card-scholar w-full max-w-[280px] p-8 space-y-6 bg-white border-2 border-ink shadow-2xl animate-[scale-in_300ms_var(--ease-out-expo)] text-center">
+            <div className="space-y-2">
+              <h3 className="text-xl font-serif font-bold text-ink italic">Abandon?</h3>
+              <p className="text-muted text-[11px] italic leading-relaxed">
+                This will record a slip-up in your performance analytics.
               </p>
             </div>
             
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <button 
                 onClick={() => setShowAbortConfirm(false)}
-                className="btn-ink w-full py-4 text-sm"
+                className="btn-ink w-full py-3 text-xs"
               >
-                Continue Focusing
+                Continue Session
               </button>
               <button 
                 onClick={onExit}
-                className="btn-ghost w-full py-4 text-xs text-red-600 hover:bg-red-50 hover:text-red-700"
+                className="text-[10px] font-bold uppercase tracking-widest text-muted hover:text-red-500 py-2 transition-colors"
               >
-                Yes, Abandon Session
+                Confirm Abandon
               </button>
             </div>
           </div>

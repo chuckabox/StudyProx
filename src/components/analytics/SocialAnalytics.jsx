@@ -121,11 +121,23 @@ export function SocialAnalytics({ stats }) {
 
       {/* Personal Stats Table */}
       <section className="grid grid-cols-3 gap-3 stagger-2">
-        <div className="card-scholar p-4 flex flex-col justify-between min-h-[90px]">
+        <div className="card-scholar p-4 flex flex-col justify-between min-h-[90px] relative group border-slate-100">
+          <div className="absolute top-2 right-2 text-slate-300 hover:text-ink transition-colors cursor-help">
+            <Info size={10} />
+            <div className="absolute bottom-full right-0 mb-2 w-32 p-2 bg-ink text-paper text-[8px] rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-xl z-50">
+              Total cumulative hours focused during active sessions this week.
+            </div>
+          </div>
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Effort</p>
           <p className="text-xl font-serif font-bold text-ink italic">{stats?.totalHours?.toFixed(1) || '0.0'}h</p>
         </div>
-        <div className="card-scholar p-4 flex flex-col justify-between min-h-[90px]">
+        <div className="card-scholar p-4 flex flex-col justify-between min-h-[90px] relative group border-slate-100">
+          <div className="absolute top-2 right-2 text-slate-300 hover:text-ink transition-colors cursor-help">
+            <Info size={10} />
+            <div className="absolute bottom-full right-0 mb-2 w-32 p-2 bg-ink text-paper text-[8px] rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-xl z-50">
+              Consecutive days with at least one focus session recorded.
+            </div>
+          </div>
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Streak</p>
           <p className="text-xl font-serif font-bold text-ink italic">12 Days</p>
         </div>
@@ -178,7 +190,7 @@ export function SocialAnalytics({ stats }) {
                     "text-[7px] font-bold uppercase tracking-widest",
                     friend.breaks > 0 ? "text-red-400" : "text-emerald-500"
                   )}>
-                    'Slips'
+                    Slips
                   </p>
                 </div>
               </div>

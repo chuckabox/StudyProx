@@ -40,8 +40,8 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
                   }
                 }}
               >
-                <div className="w-8 h-8 bg-ink rounded-lg flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-paper" />
+                <div className="w-10 h-10 bg-ink rounded-full flex items-center justify-center shrink-0">
+                  <Sparkles className="w-5 h-5 text-paper" />
                 </div>
                 <span className="font-serif font-bold text-xl tracking-tight text-ink italic">StudyProx</span>
               </div>
