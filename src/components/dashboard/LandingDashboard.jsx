@@ -3,13 +3,7 @@ import { Plus, Check, Zap, CheckCircle2, TrendingUp, Clock, UserPlus } from 'luc
 import { cn } from '../../lib/utils';
 
 export function LandingDashboard({ stats, onStartNew }) {
-  const quotes = [
-    "Cognition peaks during early focus.",
-    "Small steps lead to deep mastery.",
-    "Your future self thanks you for this.",
-    "Focus is the ultimate leverage."
-  ];
-  const randomQuote = quotes[Math.floor(new Date().getDate() % quotes.length)];
+
 
 
 
@@ -120,13 +114,9 @@ export function LandingDashboard({ stats, onStartNew }) {
                       {cohortMembers.map((initials, i) => (
                         <div 
                           key={initials + i} 
-                          className={cn(
-                            "w-12 h-12 rounded-full border-4 border-paper bg-slate-100 flex items-center justify-center text-[11px] font-bold text-ink shadow-sm relative group",
-                            i === 0 && "ring-2 ring-emerald-400 ring-offset-2"
-                          )}
+                          className="w-12 h-12 rounded-full border-4 border-paper bg-slate-100 flex items-center justify-center text-[11px] font-bold text-ink shadow-sm relative group"
                         >
                           {initials}
-                          {i === 0 && <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-paper" />}
                         </div>
                       ))}
                       {cohortMembers.length > 5 && (
@@ -246,7 +236,6 @@ export function LandingDashboard({ stats, onStartNew }) {
 
       <div className="text-center py-6 opacity-30 mt-auto">
         <p className="text-[8px] font-bold text-slate-400 uppercase tracking-[0.4em] mb-1">StudyProx v4.0.1</p>
-        <p className="text-[10px] font-serif italic text-slate-500">"{randomQuote}"</p>
       </div>
     </div>
   );
