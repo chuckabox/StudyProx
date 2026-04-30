@@ -8,12 +8,15 @@ export function useStudyCore() {
 
   const [stats, setStats] = useState(() => {
     const saved = localStorage.getItem('studyprox-stats');
-    return saved ? JSON.parse(saved) : {
+    const base = saved ? JSON.parse(saved) : {
       totalHours: 0,
       sessionsAborted: 0,
       subjectBreakdown: { 'LAW': 0, 'STEM': 0, 'MATH': 0, 'HIST': 0 },
-      dailyActivity: [], // { date: '2026-04-29', hours: 0 }
-      sessionHistory: [] // { id, title, subject, durationMins, status: 'completed' | 'abandoned', subtasks: [], timestamp }
+      dailyActivity: []
+    };
+    return {
+      ...base,
+      sessionHistory: base.sessionHistory || []
     };
   });
 
