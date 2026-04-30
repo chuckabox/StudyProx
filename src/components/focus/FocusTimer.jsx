@@ -156,9 +156,9 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center space-y-16 text-center animate-[fade-in_600ms_ease-out] pb-20 -mt-20">
+    <div className="flex-1 flex flex-col items-center justify-center space-y-10 text-center animate-[fade-in_600ms_ease-out] pb-10">
       <div className="space-y-4">
-        <h2 className="text-[120px] font-serif font-bold text-ink leading-none tabular-nums tracking-tighter transition-all duration-300">
+        <h2 className="text-8xl font-serif font-bold text-ink leading-none tabular-nums tracking-tighter transition-all duration-300">
           {formatTime(timerTime)}
         </h2>
         <div className="space-y-1">
@@ -170,18 +170,16 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
         </div>
 
         {task?.subtasks?.find(st => !st.completed) && (
-          <div className="mt-8 p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between gap-4 animate-[slide-up_600ms_var(--ease-out-expo)] max-w-sm mx-auto">
-            <div className="text-left flex-1">
-              <p className="text-[8px] font-bold uppercase tracking-widest text-muted">Next Step</p>
-              <p className="text-sm font-serif font-bold text-ink italic leading-tight">
-                {task.subtasks.find(st => !st.completed).text}
-              </p>
-            </div>
+          <div className="mt-8 flex items-center justify-center gap-3 animate-[fade-in_600ms_ease-out]">
+            <p className="text-sm font-serif italic text-muted leading-tight max-w-[200px]">
+              {task.subtasks.find(st => !st.completed).text}
+            </p>
             <button
               onClick={() => onUpdateSubtask(task.id, task.subtasks.find(st => !st.completed).id, true)}
-              className="w-10 h-10 rounded-lg bg-ink text-paper flex items-center justify-center hover:bg-ink/80 transition-all active:scale-90"
+              className="w-7 h-7 rounded-full border border-slate-200 flex items-center justify-center text-muted hover:border-ink hover:text-ink transition-all active:scale-90 shrink-0"
+              title="Mark step as complete"
             >
-              <Check className="w-5 h-5" />
+              <Check className="w-4 h-4" />
             </button>
           </div>
         )}

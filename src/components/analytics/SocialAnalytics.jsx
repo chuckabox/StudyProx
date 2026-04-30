@@ -129,17 +129,14 @@ export function SocialAnalytics({ stats }) {
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Streak</p>
           <p className="text-xl font-serif font-bold text-ink italic">12 Days</p>
         </div>
-        <div className={cn(
-          "card-scholar p-4 flex flex-col justify-between min-h-[90px] border-2 relative group",
-          stats?.sessionsAborted > 0 ? "border-red-100 bg-red-50/50" : "border-slate-100"
-        )}>
+        <div className="card-scholar p-4 flex flex-col justify-between min-h-[90px] relative group border-slate-100">
           <div className="absolute top-2 right-2 text-slate-300 hover:text-ink transition-colors cursor-help">
             <Info size={10} />
             <div className="absolute bottom-full right-0 mb-2 w-32 p-2 bg-ink text-paper text-[8px] rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-xl z-50">
               Recorded each time you cancel an active plan or focus session.
             </div>
           </div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-red-400">Slip Ups</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Slip Ups</p>
           <p className={cn(
             "text-xl font-serif font-bold italic",
             stats?.sessionsAborted > 0 ? "text-red-600" : "text-ink"
@@ -246,12 +243,7 @@ export function SocialAnalytics({ stats }) {
                 </div>
               )}
 
-              {selectedDay.day === 29 && (
-                <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl space-y-1">
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-600">Active</p>
-                  <p className="text-sm font-bold text-emerald-900">Current Study Goal</p>
-                </div>
-              )}
+
             </div>
 
             <button 

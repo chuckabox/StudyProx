@@ -157,9 +157,13 @@ export function LandingDashboard({ stats, onStartNew }) {
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Momentum</p>
                     <h3 className="text-2xl font-serif font-bold text-ink italic">Top Contributors</h3>
                   </div>
+                  <div className="text-right">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Active</p>
+                    <p className="text-sm font-bold text-ink">{contributors.length} Members</p>
+                  </div>
                 </div>
 
-                <div className="space-y-3 overflow-y-auto px-1 flex-1 custom-scrollbar max-h-[35vh]">
+                <div className="space-y-3 overflow-y-auto px-1 flex-1 max-h-[35vh] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                   {contributors.map((c, i) => (
                     <div 
                       key={c.name} 
