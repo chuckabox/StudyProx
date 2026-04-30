@@ -3,8 +3,8 @@ import { Play, Pause, Lock, Shield, Smartphone, ArrowLeft } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function FocusTimer({ task, settings, onComplete, onExit }) {
-  const [step, setStep] = useState('subject'); // subject | blocking | timer
-  const [selectedSubject, setSelectedSubject] = useState('LAW');
+  const [step, setStep] = useState(task?.subject ? 'timer' : 'subject'); // subject | blocking | timer
+  const [selectedSubject, setSelectedSubject] = useState(task?.subject || 'LAW');
   const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [isPaused, setIsPaused] = useState(false);
 

@@ -30,10 +30,11 @@ export function useStudyCore() {
     localStorage.setItem('studyprox-settings', JSON.stringify(settings));
   }, [tasks, stats, settings]);
 
-  const addTask = (title, subtasks = []) => {
+  const addTask = (title, subject, subtasks = []) => {
     const newTask = {
       id: crypto.randomUUID(),
       title,
+      subject: subject || 'STEM', // Default to STEM if none provided
       subtasks: subtasks.map(text => ({ id: crypto.randomUUID(), text, completed: false })),
       createdAt: new Date().toISOString(),
       completed: false

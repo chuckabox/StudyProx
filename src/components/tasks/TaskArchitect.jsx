@@ -6,6 +6,7 @@ import { cn } from '../../lib/utils';
 export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
   const [step, setStep] = useState('input'); // input | deconstructing | review
   const [title, setTitle] = useState('');
+  const [subject, setSubject] = useState('STEM');
   const [subtasks, setSubtasks] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   
@@ -81,14 +82,36 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
             <h2 className="text-3xl font-serif font-bold text-ink italic">Project Goal</h2>
           </header>
 
-          <input 
-            autoFocus
-            className="input-scholar"
-            placeholder="e.g. React Architecture Audit"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleDeconstruct()}
-          />
+          <div className="space-y-4">
+            <input 
+              autoFocus
+              className="input-scholar"
+              placeholder="e.g. React Architecture Audit"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleDeconstruct()}
+            />
+
+            <div className="space-y-2">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Subject Domain</p>
+              <div className="flex gap-2">
+                {['LAW', 'STEM', 'MATH', 'HIST'].map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setSubject(s)}
+                    className={cn(
+                      "px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all border",
+                      subject === s 
+                        ? "bg-ink text-paper border-ink" 
+                        : "bg-transparent text-muted border-slate-100 hover:border-ink/20"
+                    )}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -130,8 +153,8 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
           </div>
 
           <div className="flex gap-4">
-            <button onClick={onCancel} className="btn-ghost flex-1">Cancel</button>
-            <button onClick={handleDeconstruct} className="btn-ink flex-1">Break Down</button>
+            <button onClick={onCancel} className="btn-ghost flex-1 py-3">Cancel</button>
+            <button onClick={handleDeconstruct} className="btn-ink flex-1 py-3">Simplify</button>
           </div>
         </div>
       )}
@@ -144,8 +167,8 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
             <Sparkles className="absolute inset-0 m-auto text-ink animate-pulse" size={32} />
           </div>
           <div className="text-center space-y-2">
-            <h3 className="text-2xl font-serif font-bold text-ink italic animate-pulse">Breaking Down</h3>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Simplifying "{title}"...</p>
+            <h3 className="text-2xl font-serif font-bold text-ink italic animate-pulse">Simplifying</h3>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Refining "{title}"...</p>
           </div>
         </div>
       )}
@@ -154,7 +177,7 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
         <div className="space-y-10">
           <header className="flex items-center justify-between">
             <div className="space-y-1">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Task Breakdown</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Simplified View</p>
               <h2 className="text-3xl font-serif font-bold text-ink italic">Step List</h2>
             </div>
             <button 
@@ -216,15 +239,15 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
           <div className="space-y-4 pt-6">
             <button 
               disabled={isEditing}
-              onClick={() => onTaskCreated(title, subtasks.map(s => s.text))}
+              onClick={() => onTaskCreated(title, subject, subtasks.map(s => s.text))}
               className={cn(
-                "btn-ink w-full transition-all",
+                "btn-ink w-full py-3 transition-all",
                 isEditing && "opacity-50 cursor-not-allowed grayscale"
               )}
             >
               Begin Plan
             </button>
-            <button onClick={() => setStep('input')} className="btn-ghost w-full">Back</button>
+            <button onClick={() => setStep('input')} className="btn-ghost w-full py-3">Back</button>
           </div>
         </div>
       )}

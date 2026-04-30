@@ -18,9 +18,9 @@ function App() {
 
   const activeTask = tasks.find(t => !t.completed);
 
-  const handleTaskCreated = (title, subtasks) => {
-    addTask(title, subtasks);
-    setView('dashboard');
+  const handleTaskCreated = (title, subject, subtasks) => {
+    addTask(title, subject, subtasks);
+    setView('focus');
   };
 
   return (
