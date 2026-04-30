@@ -68,7 +68,7 @@ export function LandingDashboard({ stats, onStartNew }) {
                 onClick={() => inCohort ? setInCohort(false) : setIsJoiningGroup(true)}
                 className={cn(
                   "px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-all active:scale-95",
-                  inCohort ? "bg-red-50 text-red-500 hover:bg-red-100" : "bg-ink text-paper"
+                  inCohort ? "bg-slate-50 text-muted hover:text-ink border border-slate-100 hover:border-ink/20" : "bg-ink text-paper"
                 )}
               >
                 {inCohort ? 'Leave Group' : 'Join Group'}
@@ -90,7 +90,7 @@ export function LandingDashboard({ stats, onStartNew }) {
                     </div>
                     <div className="text-right">
                       <div className="flex items-center gap-2 justify-end">
-                        <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <div className="w-2 h-2 rounded-full bg-paper animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
                         <p className="text-2xl font-serif font-bold italic">142h</p>
                       </div>
                       <p className="text-[9px] font-bold uppercase tracking-widest text-paper/40">This Week</p>
@@ -105,7 +105,7 @@ export function LandingDashboard({ stats, onStartNew }) {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Active Peers</p>
-                    <p className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                    <p className="text-[9px] font-bold text-ink/60 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">
                       {Math.ceil(cohortMembers.length * 0.7)} Deep Focusing
                     </p>
                   </div>

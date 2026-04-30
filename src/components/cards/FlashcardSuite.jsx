@@ -6,6 +6,7 @@ export function FlashcardSuite() {
   const [view, setView] = useState('folders'); // folders | list | quiz
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [quizState, setQuizState] = useState({ active: false, index: 0, score: 0 });
+  const [flipped, setFlipped] = useState(false);
 
   const folders = [
     { id: 'LAW', name: 'Law & Ethics', count: 12, accuracy: 88, due: true, nextReview: 'Today' },
@@ -107,7 +108,7 @@ export function FlashcardSuite() {
     );
   }
 
-  const [flipped, setFlipped] = useState(false);
+
 
   if (view === 'quiz') {
     const currentCard = filteredCards[quizState.index];
@@ -138,8 +139,8 @@ export function FlashcardSuite() {
         <div 
           onClick={() => setFlipped(!flipped)}
           className={cn(
-            "card-scholar p-12 aspect-[4/3] flex flex-col items-center justify-center text-center space-y-8 bg-white border-2 border-ink shadow-xl cursor-pointer transition-all duration-500",
-            flipped && "[transform:rotateY(180deg)]"
+            "card-scholar p-12 aspect-4/3 flex flex-col items-center justify-center text-center space-y-8 bg-white border-2 border-ink shadow-xl cursor-pointer transition-all duration-500",
+            flipped && "transform-[rotateY(180deg)]"
           )}
         >
           <div className={cn("transition-all duration-300", flipped ? "opacity-0 invisible h-0" : "opacity-100 visible")}>
