@@ -5,6 +5,7 @@ import { cn } from '../../lib/utils';
 export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRunning, setIsTimerRunning, onUpdateSubtask, onComplete, onExit }) {
   const [step, setStep] = useState(isTimerRunning || task?.subject ? 'timer' : 'subject'); // subject | blocking | timer
   const [selectedSubject, setSelectedSubject] = useState(task?.subject || 'LAW');
+  const [showAbortConfirm, setShowAbortConfirm] = useState(false);
 
   const subjects = [
     { id: 'LAW', name: 'Law & Ethics' },
@@ -12,6 +13,12 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
     { id: 'MATH', name: 'Advanced Calculus' },
     { id: 'HIST', name: 'Modern World History' },
   ];
+
+  useEffect(() => {
+    if (step === 'timer' && !isTimerRunning) {
+      setIsTimerRunning(true);
+    }
+  }, [step]);
 
   useEffect(() => {
     if (step !== 'timer' || !isTimerRunning) return;
@@ -149,7 +156,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
   }
 
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-16 text-center animate-[fade-in_600ms_ease-out] pb-20">
+    <div className="flex-1 flex flex-col items-center justify-center space-y-16 text-center animate-[fade-in_600ms_ease-out] pb-20 -mt-20">
       <div className="space-y-4">
         <h2 className="text-[120px] font-serif font-bold text-ink leading-none tabular-nums tracking-tighter transition-all duration-300">
           {formatTime(timerTime)}
@@ -193,23 +200,41 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
         </button>
 
         <button 
-          onClick={() => {
-            if (window.confirm("Are you sure you want to abort? This will record a slip-up in your performance analytics.")) {
-              onExit();
-            }
-          }}
-          className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-red-500 transition-colors duration-200 border-b border-transparent hover:border-red-500 pb-1"
+          onClick={() => setShowAbortConfirm(true)}
+          className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted hover:text-red-500 transition-colors duration-200"
         >
           Abort Focus Session
         </button>
       </div>
 
-      <div className="w-24 h-1 bg-slate-100 rounded-full overflow-hidden stagger-3">
-        <div 
-          className="h-full bg-ink transition-all duration-1000 linear"
-          style={{ width: `${(timerTime / (25 * 60)) * 100}%` }}
-        />
-      </div>
+      {showAbortConfirm && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+          <div className="card-scholar w-full max-w-sm p-8 space-y-8 bg-white border-2 border-ink shadow-2xl animate-[scale-in_300ms_var(--ease-out-expo)]">
+            <div className="space-y-3 text-center">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-red-500">Warning: High Friction</p>
+              <h3 className="text-2xl font-serif font-bold text-ink italic">Abandon Session?</h3>
+              <p className="text-muted text-sm italic leading-relaxed">
+                Aborting now will record a <span className="text-red-500 font-bold not-italic">Slip-Up</span> in your performance analytics. Are you sure you wish to break your focus streak?
+              </p>
+            </div>
+            
+            <div className="flex flex-col gap-3">
+              <button 
+                onClick={() => setShowAbortConfirm(false)}
+                className="btn-ink w-full py-4 text-sm"
+              >
+                Continue Focusing
+              </button>
+              <button 
+                onClick={onExit}
+                className="btn-ghost w-full py-4 text-xs text-red-600 hover:bg-red-50 hover:text-red-700"
+              >
+                Yes, Abandon Session
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -181,7 +181,7 @@ export function SocialAnalytics({ stats }) {
                     "text-[7px] font-bold uppercase tracking-widest",
                     friend.breaks > 0 ? "text-red-400" : "text-emerald-500"
                   )}>
-                    {friend.breaks > 0 ? 'Slips' : 'No Slips'}
+                    'Slips'
                   </p>
                 </div>
               </div>

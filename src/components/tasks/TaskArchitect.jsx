@@ -149,7 +149,7 @@ export function TaskArchitect({ settings, onTaskCreated, onCancel }) {
                 </div>
               ))}
             </div>
-            {!isManagingHistory && <p className="text-[8px] text-muted italic">Type a new goal and press 'Deconstruct' to save it here.</p>}
+
           </div>
 
           <div className="flex gap-4">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Folder, ChevronRight, Plus } from 'lucide-react';
+import { BookOpen, Folder, ChevronRight, Plus, Pencil, Trash2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 export function FlashcardSuite() {
@@ -44,6 +44,8 @@ export function FlashcardSuite() {
   const [newCardFront, setNewCardFront] = useState('');
   const [newCardBack, setNewCardBack] = useState('');
   const [addCardError, setAddCardError] = useState('');
+  const [editingFolder, setEditingFolder] = useState(null);
+  const [editingCard, setEditingCard] = useState(null);
 
   useEffect(() => {
     localStorage.setItem('studyprox-folders', JSON.stringify(folders));
@@ -78,6 +80,31 @@ export function FlashcardSuite() {
     setNewCardFront('');
     setNewCardBack('');
     setIsAddingCard(false);
+  };
+
+  const updateFolder = (id, name) => {
+    setFolders(folders.map(f => f.id === id ? { ...f, name } : f));
+    setEditingFolder(null);
+  };
+
+  const deleteFolder = (id) => {
+    if (confirm('Delete this category and all its cards?')) {
+      setFolders(folders.filter(f => f.id !== id));
+      setCards(cards.filter(c => c.subject !== id));
+      if (selectedFolder === id) setView('folders');
+    }
+  };
+
+  const updateCard = (id, front, back) => {
+    setCards(cards.map(c => c.id === id ? { ...c, front, back } : c));
+    setEditingCard(null);
+  };
+
+  const deleteCard = (id) => {
+    const cardToDelete = cards.find(c => c.id === id);
+    if (!cardToDelete) return;
+    setCards(cards.filter(c => c.id !== id));
+    setFolders(folders.map(f => f.id === cardToDelete.subject ? { ...f, count: Math.max(0, (f.count || 0) - 1) } : f));
   };
 
   const filteredCards = selectedFolder 
@@ -130,51 +157,68 @@ export function FlashcardSuite() {
             const currentStyle = subjectStyles[folder.id] || "bg-slate-50 text-ink";
 
             return (
-              <button
-                key={folder.id}
-                onClick={() => {
-                  setSelectedFolder(folder.id);
-                  setView('list');
-                }}
-                className={cn(
-                  "card-scholar p-5 flex items-center justify-between group hover:border-ink/20",
-                  i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : "stagger-3"
-                )}
-              >
-                <div className="flex items-center gap-5 flex-1 min-w-0">
-                  <div className={cn(
-                    "w-12 h-12 rounded-xl shrink-0 flex items-center justify-center transition-all duration-300 group-hover:scale-110",
-                    currentStyle
-                  )}>
-                    <Folder className="w-6 h-6 fill-current opacity-20" />
-                    <Folder className="w-6 h-6 absolute" />
-                  </div>
-                  <div className="text-left space-y-0.5 truncate">
-                    <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted">{folder.id}</p>
-                    <h4 className="font-serif font-bold text-xl text-ink leading-tight truncate">{folder.name}</h4>
-                  </div>
-                </div>
-                
-                <div className="flex flex-col items-end gap-2.5 shrink-0 ml-4">
-                  <div className="text-right">
-                    <p className="text-lg font-bold text-ink leading-none">{folder.count}</p>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Cards</p>
+              <div key={folder.id} className="relative group">
+                <button
+                  onClick={() => {
+                    setSelectedFolder(folder.id);
+                    setView('list');
+                  }}
+                  className={cn(
+                    "w-full card-scholar p-5 flex items-center justify-between group hover:border-ink/20",
+                    i === 0 ? "stagger-1" : i === 1 ? "stagger-2" : "stagger-3"
+                  )}
+                >
+                  <div className="flex items-center gap-5 flex-1 min-w-0">
+                    <div className={cn(
+                      "w-12 h-12 rounded-xl shrink-0 flex items-center justify-center transition-all duration-300 group-hover:scale-110",
+                      currentStyle
+                    )}>
+                      <Folder className="w-6 h-6 fill-current opacity-20" />
+                      <Folder className="w-6 h-6 absolute" />
+                    </div>
+                    <div className="text-left space-y-0.5 truncate">
+                      <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted">{folder.id}</p>
+                      <h4 className="font-serif font-bold text-xl text-ink leading-tight truncate">{folder.name}</h4>
+                    </div>
                   </div>
                   
-                  {folder.due ? (
-                    <span className="px-2.5 py-1 bg-ink text-paper text-[8px] font-bold uppercase tracking-widest rounded-md shadow-sm animate-pulse whitespace-nowrap">
-                      Review Now
-                    </span>
-                  ) : (
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 rounded-md border border-slate-100 whitespace-nowrap">
-                      <div className="w-1 h-1 bg-slate-300 rounded-full" />
-                      <span className="text-[8px] font-bold uppercase tracking-widest text-muted/80">
-                        {folder.nextReview}
-                      </span>
+                  <div className="flex flex-col items-end gap-2.5 shrink-0 ml-4 mr-10">
+                    <div className="text-right">
+                      <p className="text-lg font-bold text-ink leading-none">{folder.count}</p>
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Cards</p>
                     </div>
-                  )}
+                  </div>
+                </button>
+
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); setEditingFolder(folder); }}
+                    className="p-2 bg-paper border border-slate-200 rounded-lg text-muted hover:text-ink hover:border-ink transition-all shadow-sm"
+                  >
+                    <Pencil size={14} />
+                  </button>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); deleteFolder(folder.id); }}
+                    className="p-2 bg-paper border border-slate-200 rounded-lg text-muted hover:text-red-600 hover:border-red-200 transition-all shadow-sm"
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
-              </button>
+
+                {editingFolder?.id === folder.id && (
+                  <div className="absolute inset-0 z-10 bg-paper/95 backdrop-blur-sm card-scholar p-4 flex items-center gap-3">
+                    <input 
+                      autoFocus
+                      className="input-scholar flex-1"
+                      value={editingFolder.name}
+                      onChange={e => setEditingFolder({ ...editingFolder, name: e.target.value })}
+                      onKeyDown={e => e.key === 'Enter' && updateFolder(folder.id, editingFolder.name)}
+                    />
+                    <button onClick={() => setEditingFolder(null)} className="text-xs font-bold uppercase tracking-widest text-muted">Cancel</button>
+                    <button onClick={() => updateFolder(folder.id, editingFolder.name)} className="btn-ink px-4 py-2 text-[10px]">Save</button>
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>
@@ -219,13 +263,19 @@ export function FlashcardSuite() {
             flipped && "[transform:rotateY(180deg)]"
           )}>
             {/* Front Side */}
-            <div className="absolute inset-0 card-scholar p-12 flex flex-col items-center justify-center text-center space-y-4 bg-white border-2 border-ink shadow-xl [backface-visibility:hidden]">
+            <div className={cn(
+              "absolute inset-0 card-scholar p-12 flex flex-col items-center justify-center text-center space-y-4 bg-white border-2 border-ink shadow-xl [backface-visibility:hidden] transition-opacity duration-300",
+              flipped ? "opacity-0 pointer-events-none" : "opacity-100 z-10"
+            )}>
               <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Front</p>
               <h3 className="text-3xl font-serif font-bold text-ink italic leading-tight">{currentCard.front}</h3>
             </div>
 
             {/* Back Side */}
-            <div className="absolute inset-0 card-scholar p-12 flex flex-col items-center justify-center text-center space-y-4 bg-white border-2 border-ink shadow-xl [backface-visibility:hidden] [transform:rotateY(180deg)]">
+            <div className={cn(
+              "absolute inset-0 card-scholar p-12 flex flex-col items-center justify-center text-center space-y-4 bg-white border-2 border-ink shadow-xl [backface-visibility:hidden] [transform:rotateY(180deg)] transition-opacity duration-300",
+              flipped ? "opacity-100 z-20" : "opacity-0 pointer-events-none"
+            )}>
               <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">Back</p>
               <h3 className="text-2xl font-serif font-bold text-ink italic leading-tight">{currentCard.back}</h3>
             </div>
@@ -332,15 +382,60 @@ export function FlashcardSuite() {
         {filteredCards.map((card) => (
           <div 
             key={card.id}
-            className="flex items-center gap-4 py-4 border-b border-slate-100"
+            className="flex items-center justify-between py-4 border-b border-slate-100 group relative"
           >
-            <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-ink">
-              <BookOpen className="w-4 h-4" />
+            <div className="flex items-center gap-4 flex-1 min-w-0">
+              <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-ink shrink-0">
+                <BookOpen className="w-4 h-4" />
+              </div>
+              <div className="truncate pr-8">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-0.5">{card.subject}</p>
+                <p className="font-serif text-lg text-ink italic leading-tight truncate">{card.front}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-muted mb-0.5">{card.subject}</p>
-              <p className="font-serif text-lg text-ink italic">{card.front}</p>
+
+            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+              <button 
+                onClick={() => setEditingCard(card)}
+                className="p-2 text-muted hover:text-ink transition-colors"
+              >
+                <Pencil size={14} />
+              </button>
+              <button 
+                onClick={() => deleteCard(card.id)}
+                className="p-2 text-muted hover:text-red-600 transition-colors"
+              >
+                <Trash2 size={14} />
+              </button>
             </div>
+
+            {editingCard?.id === card.id && (
+              <div className="absolute inset-0 z-20 bg-paper backdrop-blur-sm flex flex-col gap-4 p-4 card-scholar shadow-2xl animate-[slide-up_200ms_ease-out]">
+                <div className="space-y-3">
+                  <div className="space-y-1">
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Question</p>
+                    <input 
+                      autoFocus
+                      className="input-scholar"
+                      value={editingCard.front}
+                      onChange={e => setEditingCard({ ...editingCard, front: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-muted">Answer</p>
+                    <textarea 
+                      className="input-scholar min-h-[80px] py-2"
+                      value={editingCard.back}
+                      onChange={e => setEditingCard({ ...editingCard, back: e.target.value })}
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => setEditingCard(null)} className="btn-ghost flex-1 py-2 text-xs">Cancel</button>
+                  <button onClick={() => updateCard(card.id, editingCard.front, editingCard.back)} className="btn-ink flex-1 py-2 text-xs">Update</button>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>

@@ -151,7 +151,7 @@ export function LandingDashboard({ stats, onStartNew }) {
           {/* Momentum Leaderboard Dialog */}
           {isViewingMomentum && (
             <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
-              <div className="w-full max-w-sm card-scholar p-6 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)] max-h-[75vh] flex flex-col">
+              <div className="w-full max-w-sm card-scholar p-6 space-y-6 shadow-2xl animate-[slide-up_300ms_var(--ease-out-expo)] max-h-[60vh] flex flex-col">
                 <div className="flex justify-between items-start shrink-0">
                   <div className="space-y-1">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Momentum</p>
@@ -159,7 +159,7 @@ export function LandingDashboard({ stats, onStartNew }) {
                   </div>
                 </div>
 
-                <div className="space-y-3 overflow-y-auto px-1 flex-1 custom-scrollbar max-h-[50vh]">
+                <div className="space-y-3 overflow-y-auto px-1 flex-1 custom-scrollbar max-h-[35vh]">
                   {contributors.map((c, i) => (
                     <div 
                       key={c.name} 
@@ -172,7 +172,7 @@ export function LandingDashboard({ stats, onStartNew }) {
                         <span className="text-xs font-bold text-muted w-4">{i + 1}</span>
                         <div>
                           <p className="font-bold text-sm text-ink">{c.name}</p>
-                          <p className="text-[10px] text-muted uppercase tracking-widest">{activeCohort}</p>
+
                         </div>
                       </div>
                       <div className="text-right">
