@@ -267,7 +267,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-left">
                   <p className="text-[9px] font-bold uppercase tracking-widest text-muted mb-1">Project</p>
-                  <p className="font-serif font-bold text-lg text-ink italic leading-tight truncate">{task?.title}</p>
+                  <p className="font-serif font-bold text-lg text-ink italic leading-tight truncate">{task?.title || 'General Focus'}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-[9px] font-bold uppercase tracking-widest text-muted mb-1">Duration</p>
@@ -276,12 +276,12 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
               </div>
               <div className="pt-4 border-t border-slate-200/50 flex items-center justify-between">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Execution Flow</p>
-                <p className="text-xs font-serif italic text-ink font-bold">{task?.subtasks?.length} Stages Resolved</p>
+                <p className="text-xs font-serif italic text-ink font-bold">{(task?.subtasks?.length || 1)} Stages Resolved</p>
               </div>
             </div>
 
             <button 
-              onClick={() => onComplete(task, Math.floor((25 * 60 - timerTime) / 60))}
+              onClick={() => onComplete(task || { subject: selectedSubject, title: 'General Focus', subtasks: [] }, Math.floor((25 * 60 - timerTime) / 60))}
               className="btn-ink w-full py-4 text-sm"
             >
               Hooray
