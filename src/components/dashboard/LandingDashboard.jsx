@@ -111,7 +111,7 @@ export function LandingDashboard({ stats, onStartNew }) {
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="flex -space-x-3 py-1">
-                      {cohortMembers.map((initials, i) => (
+                      {cohortMembers.slice(0, 4).map((initials, i) => (
                         <div 
                           key={initials + i} 
                           className="w-12 h-12 rounded-full border-4 border-paper bg-slate-100 flex items-center justify-center text-[11px] font-bold text-ink shadow-sm relative group"
@@ -119,7 +119,7 @@ export function LandingDashboard({ stats, onStartNew }) {
                           {initials}
                         </div>
                       ))}
-                      {cohortMembers.length > 5 && (
+                      {cohortMembers.length > 4 && (
                         <div className="w-12 h-12 rounded-full border-4 border-paper bg-ink text-paper flex items-center justify-center text-[10px] font-bold">
                           +{cohortMembers.length - 4}
                         </div>
