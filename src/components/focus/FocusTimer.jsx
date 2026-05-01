@@ -27,7 +27,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
       setTimerTime(t => {
         if (t <= 1) {
           clearInterval(interval);
-          onComplete(selectedSubject, 25);
+          onComplete(task || { subject: selectedSubject, title: 'General Focus', subtasks: [] }, 25);
           return 0;
         }
         return t - 1;

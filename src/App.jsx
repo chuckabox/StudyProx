@@ -11,7 +11,7 @@ import { useStudyCore } from './hooks/use-tasks';
 function App() {
   const { 
     tasks, stats, settings, setSettings, addTask, updateSubtask, 
-    logStudySession, clearTasks, abortSession, 
+    logStudySession, logTaskCompletion, clearTasks, abortSession, 
     timerTime, setTimerTime, isTimerRunning, setIsTimerRunning 
   } = useStudyCore();
   const [view, setView] = useState('dashboard'); // dashboard | architect | focus | cards | stats | settings
