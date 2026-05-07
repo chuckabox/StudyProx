@@ -15,6 +15,19 @@ export function SocialAnalytics({ stats, sessionHistory = [] }) {
   const [range, setRange] = useState('weekly');
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedSession, setSelectedSession] = useState(null);
+
+  const getSessionsForDay = (dayObj) => {
+    if (!dayObj || !stats?.sessionHistory) return [];
+    return stats.sessionHistory.filter(session => {
+      const date = new Date(session.timestamp);
+      const dayMatches = date.getDate() === dayObj.day;
+      const monthMatches = date.toLocaleString('default', { month: 'long' }) === dayObj.month;
+      const yearMatches = date.getFullYear() === 2026; // Hardcoded year for consistency with mock data
+      return dayMatches && monthMatches && yearMatches;
+    });
+  };
+
+  const daySessions = getSessionsForDay(selectedDay);
   
   const today = new Date(2026, 3, 29);
   const monthDays = Array.from({ length: 30 }, (_, i) => ({
@@ -74,7 +87,8 @@ export function SocialAnalytics({ stats, sessionHistory = [] }) {
                 </div>
                 <div className={cn(
                   "aspect-square rounded-md transition-all duration-500",
-                  i === 3 ? "bg-ink scale-110 shadow-lg" : "bg-slate-100 group-hover:bg-slate-200"
+                  i === 3 ? "bg-ink scale-110 shadow-lg" : "bg-slate-100 group-hover:bg-slate-200",
+                  selectedDay?.day === weekDates[i] && selectedDay?.month === (weekDates[i] < 5 && i > 3 ? 'May' : 'April') && "ring-2 ring-ink ring-offset-1"
                 )} />
               </div>
             ))}
@@ -88,7 +102,8 @@ export function SocialAnalytics({ stats, sessionHistory = [] }) {
                 className={cn(
                   "aspect-square rounded-lg border border-slate-50 relative group flex items-center justify-center transition-all cursor-pointer hover:scale-105 hover:z-10",
                   d.isPast ? (d.date === 4 || d.date === 7 || d.date === 12 ? "bg-ink/40" : d.date % 2 === 0 ? "bg-ink/10" : "bg-slate-50") : "bg-slate-50",
-                  d.isToday && "bg-ink ring-2 ring-ink ring-offset-2 scale-90"
+                  d.isToday && "bg-ink ring-2 ring-ink ring-offset-2 scale-90",
+                  selectedDay?.day === d.date && selectedDay?.month === 'April' && "ring-2 ring-ink ring-offset-1"
                 )}
               >
                 <span className={cn(
@@ -341,6 +356,66 @@ export function SocialAnalytics({ stats, sessionHistory = [] }) {
               className="btn-ink w-full py-4 text-sm"
             >
               Close Record
+            </button>
+          </div>
+        </div>
+      )}
+      {/* Day Detail Modal */}
+      {selectedDay && (
+        <div 
+          className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]"
+          onClick={() => setSelectedDay(null)}
+        >
+          <div 
+            className="w-full max-w-sm dialog-scholar space-y-6 animate-[scale-in_300ms_var(--ease-out-expo)]"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Daily Summary</p>
+              <h3 className="text-2xl font-serif font-bold text-ink italic leading-tight">
+                {selectedDay.month} {selectedDay.day}, 2026
+              </h3>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Sessions</p>
+                <p className="text-[10px] font-bold text-ink">{daySessions.length} recorded</p>
+              </div>
+
+              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 no-scrollbar">
+                {daySessions.length > 0 ? (
+                  daySessions.map((session) => (
+                    <div
+                      key={session.id}
+                      className="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between"
+                    >
+                      <div>
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <p className="text-[8px] font-bold uppercase tracking-widest text-muted">{session.subject}</p>
+                          <span className={cn(
+                            "w-1 h-1 rounded-full",
+                            session.status === 'completed' ? "bg-emerald-500" : "bg-red-500"
+                          )} />
+                        </div>
+                        <p className="font-serif font-bold text-ink italic">{session.title}</p>
+                      </div>
+                      <p className="text-sm font-bold text-ink italic">{session.durationMins}m</p>
+                    </div>
+                  ))
+                ) : (
+                  <div className="py-8 text-center space-y-2">
+                    <p className="text-xs text-muted italic">No study sessions found for this day.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <button 
+              onClick={() => setSelectedDay(null)}
+              className="btn-ink w-full py-4 text-sm"
+            >
+              Back to Insights
             </button>
           </div>
         </div>
