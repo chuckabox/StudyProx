@@ -1,6 +1,7 @@
 import { cloneElement, useState, useEffect } from 'react';
 import { Sparkles, Brain, Clock, BarChart3, Settings, AlertTriangle, HelpCircle } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { DeviceFrame } from './DeviceFrame';
 
 export function Layout({ children, currentView, setView, isHardLocked, onOpenSettings }) {
   const [showHelp, setShowHelp] = useState(false);
@@ -21,28 +22,12 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
   }, [currentView]);
 
   return (
-    <div className="h-screen w-screen bg-slate-100 flex items-center justify-center sm:py-10 selection:bg-ink/5 overflow-hidden">
-      {/* Device Frame - Only visible on sm screens and up */}
+    <DeviceFrame>
+      {/* Scrollable Content Area */}
       <div className={cn(
-        "relative flex flex-col transition-all duration-500",
-        "w-full h-screen", // Mobile default
-        "sm:w-[412px] sm:h-[840px] sm:bg-[#1a1a1a] sm:rounded-[60px] sm:p-[12px] sm:shadow-[0_0_2px_2px_rgba(255,255,255,0.1)_inset,0_0_0_2px_#333,0_30px_100px_-20px_rgba(0,0,0,0.5)]"
+        "flex-1 scroll-smooth no-scrollbar internal-scroll-area h-full",
+        isHardLocked ? "overflow-hidden" : "overflow-y-auto"
       )}>
-        {/* Dynamic Island - Hidden on mobile */}
-        <div className="hidden sm:flex absolute top-8 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-100 items-center justify-end px-4">
-          <div className="w-2 h-2 rounded-full bg-[#1a1a1a] shadow-[inset_0_0_2px_rgba(255,255,255,0.2)]" />
-        </div>
-
-        {/* Internal Screen Container */}
-        <div className={cn(
-          "flex-1 bg-paper relative flex flex-col shadow-inner overflow-hidden transform-gpu",
-          "sm:rounded-[48px] sm:border sm:border-black/5"
-        )}>
-          {/* Scrollable Content Area */}
-          <div className={cn(
-            "flex-1 scroll-smooth no-scrollbar internal-scroll-area",
-            isHardLocked ? "overflow-hidden" : "overflow-y-auto"
-          )}>
             {/* Top Nav */}
             <header className="sticky top-0 z-50 px-8 pt-10 sm:pt-14 pb-4 flex items-center justify-between bg-paper/80 backdrop-blur-md">
               <div 
@@ -197,31 +182,24 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
               />
             </nav>
           </div>
-        </div>
 
-        {/* Home Indicator - Hidden on mobile */}
-        <div className="hidden sm:flex h-8 items-center justify-center">
-          <div className="w-32 h-1 bg-black/20 rounded-full" />
-        </div>
-
-        {/* Hard Lock Alert */}
-        {showLockAlert && (
-          <div className="absolute top-24 left-1/2 -translate-x-1/2 z-200 w-[280px] animate-[scale-in_300ms_var(--ease-out-expo)]">
-            <div className="bg-white border-2 border-ink p-4 rounded-xl shadow-2xl flex items-start gap-4">
-              <div className="w-10 h-10 rounded-lg bg-ink text-paper flex items-center justify-center shrink-0">
-                <AlertTriangle className="w-5 h-5 text-amber-400" />
-              </div>
-              <div className="space-y-1">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Hard Lock</p>
-                <p className="text-sm leading-relaxed text-ink font-serif italic">
-                  Focus session active. Complete or abandon to navigate.
-                </p>
-              </div>
+      {/* Hard Lock Alert */}
+      {showLockAlert && (
+        <div className="absolute top-24 left-1/2 -translate-x-1/2 z-200 w-[280px] animate-[scale-in_300ms_var(--ease-out-expo)]">
+          <div className="bg-white border-2 border-ink p-4 rounded-xl shadow-2xl flex items-start gap-4">
+            <div className="w-10 h-10 rounded-lg bg-ink text-paper flex items-center justify-center shrink-0">
+              <AlertTriangle className="w-5 h-5 text-amber-400" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-muted">Hard Lock</p>
+              <p className="text-sm leading-relaxed text-ink font-serif italic">
+                Focus session active. Complete or abandon to navigate.
+              </p>
             </div>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </DeviceFrame>
   );
 }
 
