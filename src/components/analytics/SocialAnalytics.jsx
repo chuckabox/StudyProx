@@ -284,7 +284,7 @@ export function SocialAnalytics({ stats, sessionHistory = [] }) {
       {/* Session Detail Modal */}
       {selectedSession && (
         <div 
-          className="absolute inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]"
+          className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]"
           onClick={() => setSelectedSession(null)}
         >
           <div 
@@ -363,7 +363,7 @@ export function SocialAnalytics({ stats, sessionHistory = [] }) {
       {/* Day Detail Modal */}
       {selectedDay && (
         <div 
-          className="absolute inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]"
+          className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]"
           onClick={() => setSelectedDay(null)}
         >
           <div 

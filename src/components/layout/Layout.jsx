@@ -84,7 +84,7 @@ export function Layout({ children, currentView, setView, isHardLocked, onOpenSet
 
           {/* Help Modal */}
           {showHelp && (
-            <div className="absolute inset-0 z-200 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+            <div className="fixed inset-0 z-200 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
               <div 
                 className="w-full max-w-sm card-scholar p-8 space-y-6 shadow-2xl max-h-[80vh] overflow-y-auto"
                 onClick={e => e.stopPropagation()}

@@ -37,7 +37,7 @@ export function DeviceFrame({ children }) {
             <div className="absolute inset-0 pointer-events-none z-[99] bg-gradient-to-tr from-white/[0.05] via-transparent to-transparent" />
 
             {/* Inner Content (The actual App) */}
-            <div className="flex-1 w-full h-full relative overflow-hidden">
+            <div className="flex-1 w-full h-full relative overflow-hidden [transform:translateZ(0)]">
               {children}
             </div>
           </div>

@@ -150,7 +150,7 @@ export function LandingDashboard({ stats, onStartNew }) {
 
           {/* Momentum Leaderboard Dialog */}
           {isViewingMomentum && (
-            <div className="absolute inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+            <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
               <div className="w-full max-w-sm dialog-scholar space-y-6 max-h-[60vh] flex flex-col">
                 <div className="flex justify-between items-start shrink-0">
                   <div className="space-y-1">
@@ -199,7 +199,7 @@ export function LandingDashboard({ stats, onStartNew }) {
 
           {/* Join Group Dialog */}
           {isJoiningGroup && (
-            <div className="absolute inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+            <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
               <div className="w-full max-w-sm dialog-scholar space-y-6 max-h-[75vh] flex flex-col">
                 <div className="flex justify-between items-start shrink-0">
                   <div className="space-y-1">
