@@ -224,7 +224,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
       </div>
 
       {showAbortConfirm && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+        <div className="absolute inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
           <div className="card-scholar w-full max-w-[280px] p-8 space-y-6 bg-white border-2 border-ink shadow-2xl animate-[scale-in_300ms_var(--ease-out-expo)] text-center">
             <div className="space-y-2">
               <h3 className="text-xl font-serif font-bold text-ink italic">Abandon?</h3>
@@ -251,7 +251,7 @@ export function FocusTimer({ task, settings, timerTime, setTimerTime, isTimerRun
         </div>
       )}
       {showCelebration && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
+        <div className="absolute inset-0 z-100 flex items-center justify-center p-6 bg-paper/60 backdrop-blur-sm animate-[fade-in_200ms_ease-out]">
           <div className="dialog-scholar w-full max-w-sm text-center space-y-8 py-10">
             <div className="space-y-4">
               <div className="w-16 h-16 bg-ink rounded-full flex items-center justify-center mx-auto shadow-xl">
